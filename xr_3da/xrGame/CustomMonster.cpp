@@ -38,6 +38,7 @@
 #include "PHMovementControl.h"
 #include "profiler.h"
 #include "date_time.h"
+#include "ai_object_location_impl.h"
 
 #include "ai/monsters/snork/snork.h"
 #include "ai/monsters/burer/burer.h"

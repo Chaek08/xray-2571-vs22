@@ -75,10 +75,10 @@ private:
 
 private:
 	IC		bool					strapped				() const;
-	IC		bool					standing				() const;
+    bool							standing				() const;
 	IC		void					fill_object_info		();
 	IC		u32						object_slot				() const;
-	IC		EBodyState				body_state				() const;
+			EBodyState				body_state				() const;
 
 private:
 			MotionID				no_object_animation		(const EBodyState &body_state) const;

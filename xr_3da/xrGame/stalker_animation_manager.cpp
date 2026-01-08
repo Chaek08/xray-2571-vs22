@@ -24,6 +24,25 @@
 #include "profiler.h"
 #include "stalker_animation_manager_impl.h"
 
+CStalkerAnimationManager::EBodyState CStalkerAnimationManager::body_state() const
+{
+	return (object().movement().body_state());
+}
+
+bool CStalkerAnimationManager::standing() const
+{
+	CAI_Stalker& obj = object();
+	CStalkerMovementManager& movement = obj.movement();
+
+	if (movement.speed(obj.m_PhysicMovementControl) < EPS_L)
+		return true;
+
+	if (eMovementTypeStand == movement.movement_type())
+		return true;
+
+	return false;
+}
+
 void CStalkerAnimationManager::reinit				()
 {
 	m_direction_start			= 0;

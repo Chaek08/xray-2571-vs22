@@ -8,25 +8,6 @@
 
 #pragma once
 
-IC	CStalkerAnimationManager::EBodyState CStalkerAnimationManager::body_state	() const
-{
-	return					(object().movement().body_state());
-}
-
-IC	bool CStalkerAnimationManager::standing										() const
-{
-	CAI_Stalker				&obj = object();
-	CStalkerMovementManager	&movement = obj.movement();
-	
-	if (movement.speed(obj.m_PhysicMovementControl) < EPS_L)
-		return				(true);
-
-	if (eMovementTypeStand == movement.movement_type())
-		return				(true);
-
-	return					(false);
-}
-
 IC	void CStalkerAnimationManager::fill_object_info								()
 {
 	CInventoryItem			*item = object().inventory().ActiveItem();
