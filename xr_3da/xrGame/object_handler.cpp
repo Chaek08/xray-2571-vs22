@@ -1,0 +1,359 @@
+////////////////////////////////////////////////////////////////////////////
+//	Module 		: object_handler.cpp
+//	Created 	: 11.03.2004
+//  Modified 	: 11.03.2004
+//	Author		: Dmitriy Iassenev
+//	Description : Object handler
+////////////////////////////////////////////////////////////////////////////
+
+#include "stdafx.h"
+#include "object_handler.h"
+#include "object_handler_space.h"
+#include "object_handler_planner.h"
+#include "ai_monster_space.h"
+#include "xrServer_Objects_ALife_Monsters.h"
+#include "weaponmagazined.h"
+#include "ef_storage.h"
+#include "ef_pattern.h"
+#include "ai/stalker/ai_stalker.h"
+#include "inventory.h"
+#include "torch.h"
+#include "../skeletoncustom.h"
+#include "memory_manager.h"
+#include "enemy_manager.h"
+#include "ai_object_location.h"
+#include "profiler.h"
+#include "stalker_animation_manager.h"
+#include "object_handler_planner_impl.h"
+
+CObjectHandler::CObjectHandler		()
+{
+	m_planner					= xr_new<CObjectHandlerPlanner>();
+	m_inventory_actual			= false;
+//	m_last_enemy_for_best_weapon= 0;
+}
+
+CObjectHandler::~CObjectHandler		()
+{
+	xr_delete					(m_planner);
+}
+
+void CObjectHandler::Load			(LPCSTR section)
+{
+	inherited::Load				(section);
+}
+
+void CObjectHandler::reinit			(CAI_Stalker *object)
+{
+	inherited::reinit			();
+	m_hammer_is_clutched		= false;
+	planner().setup				(object);
+	CKinematics					*kinematics = smart_cast<CKinematics*>(planner().m_object->Visual());
+	m_r_hand					= kinematics->LL_BoneID(pSettings->r_string(*planner().m_object->cNameSect(),"weapon_bone0"));
+	m_l_finger1					= kinematics->LL_BoneID(pSettings->r_string(*planner().m_object->cNameSect(),"weapon_bone1"));
+	m_r_finger2					= kinematics->LL_BoneID(pSettings->r_string(*planner().m_object->cNameSect(),"weapon_bone2"));
+	m_strap_object_id			= ALife::_OBJECT_ID(-1);
+	m_strap_bone0				= -1;
+	m_strap_bone1				= -1;
+}
+
+void CObjectHandler::reload			(LPCSTR section)
+{
+	inherited::reload			(section);
+}
+
+BOOL CObjectHandler::net_Spawn		(CSE_Abstract* DC)
+{
+	if (!inherited::net_Spawn(DC))
+		return					(FALSE);
+
+	CSE_Abstract				*abstract = static_cast<CSE_Abstract*>(DC);
+	CSE_ALifeTraderAbstract		*trader = smart_cast<CSE_ALifeTraderAbstract*>(abstract);
+	VERIFY						(trader);
+
+	m_infinite_ammo				= !!trader->m_trader_flags.test(CSE_ALifeTraderAbstract::eTraderFlagInfiniteAmmo);
+	return						(TRUE);
+}
+
+void CObjectHandler::OnItemTake		(CInventoryItem *inventory_item)
+{
+	inherited::OnItemTake		(inventory_item);
+
+	m_inventory_actual			= false;
+
+	planner().add_item			(inventory_item);
+
+	if (planner().object().g_Alive())
+		switch_torch			(inventory_item,true);
+
+	if (inventory_item->useful_for_NPC() && (inventory_item->object().cNameSect() == m_item_to_spawn)) {
+		m_item_to_spawn			= shared_str();
+		m_ammo_in_box_to_spawn	= 0;
+	}
+}
+
+void CObjectHandler::OnItemDrop		(CInventoryItem *inventory_item)
+{
+	inherited::OnItemDrop	(inventory_item);
+
+	m_inventory_actual		= false;
+	
+	if (m_infinite_ammo && planner().object().g_Alive() && !inventory_item->useful_for_NPC()) {
+		CWeaponAmmo				*weapon_ammo = smart_cast<CWeaponAmmo*>(inventory_item);
+		if (weapon_ammo) {
+			Level().spawn_item		(*weapon_ammo->cNameSect(),planner().object().Position(),planner().object().ai_location().level_vertex_id(),planner().object().ID());
+			m_item_to_spawn			= weapon_ammo->cNameSect();
+			m_ammo_in_box_to_spawn	= weapon_ammo->m_boxSize;
+		}
+	}
+
+	planner().remove_item		(inventory_item);
+
+	switch_torch				(inventory_item,false);
+}
+
+void CObjectHandler::OnItemDropUpdate	()
+{
+	inherited::OnItemDropUpdate	();
+}
+
+CInventoryItem *CObjectHandler::best_weapon() const
+{
+	if (!planner().object().g_Alive())
+		return									(0);
+
+	planner().object().update_best_item_info	();
+	return										(planner().object().m_best_item_to_kill);
+	/**
+	if (m_inventory_actual && (m_last_enemy_for_best_weapon == planner().object().memory().enemy().selected()))
+		return							(m_last_best_weapon);
+
+	m_last_best_weapon					= 0;
+	m_last_enemy_for_best_weapon		= planner().object().memory().enemy().selected();
+
+	ai().ef_storage().alife().clear		();
+	ai().ef_storage().non_alife().clear	();
+	ai().ef_storage().non_alife().member()	= &planner().object();
+	ai().ef_storage().non_alife().enemy()	= planner().object().memory().enemy().selected() ? planner().object().memory().enemy().selected() : &planner().object();
+
+	float							best_value = 0;
+	TIItemContainer::const_iterator	I = inventory().m_all.begin();
+	TIItemContainer::const_iterator	E = inventory().m_all.end();
+	for ( ; I != E; ++I) {
+		if ((*I)->object().getDestroy())
+			continue;
+
+		if (!(*I)->can_kill())
+			continue;
+
+		ai().ef_storage().non_alife().member_item()	= &(*I)->object();
+
+		float					value;
+		if (planner().object().memory().enemy().selected())
+			value				= ai().ef_storage().m_pfWeaponEffectiveness->ffGetValue();
+		else
+			value				= (float)(*I)->object().ef_weapon_type();
+
+		if (value > best_value) {
+			best_value			= value;
+			m_last_best_weapon	= *I;
+		}
+	}
+	
+	return						(m_last_best_weapon);
+	/**/
+}
+
+void CObjectHandler::update		()
+{
+	START_PROFILE("Object Handler")
+//	if (planner().initialized())
+//		if (planner().current_action_state_id() == ObjectHandlerSpace::eWorldPropertyAimingReady1) {
+//			if (planner().object().best_weapon())
+//				if (planner().object().can_kill_enemy())
+//					planner().set_goal	(MonsterSpace::eObjectActionFire1,&planner().object().best_weapon()->object());
+//	}
+	planner().update		();
+	STOP_PROFILE
+}
+
+void CObjectHandler::set_goal	(MonsterSpace::EObjectAction object_action, CGameObject *game_object, u32 queue_size, u32 queue_interval)
+{
+	planner().set_goal(object_action,game_object,queue_size,queue_interval);
+}
+
+void CObjectHandler::set_goal	(MonsterSpace::EObjectAction object_action, CInventoryItem *inventory_item, u32 queue_size, u32 queue_interval)
+{
+	set_goal(object_action,inventory_item ? &inventory_item->object() : 0,queue_size,queue_interval);
+}
+
+bool CObjectHandler::goal_reached	()
+{
+	return					(planner().solution().size() < 2);
+}
+
+void CObjectHandler::weapon_bones	(int &b0, int &b1, int &b2) const
+{
+	CWeapon						*weapon = smart_cast<CWeapon*>(inventory().ActiveItem());
+	if (!weapon || !planner().m_storage.property(ObjectHandlerSpace::eWorldPropertyStrapped)) {
+		if (weapon)
+			weapon->strapped_mode	(false);
+		b0						= m_r_hand;
+		b1						= m_r_finger2;
+		b2						= m_l_finger1;
+		return;
+	}
+
+	THROW3						(weapon->can_be_strapped(),"Cannot strap weapon",*weapon->cName());
+
+	if (weapon->ID() != m_strap_object_id) {
+		CKinematics				*kinematics = smart_cast<CKinematics*>(planner().m_object->Visual());
+		m_strap_bone0			= kinematics->LL_BoneID(weapon->strap_bone0());
+		m_strap_bone1			= kinematics->LL_BoneID(weapon->strap_bone1());
+		m_strap_object_id		= weapon->ID();
+	}
+
+	weapon->strapped_mode		(true);
+	b0							= m_strap_bone0;
+	b1							= m_strap_bone1;
+	b2							= b1;
+}
+
+bool CObjectHandler::weapon_strapped	() const
+{
+	CWeapon						*weapon = smart_cast<CWeapon*>(inventory().ActiveItem());
+	if (!weapon) {
+//		if (!xr_strcmp("cit_killers_stalker_0000",*planner().object().cName()))
+//		Msg						("[weapon_strapped][%s][%s][true][not_a_weapon]",*planner().object().cName(),*weapon->cName());
+		return					(false);
+	}
+
+	return						(weapon_strapped(weapon));
+}
+
+void CObjectHandler::actualize_strap_mode	(CWeapon *weapon) const
+{
+	VERIFY						(weapon);
+
+	if (!planner().m_storage.property(ObjectHandlerSpace::eWorldPropertyStrapped)) {
+		weapon->strapped_mode	(false);
+		return;
+	}
+
+	THROW3						(weapon->can_be_strapped(),"Cannot strap weapon",*weapon->cName());
+	weapon->strapped_mode		(true);
+}
+
+bool CObjectHandler::weapon_strapped	(CWeapon *weapon) const
+{
+	VERIFY						(weapon);
+
+	if (!weapon->can_be_strapped()) {
+//		if (!xr_strcmp("cit_killers_stalker_0000",*planner().object().cName()))
+//		Msg						("[weapon_strapped][%s][%s][false][!can_be_strapped]",*planner().object().cName(),*weapon->cName());
+		return					(false);
+	}
+
+	if (
+		(planner().current_action_state_id() == ObjectHandlerSpace::eWorldOperatorStrapping2Idle) ||
+		(planner().current_action_state_id() == ObjectHandlerSpace::eWorldOperatorStrapping) ||
+		(planner().current_action_state_id() == ObjectHandlerSpace::eWorldOperatorUnstrapping2Idle) ||
+		(planner().current_action_state_id() == ObjectHandlerSpace::eWorldOperatorUnstrapping)
+	) {
+//		if (!xr_strcmp("cit_killers_stalker_0000",*planner().object().cName()))
+//		Msg						("[weapon_strapped][%s][%s][false][strapping/unstrapping]",*planner().object().cName(),*weapon->cName());
+		return					(false);
+	}
+
+	actualize_strap_mode		(weapon);
+
+//	if (!xr_strcmp("cit_killers_stalker_0000",*planner().object().cName()))
+//	Msg							("[weapon_strapped][%s][%s][%s][strapped_mode]",*planner().object().cName(),*weapon->cName(),weapon->strapped_mode() ? "true" : "false");
+	return						(weapon->strapped_mode());
+}
+
+bool CObjectHandler::weapon_unstrapped	() const
+{
+	CWeapon						*weapon = smart_cast<CWeapon*>(inventory().ActiveItem());
+	if (!weapon) {
+//		if (!xr_strcmp("cit_killers_stalker_0000",*planner().object().cName()))
+//		Msg						("[weapon_unstrapped][%s][%s][true][not_a_weapon]",*planner().object().cName(),*weapon->cName());
+		VERIFY					(!planner().object().animation().setup_storage());
+		return					(true);
+	}
+
+	return						(weapon_unstrapped(weapon));
+}
+
+bool CObjectHandler::weapon_unstrapped	(CWeapon *weapon) const
+{
+	VERIFY						(weapon);
+
+	if (!weapon->can_be_strapped()) {
+//		if (!xr_strcmp("cit_killers_stalker_0000",*planner().object().cName()))
+//		Msg						("[weapon_unstrapped][%s][%s][true][!can_be_strapped]",*planner().object().cName(),*weapon->cName());
+		VERIFY					(!planner().object().animation().setup_storage());
+		return					(true);
+	}
+
+	if	(
+			(planner().current_action_state_id() == ObjectHandlerSpace::eWorldOperatorStrapping2Idle) ||
+			(planner().current_action_state_id() == ObjectHandlerSpace::eWorldOperatorStrapping) ||
+			(planner().current_action_state_id() == ObjectHandlerSpace::eWorldOperatorUnstrapping2Idle) ||
+			(planner().current_action_state_id() == ObjectHandlerSpace::eWorldOperatorUnstrapping)
+		)
+	{
+//		if (!xr_strcmp("cit_killers_stalker_0000",*planner().object().cName()))
+//		Msg						("[weapon_unstrapped][%s][%s][false][strapping/unstrapping]",*planner().object().cName(),*weapon->cName());
+//		VERIFY					(!planner().object().animation().setup_storage());
+		return					(false);
+	}
+
+//	if (!xr_strcmp("cit_killers_stalker_0000",*planner().object().cName()))
+//	Msg							("[weapon_unstrapped][%s][%s][%s][strapped_mode][%s]",*planner().object().cName(),*weapon->cName(),!weapon->strapped_mode() ? "true" : "false",planner().action2string(planner().current_action_id()));
+
+//	int							a,b,c;
+//	weapon_bones				(a,b,c);
+	actualize_strap_mode		(weapon);
+
+	VERIFY						(
+		(planner().current_action_state_id() != ObjectHandlerSpace::eWorldOperatorStrapped) ||
+		weapon->strapped_mode()
+	);
+
+	VERIFY						(weapon->strapped_mode() || !planner().object().animation().setup_storage());
+	return						(!weapon->strapped_mode());
+}
+
+IC	void CObjectHandler::switch_torch	(CInventoryItem *inventory_item, bool value)
+{
+	CTorch						*torch = smart_cast<CTorch*>(inventory_item);
+	if (torch && attached(torch) && planner().object().g_Alive())
+		torch->Switch			(value);
+}
+
+void CObjectHandler::attach				(CInventoryItem *inventory_item)
+{
+	inherited::attach			(inventory_item);
+	switch_torch				(inventory_item,true);
+}
+
+void CObjectHandler::detach				(CInventoryItem *inventory_item)
+{
+	switch_torch				(inventory_item,false);
+	if	(
+			planner().initialized() &&
+			(inventory_item->object().ID() == planner().current_action_object_id()) && 
+			planner().object().animation().setup_storage()
+		)
+			planner().object().animation().setup_storage(0);
+	inherited::detach			(inventory_item);
+}
+
+extern Flags32 g_uCommonFlags;
+
+bool CObjectHandler::can_use_dynamic_lights	()
+{	
+	// flAiUseTorchDynamicLights == 1
+	return !!g_uCommonFlags.test(1);
+}
