@@ -26,7 +26,7 @@ void CUIProgressShape::SetPos(int pos, int max){
 	m_stage					= float(pos)/float(max);
 	if (m_bText)
 	{
-		string256 _buff;
+		string_path _buff;
 		m_pTexture->SetText(itoa(pos,_buff,10));
 	}
 }

@@ -219,11 +219,11 @@ void	CTextConsole::DrawLog(HDC hDC)
 	TextOut(hDC, 0, Height-tm.tmHeight, buf, xr_strlen(buf));
 
 	INT YPos = Height - tm.tmHeight - tm.tmHeight;
-	for (int i=LogFile.size()-1-scroll_delta; i>=0; i--) 
+	for (int i=LogFile->size()-1-scroll_delta; i>=0; i--) 
 	{
 		YPos-=tm.tmHeight;
 		if (YPos<0)	break;
-		LPCSTR Str = *LogFile[i];
+		LPCSTR Str = *(*LogFile)[i];
 		LPCSTR pOut = Str;
 		if (!Str) continue;
 		switch (Str[0])

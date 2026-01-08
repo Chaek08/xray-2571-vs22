@@ -11,7 +11,7 @@
 #include "level.h"
 
 cs_money::cs_money() {
-	string256 fn;
+	string_path fn;
 	if (FS.exist(fn,"$game_data$","game_cs.ltx")) 
 	{
 		CInifile* ini = CInifile::Create(fn);
@@ -62,7 +62,7 @@ void game_sv_CS::SavePlayerWeapon(u32 it, CMemoryWriter &store) {
 }
 
 void game_sv_CS::SaveDefaultWeapon(CMemoryWriter &store) {		//@@@ WT: Ёто надо переделать, чтоб читать ltx только один раз.
-	string256 fn;
+	string_path fn;
 	if (FS.exist(fn,"$game_data$","game_cs.ltx")) {
 		CInifile* ini = CInifile::Create(fn);
 		LPCSTR prim = ini->r_string("cs_start_Arms","primary");
@@ -236,7 +236,7 @@ void game_sv_CS::OnRoundStart() {
 //		}
 //	}
 //	{
-//		string256 fn;
+//		string_path fn;
 //		if (FS.exist(fn,Path.GameData,"game_cs.ltx")) {
 //			CInifile* ini = CInifile::Create(fn);
 //			LPCSTR prim = ini->r_string("cs_start_Arms","primary");
@@ -705,7 +705,7 @@ void game_sv_CS::OnPlayerConnect	(u32 id_who)
 	spawn_end				(A,id_who);
 
 	// ƒаем игроку децл оружи€ дл€ начала. ≈сли игрок изначально будет коннектитс€ как наблюдатель то все это не нужно.
-/*	string256 fn;
+/*	string_path fn;
 	if (FS.exist(fn,Path.GameData,"game_cs.ltx")) {
 		CInifile* ini = CInifile::Create(fn);
 		LPCSTR prim = ini->r_string("cs_start_Arms","primary");

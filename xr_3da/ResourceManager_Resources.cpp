@@ -173,7 +173,7 @@ SVS*	CResourceManager::_CreateVS		(LPCSTR _name)
 		LPD3DXBUFFER				pErrorBuf	= NULL;
 		LPD3DXSHADER_CONSTANTTABLE	pConstants	= NULL;
 		HRESULT						_hr			= S_OK;
-		string256					cname;
+		string_path					cname;
 		FS.update_path				(cname,	"$game_shaders$", strconcat(cname,::Render->getShaderPath(),_name,".vs"));
 		LPCSTR						target		= NULL;
 
@@ -246,7 +246,7 @@ SPS*	CResourceManager::_CreatePS			(LPCSTR name)
 
 		// Open file
 		includer					Includer;
-		string256					cname;
+		string_path					cname;
 		FS.update_path				(cname,	"$game_shaders$", strconcat(cname,::Render->getShaderPath(),name,".ps"));
 
 		// duplicate and zero-terminate

@@ -64,7 +64,7 @@ void CAutosaveManager::shedule_Update		(u32 dt)
 		
 	update_autosave_time		();
 
-	string256					temp;
+	string_path					temp;
 	strconcat					(temp,Core.UserName,"_","autosave");
 	NET_Packet					net_packet;
 	net_packet.w_begin			(M_SAVE_GAME);

@@ -47,7 +47,7 @@ CInventory::CInventory()
 	m_iActiveSlot = m_iNextActiveSlot = NO_ACTIVE_SLOT;
 	
 	u32 i = 0; 
-	string256 temp;
+	string_path temp;
 	
 	do 
 	{
@@ -561,7 +561,7 @@ void CInventory::Update()
 	}
 
 	//проверить слоты
-	for(i=0; i<(int)m_slots.size(); ++i)	{
+	for(int i=0; i<(int)m_slots.size(); ++i)	{
 		PIItem pIItem = m_slots[i].m_pIItem;
 
 		if(pIItem && pIItem->GetDrop())	{

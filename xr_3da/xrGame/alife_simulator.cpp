@@ -33,7 +33,7 @@ CALifeSimulator::CALifeSimulator		(xrServer *server, shared_str *command_line) :
 		"Invalid server options!"
 	);
 	
-	string256					temp;
+	string_path					temp;
 	strcpy						(temp,p.m_game_or_spawn);
 	strcat						(temp,"/");
 	strcat						(temp,p.m_game_type);

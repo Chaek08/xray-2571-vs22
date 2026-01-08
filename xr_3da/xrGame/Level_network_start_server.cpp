@@ -10,7 +10,7 @@ BOOL CLevel::net_Server			( LPCSTR name, BOOL SLS_Load )
 	if (SLS_Load)
 	{
 		pApp->LoadTitle				("SERVER: Starting [LOAD]...");
-		string256					name_of_level;
+		string_path					name_of_level;
 
 		destructor<CStream>			FS(Engine.FS.Open(name));
 		R_ASSERT					(FS().FindChunk(fsSLS_Description));

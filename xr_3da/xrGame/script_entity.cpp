@@ -470,7 +470,7 @@ bool CScriptEntity::bfAssignMovement(CScriptEntityAction *tpEntityAction)
 			
 #ifdef DEBUG
 			if (!ai().level_graph().valid_vertex_id(vertex_id)) {
-				string256	S;
+				string_path	S;
 				sprintf		(S,"Cannot find corresponding level vertex for the specified position [%f][%f][%f] for monster %s",VPUSH(l_tMovementAction.m_tDestinationPosition),*m_monster->cName());
 				THROW2		(ai().level_graph().valid_vertex_id(vertex_id),S);
 			}

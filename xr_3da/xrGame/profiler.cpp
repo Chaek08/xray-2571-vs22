@@ -34,7 +34,7 @@ IC	u32 compute_string_length(LPCSTR str)
 
 IC	void CProfiler::convert_string(LPCSTR str, shared_str &out, u32 max_string_size)
 {
-	string256					m_temp;
+	string_path					m_temp;
 	LPCSTR						i, j = str;
 	u32							count = 0;
 	while ((i = strchr(j,'/')) != 0) {
@@ -54,7 +54,7 @@ IC	void CProfiler::convert_string(LPCSTR str, shared_str &out, u32 max_string_si
 
 void CProfiler::setup_timer	(LPCSTR timer_id, const u64 &timer_time, const u32 &call_count)
 {
-	string256					m_temp;
+	string_path					m_temp;
 	float						_time = float(timer_time)*1000.f/CPU::qpc_freq;
 	TIMERS::iterator			i = m_timers.find(timer_id);
 	if (i == m_timers.end()) {

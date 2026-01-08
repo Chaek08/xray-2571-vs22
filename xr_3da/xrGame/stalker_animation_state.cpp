@@ -28,7 +28,7 @@ CStalkerAnimationState::~CStalkerAnimationState	()
 
 void CStalkerAnimationState::Load				(CKinematicsAnimated *kinematics, LPCSTR base_name)
 {
-	string256			S;
+	string_path			S;
 	m_global.Load		(kinematics,base_name);
 	m_torso.Load		(kinematics,strconcat(S,base_name,"torso_"));
 	m_movement.Load		(kinematics,base_name);

@@ -156,7 +156,7 @@ void xrServer::Process_event	(NET_Packet& P, ClientID sender)
 	case GE_CHANGE_VISUAL:
 		{
 			CSE_Visual* visual		= smart_cast<CSE_Visual*>(receiver); VERIFY(visual);
-			string256 tmp;
+			string_path tmp;
 			P.r_stringZ				(tmp);
 			visual->set_visual		(tmp);
 		}break;

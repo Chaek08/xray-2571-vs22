@@ -59,7 +59,7 @@ void CUIVotingCategory::Init(){
 	CUIXmlInit::InitStatic(*xml_doc, "category:header", 0, header);
 	CUIXmlInit::InitStatic(*xml_doc, "category:background", 0, bkgrnd);
 
-	string256 _path;
+	string_path _path;
 	for (int i = 0; i<7; i++){
 		sprintf(_path, "category:btn_%d", i + 1);
 		CUIXmlInit::Init3tButton(*xml_doc, _path, 0, btn[i]);

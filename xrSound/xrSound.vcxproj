@@ -167,9 +167,9 @@
       <SubSystem>NotSet</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <ImportLibrary>$(OutDir)xrSound.lib</ImportLibrary>
+      <ImportLibrary>$(SolutionDir)$(Configuration)\lib\$(TargetName).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>$(SolutionDir)\SDK\dxSDK\Lib;$(SolutionDir)\SDK\Xiph\Libs;$(SolutionDir)\SDK\OpenAL\libs;$(SolutionDir)\SDK\eax;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)\SDK\dxSDK\Lib;$(SolutionDir)\SDK\Xiph\Libs;$(SolutionDir)\SDK\OpenAL\libs;$(SolutionDir)\SDK\eax;$(SolutionDir)$(Configuration)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IncrementalLinkDatabaseFile>$(SolutionDir)$(Configuration)\intermediate\$(ProjectName)\$(TargetName).ilk</IncrementalLinkDatabaseFile>
       <ProfileGuidedDatabase>$(SolutionDir)$(Configuration)\intermediate\$(ProjectName)\$(TargetName).pgd</ProfileGuidedDatabase>
       <LinkTimeCodeGenerationObjectFile>$(SolutionDir)$(Configuration)\intermediate\$(ProjectName)\$(TargetName).pgd</LinkTimeCodeGenerationObjectFile>

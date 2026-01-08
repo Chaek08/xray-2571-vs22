@@ -20,7 +20,7 @@ protected:
 	string4096				m_caOutput;
 	xr_vector<LPSTR>		m_scripts_to_run;
 	xr_vector<LPSTR>		m_strings_to_run;
-	string256				m_name;
+	string_path				m_name;
 protected:
 			void		run_scripts					();
 			void		run_strings					();

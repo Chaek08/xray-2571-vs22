@@ -93,7 +93,7 @@ CUIMultiTextStatic::SPh::SPh()
 void CUIMultiTextStatic::SPh::SetText(const char *fmt, ...)
 {
 	va_list		Print;                                                                  
-	string256	msg;
+	string_path	msg;
 	xr_string	buf;
 
 	va_start(Print, fmt);

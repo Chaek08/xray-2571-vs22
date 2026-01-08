@@ -130,7 +130,7 @@ CStateAnimations::~CStateAnimations	()
 
 void CStateAnimations::Load			(CSkeletonAnimated *tpKinematics, LPCSTR caBaseName)
 {
-	string256			S;
+	string_path			S;
 	m_tGlobal.Load		(tpKinematics,caBaseName);
 	m_tTorso.Load		(tpKinematics,strconcat(S,caBaseName,"torso_"));
 	m_tMoves.Load		(tpKinematics,caBaseName);

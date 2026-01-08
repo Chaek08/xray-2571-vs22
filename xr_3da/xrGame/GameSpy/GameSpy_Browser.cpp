@@ -201,16 +201,16 @@ void CGameSpy_Browser::GetServerInfoByIndex(ServerInfo* pServerInfo, int idx)
 }
 
 #define ADD_BOOL_INFO(i, s, t, k)	i->m_aInfos.push_back(GameInfo(t, ((xrGS_SBServerGetBoolValue(s, m_QR2.xrGS_RegisteredKey(k), SBFalse)) == SBTrue)? "Yes" : "No"))
-#define ADD_INT_INFO(i, s, t, k)	{string256 tmp; sprintf(tmp, "%d", xrGS_SBServerGetIntValue(s, m_QR2.xrGS_RegisteredKey(k), 0));\
+#define ADD_INT_INFO(i, s, t, k)	{string_path tmp; sprintf(tmp, "%d", xrGS_SBServerGetIntValue(s, m_QR2.xrGS_RegisteredKey(k), 0));\
 	i->m_aInfos.push_back(GameInfo(t, tmp));}
 
 #define ADD_INT_INFO_N(i, s, t1, t2, k)	{if (xrGS_SBServerGetIntValue(s, m_QR2.xrGS_RegisteredKey(k), 0))\
-{string256 tmp; sprintf(tmp, "%d" t2, xrGS_SBServerGetIntValue(s, m_QR2.xrGS_RegisteredKey(k), 0));\
+{string_path tmp; sprintf(tmp, "%d" t2, xrGS_SBServerGetIntValue(s, m_QR2.xrGS_RegisteredKey(k), 0));\
 	i->m_aInfos.push_back(GameInfo(t1, tmp));}\
 	else {i->m_aInfos.push_back(GameInfo(t1, "No"));}}
 
 #define ADD_TIME_INFO(i, s, m, t1, t2, k)	{if (xrGS_SBServerGetIntValue(s, m_QR2.xrGS_RegisteredKey(k), 0))\
-{string256 tmp; sprintf(tmp,t2, xrGS_SBServerGetFloatValue(s, m_QR2.xrGS_RegisteredKey(k), 0)*m);\
+{string_path tmp; sprintf(tmp,t2, xrGS_SBServerGetFloatValue(s, m_QR2.xrGS_RegisteredKey(k), 0)*m);\
 	i->m_aInfos.push_back(GameInfo(t1, tmp));}\
 	else {i->m_aInfos.push_back(GameInfo(t1, "No"));}}
 

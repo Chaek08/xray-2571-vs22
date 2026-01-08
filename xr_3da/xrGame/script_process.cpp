@@ -27,7 +27,7 @@ CScriptProcess::CScriptProcess	(shared_str name, shared_str scripts) :
 	Msg				("* Initializing %s script process",*m_name);
 #endif
 	
-	string256		I;
+	string_path		I;
 	for (u32 i=0, n = _GetItemCount(*scripts); i<n; ++i)
 		add_script	(_GetItem(*scripts,i,I),false,false);
 

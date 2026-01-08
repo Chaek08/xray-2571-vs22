@@ -325,7 +325,7 @@ void		CObjectList::Destroy			( CObject*	O		)
 	else {
 		xr_vector<CObject*>::iterator _ii	= std::find(objects_sleeping.begin(),objects_sleeping.end(),O);
 		if	(_ii!=objects_sleeping.end())	objects_sleeping.erase	(_ii);
-		else	Debug.fatal					("! Unregistered object being destroyed");
+		else	FATAL					("! Unregistered object being destroyed");
 	}
 	g_pGamePersistent->ObjectPool.destroy	(O);
 }

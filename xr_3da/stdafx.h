@@ -51,16 +51,16 @@
 #include "sound.h"
 
 // TODO: reference additional headers your program requires here
-#pragma comment( lib, "x:\\xrCore.lib"	)
-#pragma comment( lib, "x:\\xrCDB.lib"	)
-#pragma comment( lib, "x:\\xrSound.lib"	)
-#pragma comment( lib, "x:\\xrLUA.lib"	)
+#pragma comment( lib, "xrCore"	)
+#pragma comment( lib, "xrCDB"	)
+#pragma comment( lib, "xrSound"	)
+#pragma comment( lib, "xrLUA"	)
 
-#pragma comment( lib, "winmm.lib"		)
+#pragma comment( lib, "winmm"		)
 
-#pragma comment( lib, "d3d9.lib"		)
-#pragma comment( lib, "dinput.lib"		)
-#pragma comment( lib, "dxguid.lib"		)
+#pragma comment( lib, "d3d9"		)
+#pragma comment( lib, "dinput"		)
+#pragma comment( lib, "dxguid"		)
 
 #ifndef DEBUG
 #	define LUABIND_NO_ERROR_CHECKING

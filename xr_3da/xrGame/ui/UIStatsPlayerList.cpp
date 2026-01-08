@@ -63,7 +63,7 @@ void CUIStatsPlayerList::Init(CUIXml& xml_doc, LPCSTR path){
 		AddField(name,width);
 	}
 	xml_doc.SetLocalRoot(xml_doc.GetRoot());
-	string256 _path;
+	string_path _path;
 	// init item text params
 	CUIXmlInit::InitFont(xml_doc, strconcat(_path, path, ":text_format"), 0, m_i.c, m_i.f);
 	m_i.h = xml_doc.ReadAttribFlt(strconcat(_path, path, ":text_format"), 0, "height", 25);
@@ -83,7 +83,7 @@ void CUIStatsPlayerList::Init(CUIXml& xml_doc, LPCSTR path){
 }
 
 void CUIStatsPlayerList::InitHeader(CUIXml& xml_doc, LPCSTR path){
-	string256 _path;
+	string_path _path;
 	CUIXmlInit::InitStatic(xml_doc, strconcat(_path, path, ":list_header"), 0, m_header);
 	m_header->SetWidth(this->GetDesiredChildWidth());
 	m_h.h = m_header->GetHeight();
@@ -132,7 +132,7 @@ void CUIStatsPlayerList::InitHeader(CUIXml& xml_doc, LPCSTR path){
 }
 
 void CUIStatsPlayerList::InitTeamHeader(CUIXml& xml_doc, LPCSTR path){
-	string256 _path;
+	string_path _path;
 	m_header_team = xr_new<CUIWindow>();
 	m_header_team->SetAutoDelete(true);
 	CUIXmlInit::InitWindow(xml_doc, strconcat(_path, path, ":team_header"), 0, m_header_team);

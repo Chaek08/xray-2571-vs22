@@ -110,7 +110,7 @@ void CMiniMapSpot::Load(CUIXml* xml, LPCSTR path)
 {
 	inherited::Load(xml,path);
 
-	string256 buf;
+	string_path buf;
 	XML_NODE* n = NULL;
 	
 	Frect base_rect;

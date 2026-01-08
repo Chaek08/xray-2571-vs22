@@ -394,7 +394,7 @@ void	game_sv_mp::SetSkin					(CSE_Abstract* E, u16 Team, u16 ID)
 	CSE_Visual* pV = smart_cast<CSE_Visual*>(E);
 	if (!pV) return;
 	//-------------------------------------------
-	string256 SkinName;
+	string_path SkinName;
 	std::strcpy(SkinName, pSettings->r_string("mp_skins_path", "skin_path"));
 	//загружены ли скины для этой комманды
 
@@ -759,8 +759,8 @@ void	game_sv_mp::SetPlayersDefItems		(game_PlayerState* ps)
 	};
 	//---------------------------------------------------
 	string16 RankStr;
-	string256 ItemStr;
-	string256 NewItemStr;
+	string_path ItemStr;
+	string_path NewItemStr;
 	char tmp[5];
 	for (int i=1; i<=ps->rank; i++)
 	{
@@ -901,7 +901,7 @@ void	game_sv_mp::OnPlayerChangeName		(NET_Packet& P, ClientID sender)
 			strcpy(tmpName, pClient->Name.c_str());
 			*(strstr(tmpName, "name=")+5) = 0;
 			sprintf(tmpName, "%s%s", tmpName, NewName);
-			char* ptmp = strstr(strstr(pClient->Name.c_str(), "name="), "/");
+			const char* ptmp = strstr(strstr(pClient->Name.c_str(), "name="), "/");
 			if (ptmp)
 				sprintf(tmpName, "%s%s", tmpName, ptmp);
 			pClient->Name._set(tmpName);
@@ -987,7 +987,7 @@ void	game_sv_mp::LoadRanks	()
 	int NumRanks = 0;
 	while(1)
 	{
-		string256 RankSect;
+		string_path RankSect;
 		sprintf(RankSect, "rank_%d",NumRanks);
 		if (!pSettings->section_exist(RankSect)) break;
 		NumRanks++;
@@ -995,7 +995,7 @@ void	game_sv_mp::LoadRanks	()
 
 	for (int i=0; ; i++)
 	{
-		string256 RankSect;
+		string_path RankSect;
 		sprintf(RankSect, "rank_%d",i);
 		if (!pSettings->section_exist(RankSect)) break;
 		Rank_Struct NewRank; 

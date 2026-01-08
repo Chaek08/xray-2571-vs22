@@ -1,12 +1,18 @@
 #include "StdAfx.h"
 #pragma hdrstop
 
-#ifndef DEBUG
+#ifndef DEBUG_MEMORY_MANAGER
 void	xrMemory::dbg_register		(void* _p, size_t _size, const char* _name)	{ }
 void	xrMemory::dbg_unregister	(void* _p)									{ }
 void	xrMemory::dbg_check			()											{ }
 
-#else
+#else // DEBUG_MEMORY_MANAGER
+#	if 0
+#		define DEBUG_MEMORY_LEAK		
+#		define MEMORY_LEAK_DESCRIPTION	"C++ NEW"
+//#		define MEMORY_LEAK_DESCRIPTION	"class luabind::functor<bool>"
+#		define MEMORY_LEAK_SIZE			12
+#	endif
 
 #include <malloc.h>
 
@@ -21,12 +27,21 @@ void	dbg_header			(xrMemory::mdbg& dbg, bool _debug)
 {
 	//. check header
 	u32 t1 = get_header	(dbg._p);
-	u32 t2 = get_pool	(dbg._size+(_debug?4:0));
+	u32 t2 = get_pool	(1+dbg._size+(_debug?4:0));
 	R_ASSERT2			(t1==t2,"CorePanic: Memory block header corrupted");
 }
 
 void	xrMemory::dbg_register		(void* _p, size_t _size, const char* _name)
 {
+#ifdef DEBUG_MEMORY_LEAK
+	if ((_size == MEMORY_LEAK_SIZE) && _name &&!xr_strcmp(MEMORY_LEAK_DESCRIPTION,_name)) {
+		static int			i = 0;
+		string2048			temp;
+		sprintf_s			(temp,sizeof(temp),"____[%s][%d] : 0x%8x [REGISTER][%d]\n",_name,_size,(u32)((size_t)_p),i++);
+		OutputDebugString	(temp);
+	}
+#endif
+
 	VERIFY					(debug_mode);
 	debug_cs.Enter			();
 	debug_mode				= FALSE;
@@ -60,8 +75,16 @@ void	xrMemory::dbg_unregister	(void* _p)
 
 	// unregister entry
 	if (u32(-1)==_found)	{ 
-		Debug.fatal			("Memory allocation error: double free() ?"); 
+		FATAL					("Memory allocation error: double free() ?"); 
 	} else	{
+#ifdef DEBUG_MEMORY_LEAK
+		if ((debug_info[_found]._size == MEMORY_LEAK_SIZE) && debug_info[_found]._name && !xr_strcmp(MEMORY_LEAK_DESCRIPTION,debug_info[_found]._name)) {
+			string2048			temp;
+			sprintf_s			(temp,sizeof(temp),"____[%s][%d] : 0x%8x [UNREGISTER]\n",debug_info[_found]._name,debug_info[_found]._size,(u32)((size_t)_p));
+			OutputDebugString	(temp);
+		}
+#endif
+
 		u8*			_ptr	= (u8*)	debug_info[_found]._p;
 		u32*		_shred	= (u32*)(_ptr + debug_info[_found]._size);
 		R_ASSERT2			(u32(-1)==*_shred, "Memory overrun error");
@@ -149,4 +172,4 @@ XRCORE_API void	dbg_dump_str_leaks			()
 {
 	g_pStringContainer->dump();
 }
-#endif
+#endif // DEBUG_MEMORY_MANAGER

@@ -393,7 +393,7 @@ public:
 	CCC_BindConsoleCmd(LPCSTR N) : IConsole_Command(N) {};
 	virtual void Execute(LPCSTR args) {
 		string512 console_command;
-		string256 key;
+		string_path key;
 		int cnt = _GetItemCount(args,' ');
 		_GetItems(args,0,cnt-1,console_command,' ');
 		_GetItem(args,cnt-1,key,' ');

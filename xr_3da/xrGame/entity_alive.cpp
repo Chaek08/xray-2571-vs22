@@ -97,7 +97,7 @@ void CEntityAlive::LoadBloodyWallmarks (LPCSTR section)
 	m_pBloodDropsVector		= xr_new<SHADER_VECTOR>();
 	
 	//кровавые отметки на стенах
-	string256	tmp;
+	string_path	tmp;
 	LPCSTR wallmarks_name = pSettings->r_string(section, "wallmarks"); 
 	
 	int cnt		=_GetItemCount(wallmarks_name);
@@ -149,7 +149,7 @@ void CEntityAlive::LoadFireParticles(LPCSTR section)
 {
 	m_pFireParticlesVector = xr_new<STR_VECTOR>();
 
-	string256	tmp;
+	string_path	tmp;
 	LPCSTR particles_name = pSettings->r_string(section, "fire_particles"); 
 
 	int cnt		=_GetItemCount(particles_name);

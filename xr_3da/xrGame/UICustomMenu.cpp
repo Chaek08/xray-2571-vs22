@@ -13,7 +13,7 @@ void CUICustomMenuItem::Execute()
 CUICustomMenuItem* UIParseMenu	(CUICustomMenu* owner, CInifile* ini, CUICustomMenuItem* root, LPCSTR sect, OnExecuteEvent exec, OnItemDrawEvent draw)
 {
 	CUICustomMenuItem* I=0;
-	string256	buf,buf1;
+	string_path	buf,buf1;
 	string64	buf2;
 	int ln_cnt = ini->line_count(sect);
 	if (ln_cnt){
@@ -49,7 +49,7 @@ CUICustomMenuItem* UILoadMenu		(CUICustomMenu* owner, LPCSTR ini_name, LPCSTR se
 {
 	// check ini exist
 	CUICustomMenuItem*	I=0;
-	string256			fn;
+	string_path			fn;
 	if (FS.exist(fn,"$game_data$",ini_name))
 	{
 		CInifile* ini		= CInifile::Create(fn);

@@ -1,4 +1,4 @@
-#ifdef DEBUG
+#ifdef DEBUG_MEMORY_NAME
 // new(0)
 template <class T>
 IC	T*		xr_new		()
@@ -60,7 +60,7 @@ IC	T*		xr_new		(const P1& p1, const P2& p2, const P3& p3, const P4& p4, const P5
 	T* ptr	= (T*)Memory.mem_alloc(sizeof(T), typeid(T).name());
 	return new (ptr) T(p1,p2,p3,p4,p5,p6,p7,p8,p9);
 }
-#else
+#else // DEBUG_MEMORY_NAME
 // new(0)
 template <class T>
 IC	T*		xr_new		()
@@ -122,7 +122,7 @@ IC	T*		xr_new		(const P1& p1, const P2& p2, const P3& p3, const P4& p4, const P5
 	T* ptr	= (T*)Memory.mem_alloc(sizeof(T));
 	return new (ptr) T(p1,p2,p3,p4,p5,p6,p7,p8,p9);
 }
-#endif
+#endif // DEBUG_MEMORY_NAME
 
 template <bool _is_pm, typename T>
 struct xr_special_free
@@ -146,20 +146,29 @@ struct xr_special_free<false,T>
 };
 
 template <class T>
-IC	void	xr_delete	(T* &ptr)
+IC void xr_delete(T*& ptr)
 {
-	if (ptr) 
+	if (ptr)
 	{
-		xr_special_free<is_polymorphic<T>::result,T>()(ptr);
+		xr_special_free<std::is_polymorphic<T>::value, T>()(ptr);
 		ptr = NULL;
 	}
 }
 template <class T>
-IC	void	xr_delete	(T* const &ptr)
+IC void xr_delete(T* const& ptr)
 {
-	if (ptr) 
+	if (ptr)
 	{
-		xr_special_free<is_polymorphic<T>::result,T>(ptr);
+		xr_special_free<std::is_polymorphic<T>::value, T>()(const_cast<T*&>(ptr));
 		const_cast<T*&>(ptr) = NULL;
 	}
 }
+
+
+
+#ifdef DEBUG_MEMORY_MANAGER
+	void XRCORE_API mem_alloc_gather_stats				(const bool &value);
+	void XRCORE_API mem_alloc_gather_stats_frequency	(const float &value);
+	void XRCORE_API mem_alloc_show_stats				();
+	void XRCORE_API mem_alloc_clear_stats				();
+#endif // DEBUG_MEMORY_MANAGER

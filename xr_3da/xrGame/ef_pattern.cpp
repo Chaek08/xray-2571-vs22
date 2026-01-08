@@ -42,7 +42,7 @@ CPatternFunction::~CPatternFunction()
 
 void CPatternFunction::vfLoadEF(LPCSTR caFileName)
 {
-	string256		caPath;
+	string_path		caPath;
 	if (!FS.exist(caPath,"$game_ai$",caFileName)) {
 		Msg			("! Evaluation function : File not found \"%s\"",caPath);
 		R_ASSERT	(false);
@@ -84,7 +84,7 @@ void CPatternFunction::vfLoadEF(LPCSTR caFileName)
 	m_dwaPatternIndexes = xr_alloc<u32>(m_dwPatternCount);
 	ZeroMemory		(m_dwaPatternIndexes,m_dwPatternCount*sizeof(u32));
 	m_dwParameterCount = 0;
-	for ( i=0; i<m_dwPatternCount; ++i) {
+	for (u32 i=0; i<m_dwPatternCount; ++i) {
 		if (i)
 			m_dwaPatternIndexes[i] = m_dwParameterCount;
 		F->r		(&(m_tpPatterns[i].dwCardinality),sizeof(m_tpPatterns[i].dwCardinality));

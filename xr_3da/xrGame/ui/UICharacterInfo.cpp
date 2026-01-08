@@ -168,7 +168,7 @@ void CUICharacterInfo::InitCharacter(u16 id)
 	chInfo.Init					(T);
 
 	CStringTable	stbl;
-	string256		str;
+	string_path		str;
 	if(m_icons[eUIName]){
 		m_icons[eUIName]->SetText	(T->m_character_name.c_str());
 	}
@@ -230,7 +230,7 @@ void  CUICharacterInfo::SetRelation(ALife::ERelationType relation, CHARACTER_GOO
 	CStringTable stbl;
 
 	m_icons[eUIRelation]->SetTextColor(GetRelationColor(relation));
-	string256		str;
+	string_path		str;
 #ifdef _DEBUG
 	sprintf(str, "%s,%d", *stbl.translate(GetGoodwillAsText(goodwill)), goodwill);
 #else

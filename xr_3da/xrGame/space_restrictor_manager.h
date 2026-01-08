@@ -20,7 +20,7 @@ public:
 
 private:
 	xr_vector<ref_str>				m_temp;
-	string256						m_temp_string;
+	string_path						m_temp_string;
 
 protected:
 	SPACE_REGISTRY					m_space_registry;

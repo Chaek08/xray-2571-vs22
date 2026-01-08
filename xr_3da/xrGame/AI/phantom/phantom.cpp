@@ -60,7 +60,7 @@ BOOL CPhantom::net_Spawn(CSE_Abstract* DC)
 	if (!(vis_name&&vis_name[0])){
 		LPCSTR visuals	= pSettings->r_string(cNameSect(),"visuals");
 		u32 cnt			= _GetItemCount(visuals);
-		string256 tmp;
+		string_path tmp;
 		OBJ->set_visual	(_GetItem(visuals,Random.randI(cnt),tmp));
 		// inform server
 		NET_Packet		P;

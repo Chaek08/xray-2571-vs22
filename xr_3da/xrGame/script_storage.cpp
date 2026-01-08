@@ -323,7 +323,7 @@ bool CScriptStorage::load_buffer	(CLuaVirtualMachine *L, LPCSTR caBuffer, size_t
 bool CScriptStorage::do_file	(LPCSTR caScriptName, LPCSTR caNameSpaceName)
 {
 	int				start = lua_gettop(lua());
-	string256		l_caLuaFileName;
+	string_path		l_caLuaFileName;
 	IReader			*l_tpFileReader = FS.r_open(caScriptName);
 	if (!l_tpFileReader) {
 		script_log	(eLuaMessageTypeError,"Cannot open file \"%s\"",caScriptName);
@@ -389,7 +389,7 @@ bool CScriptStorage::namespace_loaded(LPCSTR N, bool remove_from_stack)
 	int						start = lua_gettop(lua());
 	lua_pushstring 			(lua(),"_G"); 
 	lua_rawget 				(lua(),LUA_GLOBALSINDEX); 
-	string256				S2;
+	string_path				S2;
 	strcpy					(S2,N);
 	LPSTR					S = S2;
 	for (;;) { 
@@ -413,7 +413,7 @@ bool CScriptStorage::namespace_loaded(LPCSTR N, bool remove_from_stack)
 				VERIFY		(lua_gettop(lua()) >= 1);
 				lua_pop		(lua(),1); 
 				VERIFY		(start == lua_gettop(lua()));
-				Debug.fatal	(" Error : the namespace name is already being used by the non-table object!\n");
+				FATAL	(" Error : the namespace name is already being used by the non-table object!\n");
 				return		(false); 
 			} 
 			lua_remove		(lua(),-2); 
@@ -466,7 +466,7 @@ bool CScriptStorage::object	(LPCSTR namespace_name, LPCSTR identifier, int type)
 
 luabind::object CScriptStorage::name_space(LPCSTR namespace_name)
 {
-	string256			S1;
+	string_path			S1;
 	strcpy				(S1,namespace_name);
 	LPSTR				S = S1;
 	luabind::object		lua_namespace = luabind::get_globals(lua());
@@ -547,7 +547,7 @@ void CScriptStorage::print_error(CLuaVirtualMachine *L, int iErrorCode)
 
 void CScriptStorage::flush_log()
 {
-	string256			log_file_name;
+	string_path			log_file_name;
 	strconcat           (log_file_name,Core.ApplicationName,"_",Core.UserName,"_lua.log");
 	FS.update_path      (log_file_name,"$logs$",log_file_name);
 	m_output.save_to	(log_file_name);

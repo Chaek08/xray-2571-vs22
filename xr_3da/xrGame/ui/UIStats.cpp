@@ -18,7 +18,7 @@ CUIStats::~CUIStats(){
 }
 
 CUIWindow* CUIStats::Init(CUIXml& xml_doc, LPCSTR path,  int team){
-	string256 _path;
+	string_path _path;
 	CUIXmlInit::InitScrollView(xml_doc, path, 0, this);
 	this->SetFixedScrollBar(false);
 	CUIWindow* pWnd = NULL;

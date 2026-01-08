@@ -95,7 +95,7 @@ void CUIBuyWeaponWnd::UpdatePresetPrice(Preset& preset){
 }
 
 void CUIBuyWeaponWnd::FillUpPresets(){
-	string256 preset[3];
+	string_path preset[3];
 
 
 	std::strcpy(preset[0], pSettings->r_string(m_StrSectionName, "autobuy_preset1"));
@@ -794,7 +794,7 @@ void CUIBuyWeaponWnd::OnBtnBulletBuy(int slot){
 	R_ASSERT(pSettings->section_exist(item->GetSectionName()));
 
 	xr_string itemsList; 
-	string256 single_item;
+	string_path single_item;
 
 	itemsList = pSettings->r_string(item->GetSectionName(), "ammo_class");
 	_GetItem(itemsList.c_str(), 0, single_item);

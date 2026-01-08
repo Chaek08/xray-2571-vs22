@@ -33,9 +33,9 @@
 #include "../actor.h"			//remove me !!!
 
 
-const				SCROLLBARS_SHIFT			= 5;
-const				VSCROLLBAR_STEP				= 20; // В пикселях
-const				HSCROLLBAR_STEP				= 20; // В пикселях
+const	int			SCROLLBARS_SHIFT			= 5;
+const	int			VSCROLLBAR_STEP				= 20; // В пикселях
+const	int			HSCROLLBAR_STEP				= 20; // В пикселях
 
 static bool			MAP_FLY_MODE				= true;
 
@@ -192,7 +192,7 @@ void CUIMapWnd::Init(LPCSTR xml_name, LPCSTR start_from)
 	m_hint->SetAutoDelete				(false);
 
 // Load maps
-	string256								gameLtxPath;
+	string_path								gameLtxPath;
 	FS.update_path							(gameLtxPath, CONFIG_PATH, "game.ltx");
 	CInifile gameLtx						(gameLtxPath);
 
@@ -214,7 +214,7 @@ void CUIMapWnd::Init(LPCSTR xml_name, LPCSTR start_from)
 
 	if (gameLtx.section_exist(sect_name.c_str())){
 		CInifile::Sect& S		= gameLtx.r_section(sect_name.c_str());
-		CInifile::SectIt	it	= S.begin(), end = S.end();
+		CInifile::SectCIt	it	= S.Data.begin(), end = S.Data.end();
 		for (;it!=end; it++){
 			shared_str map_name = it->first;
 			xr_strlwr(map_name);

@@ -38,7 +38,7 @@ CScriptThread::CScriptThread(LPCSTR caNamespaceName, bool do_string, bool reload
 	m_active				= false;
 
 	try {
-		string256			S;
+		string_path			S;
 		if (!do_string) {
 			m_script_name	= caNamespaceName;
 			ai().script_engine().process_file(caNamespaceName,reload);

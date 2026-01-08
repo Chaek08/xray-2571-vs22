@@ -66,7 +66,7 @@ void game_cl_Deathmatch::OnBuyMenu_Ok	()
 	//-------------------------------------------------------------------------------
 	P.w_s32		(s32(pCurBuyMenu->GetMoneyAmount()) - Pl->money_for_round);
 	P.w_u8		(u8(pCurPresetItems->size()));
-	for (s=0; s<pCurPresetItems->size(); s++)
+	for (u8 s=0; s<pCurPresetItems->size(); s++)
 	{
 		P.w_s16((*pCurPresetItems)[s]);
 	}
@@ -236,7 +236,7 @@ void	game_cl_Deathmatch::LoadTeamDefaultPresetItems	(LPCSTR caSection, CUIBuyWea
 
 	pPresetItems->clear();
 
-	string256			ItemName;
+	string_path			ItemName;
 	string4096			DefItems;
 	// Читаем данные этого поля
 	std::strcpy(DefItems, pSettings->r_string(caSection, "default_items"));
@@ -277,8 +277,8 @@ void				game_cl_Deathmatch::LoadDefItemsForRank(CUIBuyWeaponWnd* pBuyMenu)
 	LoadPlayerDefItems(getTeamSection(local_player->team), pBuyMenu);
 	//---------------------------------------------------
 	string16 RankStr;
-	string256 ItemStr;
-	string256 NewItemStr;
+	string_path ItemStr;
+	string_path NewItemStr;
 	char tmp[5];
 	for (int i=1; i<=local_player->rank; i++)
 	{

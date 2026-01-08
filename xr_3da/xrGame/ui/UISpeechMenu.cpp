@@ -39,7 +39,7 @@ void CUISpeechMenu::InitList(LPCSTR section_name){
 	CUIStatic* pItem = NULL;
 
 	string64 phrase;
-	string256 str;
+	string_path str;
 	for (int i = 0; true; i++)
 	{
 		CStringTable st;

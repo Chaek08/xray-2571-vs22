@@ -462,7 +462,7 @@ void game_cl_Deathmatch::shedule_Update			(u32 dt)
 
 				if (m_game_ui)
 				{
-					string256 MoneyStr;
+					string_path MoneyStr;
 					sprintf(MoneyStr, "%d", local_player->money_for_round);
 					m_game_ui->ChangeTotalMoneyIndicator(MoneyStr);
 				}				

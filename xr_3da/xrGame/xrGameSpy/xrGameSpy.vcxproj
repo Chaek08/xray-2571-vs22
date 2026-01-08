@@ -95,7 +95,7 @@
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <ImportLibrary>$(OutDir)xrGameSpy.lib</ImportLibrary>
+      <ImportLibrary>$(SolutionDir)$(Configuration)\lib\$(TargetName).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
       <IncrementalLinkDatabaseFile>$(SolutionDir)$(Configuration)\intermediate\$(ProjectName)\$(TargetName).ilk</IncrementalLinkDatabaseFile>
       <ProfileGuidedDatabase>$(SolutionDir)$(Configuration)\intermediate\$(ProjectName)\$(TargetName).pgd</ProfileGuidedDatabase>

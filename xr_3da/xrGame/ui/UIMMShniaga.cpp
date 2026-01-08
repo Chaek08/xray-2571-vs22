@@ -51,7 +51,7 @@ CUIMMShniaga::~CUIMMShniaga(){
 }
 
 void CUIMMShniaga::Init(CUIXml& xml_doc, LPCSTR path){
-	string256 _path;
+	string_path _path;
 
 	CUIXmlInit::InitWindow(xml_doc, path, 0, this);
 	CUIXmlInit::InitStatic(xml_doc, strconcat(_path,path,":shniaga:magnifire"),0,m_magnifier); m_mag_pos = m_magnifier->GetWndPos().x;

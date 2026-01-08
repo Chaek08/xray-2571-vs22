@@ -249,7 +249,7 @@ bool CServerList::IsValidItem(ServerInfo& item){
 
 void CServerList::InitFromXml(CUIXml& xml_doc, const char* path){
 	CUIXmlInit::InitWindow		(xml_doc, path, 0, this);
-	string256 buf;
+	string_path buf;
 	CUIXmlInit::InitListWnd		(xml_doc, strconcat(buf,path,":list"),							0, &m_list[LST_SERVER]);
 	m_fListH[0] =				m_list[LST_SERVER].GetHeight();
 	m_fListH[1] =				xml_doc.ReadAttribFlt(buf,0,"height2");

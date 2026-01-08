@@ -23,7 +23,7 @@ CScriptProcessor::CScriptProcessor(LPCSTR caCaption, LPCSTR caScriptString)
 	m_name[0]		= 0;
 	strcat(m_name,caCaption);
 	u32				N = _GetItemCount(caScriptString);
-	string256		I;
+	string_path		I;
 	for (u32 i=0; i<N; ++i)
 		add_script	(_GetItem(caScriptString,i,I));
 }

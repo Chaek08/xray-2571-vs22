@@ -2,11 +2,13 @@
 #pragma hdrstop
 
 #include	"xrsharedmem.h"
+#include	"xrMemory_pure.h"
 
 #include	<malloc.h>
 
 xrMemory	Memory;
 BOOL		mem_initialized	= FALSE;
+bool		shared_str_initialized	= false;
 
 // Processor specific implementations
 extern		pso_MemCopy		xrMemCopy_MMX;
@@ -15,24 +17,47 @@ extern		pso_MemFill		xrMemFill_x86;
 extern		pso_MemFill32	xrMemFill32_MMX;
 extern		pso_MemFill32	xrMemFill32_x86;
 
-xrMemory::xrMemory()
+#ifdef DEBUG_MEMORY_MANAGER
+XRCORE_API void dump_phase		()
 {
-#ifdef DEBUG
+	if (!Memory.debug_mode)
+		return;
+
+	static int					phase_counter = 0;
+
+	string256					temp;
+	sprintf_s					(temp,sizeof(temp),"x:\\$phase$%d.dump",++phase_counter);
+	Memory.mem_statistic		(temp);
+}
+#endif // DEBUG_MEMORY_MANAGER
+
+xrMemory::xrMemory()
+#ifdef DEBUG_MEMORY_MANAGER
+#	ifdef PROFILE_CRITICAL_SECTIONS
+		:debug_cs(MUTEX_PROFILE_ID(xrMemory))
+#	endif // PROFILE_CRITICAL_SECTIONS
+#endif // DEBUG_MEMORY_MANAGER
+{
+#ifdef DEBUG_MEMORY_MANAGER
+
 	debug_mode	= FALSE;
-#endif
+
+#endif // DEBUG_MEMORY_MANAGER
 	mem_copy	= xrMemCopy_x86;
 	mem_fill	= xrMemFill_x86;
 	mem_fill32	= xrMemFill32_x86;
 }
 
-XRCORE_API	BOOL	g_bMEMO		= FALSE;
+#ifdef DEBUG_MEMORY_MANAGER
+	BOOL	g_bMEMO		= FALSE;
+#endif // DEBUG_MEMORY_MANAGER
 
 void	xrMemory::_initialize	(BOOL bDebug)
 {
-#ifdef DEBUG
+#ifdef DEBUG_MEMORY_MANAGER
 	debug_mode				= bDebug;
 	debug_info_update		= 0;
-#endif
+#endif // DEBUG_MEMORY_MANAGER
 
 	stat_calls				= 0;
 	stat_counter			= 0;
@@ -50,46 +75,63 @@ void	xrMemory::_initialize	(BOOL bDebug)
 	}
 
 #ifndef M_BORLAND
-	// initialize POOLs
-	u32	element		= mem_pools_ebase;
-	u32 sector		= mem_pools_ebase*1024;
-	for (u32 pid=0; pid<mem_pools_count; pid++)
-	{
-		mem_pools[pid]._initialize(element,sector,0x1);
-		element		+=	mem_pools_ebase;
+	if (!strstr(Core.Params,"-pure_alloc")) {
+		// initialize POOLs
+		u32	element		= mem_pools_ebase;
+		u32 sector		= mem_pools_ebase*1024;
+		for (u32 pid=0; pid<mem_pools_count; pid++)
+		{
+			mem_pools[pid]._initialize(element,sector,0x1);
+			element		+=	mem_pools_ebase;
+		}
 	}
-#endif    
+#endif // M_BORLAND
 
-#ifdef DEBUG
+#ifdef DEBUG_MEMORY_MANAGER
 	if (0==strstr(Core.Params,"-memo"))	mem_initialized				= TRUE;
 	else								g_bMEMO						= TRUE;
-#else
+#else // DEBUG_MEMORY_MANAGER
 	mem_initialized				= TRUE;
-#endif
+#endif // DEBUG_MEMORY_MANAGER
+
+//	DUMP_PHASE;
 	g_pStringContainer			= xr_new<str_container>		();
+	shared_str_initialized		= true;
+//	DUMP_PHASE;
 	g_pSharedMemoryContainer	= xr_new<smem_container>	();
+//	DUMP_PHASE;
 }
 
-extern void dbg_dump_leaks();
-extern void dbg_dump_str_leaks();
+#ifdef DEBUG_MEMORY_MANAGER
+	extern void dbg_dump_leaks();
+	extern void dbg_dump_str_leaks();
+#endif // DEBUG_MEMORY_MANAGER
+
 void	xrMemory::_destroy()
 {
-#ifndef M_BORLAND
-#ifdef DEBUG
+#ifdef DEBUG_MEMORY_MANAGER
+	mem_alloc_gather_stats		(false);
+	mem_alloc_show_stats		();
+	mem_alloc_clear_stats		();
+#endif // DEBUG
+
+#ifdef DEBUG_MEMORY_MANAGER
 	if (debug_mode)				dbg_dump_str_leaks	();
-#endif
-#endif
+#endif // DEBUG_MEMORY_MANAGER
+
 	xr_delete					(g_pSharedMemoryContainer);
 	xr_delete					(g_pStringContainer);
 
 #ifndef M_BORLAND
-#ifdef DEBUG
-	if (debug_mode)				dbg_dump_leaks	();
-#endif
-#endif
+#	ifdef DEBUG_MEMORY_MANAGER
+		if (debug_mode)				dbg_dump_leaks	();
+#	endif // DEBUG_MEMORY_MANAGER
+#endif // M_BORLAND
 
 	mem_initialized				= FALSE;
+#ifdef DEBUG_MEMORY_MANAGER
 	debug_mode					= FALSE;
+#endif // DEBUG_MEMORY_MANAGER
 }
 
 void	xrMemory::mem_compact	()
@@ -100,53 +142,11 @@ void	xrMemory::mem_compact	()
 	HeapCompact						(GetProcessHeap(),0);
 	if (g_pStringContainer)			g_pStringContainer->clean		();
 	if (g_pSharedMemoryContainer)	g_pSharedMemoryContainer->clean	();
-	SetProcessWorkingSetSize		(GetCurrentProcess(),size_t(-1),size_t(-1));
+	if (strstr(Core.Params,"-swap_on_compact"))
+		SetProcessWorkingSetSize	(GetCurrentProcess(),size_t(-1),size_t(-1));
 }
 
-u32		xrMemory::mem_usage		(u32* pBlocksUsed, u32* pBlocksFree)
-{
-	_HEAPINFO		hinfo;
-	int				heapstatus;
-	hinfo._pentry	= NULL;
-	size_t	total	= 0;
-	u32	blocks_free	= 0;
-	u32	blocks_used	= 0;
-	while( ( heapstatus = _heapwalk( &hinfo ) ) == _HEAPOK )
-	{ 
-		if (hinfo._useflag == _USEDENTRY)	{
-			total		+= hinfo._size;
-			blocks_used	+= 1;
-		} else {
-			blocks_free	+= 1;
-		}
-	}
-	if (pBlocksFree)	*pBlocksFree= (u32)blocks_free;
-	if (pBlocksUsed)	*pBlocksUsed= (u32)blocks_used;
-
-	switch( heapstatus )
-	{
-	case _HEAPEMPTY:
-		break;
-	case _HEAPEND:
-		break;
-	case _HEAPBADPTR:
-		Debug.fatal		( "bad pointer to heap"		);
-		break;
-	case _HEAPBADBEGIN:
-		Debug.fatal		( "bad start of heap"		);
-		break;
-	case _HEAPBADNODE:
-		Debug.fatal		( "bad node in heap"		);
-		break;
-	}
-	return (u32) total;
-}
-
-#ifndef DEBUG
-void	xrMemory::mem_statistic	(LPCSTR fn)
-{
-}
-#else
+#ifdef DEBUG_MEMORY_MANAGER
 ICF	u8*		acc_header			(void* P)	{	u8*		_P		= (u8*)P;	return	_P-1;	}
 ICF	u32		get_header			(void* P)	{	return	(u32)*acc_header(P);				}
 void	xrMemory::mem_statistic	(LPCSTR fn)
@@ -174,6 +174,22 @@ void	xrMemory::mem_statistic	(LPCSTR fn)
 		int pool_id			= (mem_generic==p_current)?-1:p_current;
 
 		fprintf				(Fa,"0x%08X[%2d]: %8d %s\n",*(u32*)(&debug_info[it]._p),pool_id,debug_info[it]._size,debug_info[it]._name);
+	}
+
+	{
+		for (u32 k=0; k<mem_pools_count; ++k) {
+			MEMPOOL			&pool = mem_pools[k];
+			u8				*list = pool.list;
+			while (list) {
+				pool.cs.Enter	();
+				u32				temp = *(u32*)(&list);
+				if (!temp)
+					break;
+				fprintf			(Fa,"0x%08X[%2d]: %8d mempool\n",temp,k,pool.s_element);
+				list			= (u8*)*pool.access(list);
+				pool.cs.Leave	();
+			}
+		}
 	}
 
 	/*
@@ -238,7 +254,7 @@ void	xrMemory::mem_statistic	(LPCSTR fn)
 	}
 	*/
 }
-#endif
+#endif // DEBUG_MEMORY_MANAGER
 
 // xr_strdup
 char*			xr_strdup		(const char* string)
@@ -246,10 +262,10 @@ char*			xr_strdup		(const char* string)
 	VERIFY	(string);
 	u32		len			= u32(xr_strlen(string))+1	;
 	char *	memory		= (char*)	Memory.mem_alloc( len
-#ifdef DEBUG
+#ifdef DEBUG_MEMORY_NAME
 		, "strdup"
-#endif
-		);
+#endif // DEBUG_MEMORY_NAME
+	);
 	CopyMemory		(memory,string,len);
 	return	memory;
 }

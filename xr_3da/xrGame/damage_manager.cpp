@@ -78,7 +78,7 @@ void CDamageManager::load_section(LPCSTR section,CInifile* ini)
 	string32				buffer;
 	CKinematics				*kinematics = smart_cast<CKinematics*>(m_object->Visual());
 	CInifile::Sect			&damages = ini->r_section(section);
-	for (CInifile::SectIt i=damages.begin(); damages.end() != i; ++i) {
+	for (CInifile::SectCIt i=damages.Data.begin(); damages.Data.end() != i; ++i) {
 		if (xr_strcmp(*(*i).first,"default")) { // read all except default line
 			VERIFY					(m_object);
 			int						bone = kinematics->LL_BoneID(i->first);
@@ -88,7 +88,7 @@ void CDamageManager::load_section(LPCSTR section,CInifile* ini)
 			bone_instance.set_param	(1,(float)atoi(_GetItem(*(*i).second,1,buffer)));
 			bone_instance.set_param	(2,(float)atof(_GetItem(*(*i).second,2,buffer)));
 			if(0==bone && (fis_zero(bone_instance.get_param(0)) || fis_zero(bone_instance.get_param(2)) ) ){
-				string256 error_str;
+				string_path error_str;
 				sprintf(error_str,"hit_scale and wound_scale for root bone cannot be zero. see section [%s]",section);
 				R_ASSERT2(0,error_str);
 			}

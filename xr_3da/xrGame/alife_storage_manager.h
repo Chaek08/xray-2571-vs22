@@ -18,7 +18,7 @@ protected:
 	typedef CALifeSimulatorBase inherited;
 
 protected:
-	string256		m_save_name;
+	string_path		m_save_name;
 	LPCSTR			m_section;
 
 protected:

@@ -46,7 +46,7 @@ CALifeStorageManager::~CALifeStorageManager	()
 
 void CALifeStorageManager::save	(LPCSTR save_name, bool update_name)
 {
-	string256					save;
+	string_path					save;
 	strcpy						(save,m_save_name);
 	if (save_name) {
 		strconcat				(m_save_name,save_name,SAVE_EXTENSION);
@@ -65,7 +65,7 @@ void CALifeStorageManager::save	(LPCSTR save_name, bool update_name)
 	objects().save				(stream);
 	registry().save				(stream);
 
-	string256					temp;
+	string_path					temp;
 	FS.update_path				(temp,"$game_saves$",m_save_name);
 	stream.save_to				(temp);
 	Msg							("* Game %s is successfully saved to file '%s' (%d bytes)",m_save_name,temp,stream.size());
@@ -85,7 +85,7 @@ bool CALifeStorageManager::load	(LPCSTR save_name)
 	}
 	else
 		strconcat				(m_save_name,save_name,SAVE_EXTENSION);
-	string256					file_name;
+	string_path					file_name;
 	FS.update_path				(file_name,"$game_saves$",m_save_name);
 
 	IReader						*stream;
@@ -98,7 +98,8 @@ bool CALifeStorageManager::load	(LPCSTR save_name)
 
 	{
 		string512				temp;
-		pApp->LoadTitle			(strconcat(temp,"Loading saved game \"",save_name,SAVE_EXTENSION,"\"..."));
+		strconcat				(temp, "Loading saved game \"", save_name, SAVE_EXTENSION, "\"...");
+		pApp->LoadTitle			(temp);
 	}
 
 	unload						();

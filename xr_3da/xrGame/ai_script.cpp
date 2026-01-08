@@ -17,7 +17,7 @@
 
 CScript::CScript(LPCSTR caNamespaceName)
 {
-	string256			S;
+	string_path			S;
 	m_bActive			= false;
 	m_script_name		= xr_strdup(caNamespaceName);
 	Msg					("* Loading design script %s",caNamespaceName);

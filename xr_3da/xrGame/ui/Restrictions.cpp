@@ -8,7 +8,7 @@
 
 int get_rank(const shared_str &section){
 	// ATTENTION: low performance
-	string256 rank;
+	string_path rank;
 	for (int i = 0; true; i++)
 	{
 		sprintf(rank,"rank_%i",i);
@@ -57,7 +57,7 @@ void CRestrictions::AddGroup(LPCSTR group, LPCSTR lst){
 	}
 	else
 	{
-		string256	singleItem;
+		string_path	singleItem;
 		u32 count	= _GetItemCount(lst);
 		for (u32 j = 0; j < count; ++j)
 		{
@@ -85,7 +85,7 @@ void CRestrictions::InitGroups(){
 		AddGroup(name,line);
 	}
 
-    string256 rank;
+    string_path rank;
 	for (int i = 0; true; i++)
 	{
 		sprintf(rank,"rank_%i",i);
@@ -100,7 +100,7 @@ void CRestrictions::InitGroups(){
 		if (pSettings->line_exist("rank_base","amount_restriction"))
 		{
 			LPCSTR lst = pSettings->r_string("rank_base","amount_restriction");
-			string256	singleItem;
+			string_path	singleItem;
 			u32 count	= _GetItemCount(lst);
 			for (u32 j = 0; j < count; ++j)
 			{
@@ -123,7 +123,7 @@ void CRestrictions::AddRestriction4rank(int rank, LPCSTR lst){
 
 	rank_rest& rest = m_restrictions[rank];
 
-	string256	singleItem;
+	string_path	singleItem;
 	u32 count	= _GetItemCount(lst);
 	for (u32 j = 0; j < count; ++j)
 	{
@@ -133,11 +133,11 @@ void CRestrictions::AddRestriction4rank(int rank, LPCSTR lst){
 	}
 }
 
-RESTR CRestrictions::GetRestr(LPCSTR item){
+RESTR CRestrictions::GetRestr(LPCSTR item){ //PIDOR
 	RESTR ret;
-	char* pos = strstr(item,":");
+	const char* pos = strstr(item,":");
 	R_ASSERT(pos);
-	pos[0]=0;
+	pos=0;
 
 	ret.name = item;
 	ret.n.cur_val = 0;

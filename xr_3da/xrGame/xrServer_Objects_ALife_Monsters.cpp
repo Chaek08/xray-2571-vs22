@@ -36,8 +36,8 @@ void setup_location_types_section(GameGraph::TERRAIN_VECTOR &m_vertex_types, CIn
 	VERIFY							(ini->section_exist(section));
 	GameGraph::STerrainPlace		terrain_mask;
 	terrain_mask.tMask.resize		(GameGraph::LOCATION_TYPE_COUNT);
-	CInifile::SectIt				I = ini->r_section(section).begin();
-	CInifile::SectIt				E = ini->r_section(section).end();
+	CInifile::SectCIt				I = ini->r_section(section).Data.begin();
+	CInifile::SectCIt				E = ini->r_section(section).Data.end();
 	for ( ; I != E; ++I) {
 		LPCSTR						S = *(*I).first;
 		string16					I;

@@ -151,11 +151,11 @@ bool CALifeUpdateManager::change_level	(NET_Packet &net_packet)
 		holder->o_Angle				= graph().actor()->o_Angle;
 	}
 
-	string256						autoave_name;
+	string_path						autoave_name;
 	strconcat						(autoave_name,Core.UserName,"_","autosave");
-	LPSTR							temp0 = strstr(**m_server_command_line,"/");
+	LPCSTR							temp0 = strstr(**m_server_command_line,"/");
 	VERIFY							(temp0);
-	string256						temp;
+	string_path						temp;
 	*m_server_command_line			= strconcat(temp,autoave_name,temp0);
 	
 	save							(autoave_name);
@@ -271,7 +271,7 @@ void CALifeUpdateManager::reload		(LPCSTR section)
 bool CALifeUpdateManager::load_game		(LPCSTR game_name, bool no_assert)
 {
 	{
-		string256				temp,file_name;
+		string_path				temp,file_name;
 		strconcat				(temp,game_name,SAVE_EXTENSION);
 		FS.update_path			(file_name,"$game_saves$",temp);
 		if (!FS.exist(file_name)) {

@@ -24,7 +24,7 @@ CUISkinWindow::~CUISkinWindow(){
 void CUISkinWindow::Init(CUIXml& xmlDoc, int index, shared_str section){
 	CUIXmlInit xml_init;
 	shared_str texture;
-	string256 buf;
+	string_path buf;
 	float width	 = UI_BASE_WIDTH / SKINS_COUNT;
 	float height = xmlDoc.ReadAttribFlt(PATH_XML, 0, "height");
 	float x		 = index*width;
@@ -132,7 +132,7 @@ bool CUISkinWindow::OnDbClick(){
 }
 
 shared_str CUISkinWindow::GetSkinName(shared_str section, int index){
-	string256 skinName;
+	string_path skinName;
 	shared_str	cfgRecord;
 	shared_str ret;
 	

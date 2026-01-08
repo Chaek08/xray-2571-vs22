@@ -471,8 +471,8 @@ void	game_sv_Deathmatch::SM_SwitchOnNextActivePlayer()
 	u32		PossiblePlayers[32];
 	u32		cnt		= get_players_count	();
 	u32		PPlayersCount = 0;
-
-	for		(u32 it=0; it<cnt; ++it)	
+	u32 it = 0;
+	for		(; it<cnt; ++it)	
 	{
 		xrClientData *l_pC = (xrClientData*)	m_server->client_Get	(it);
 		game_PlayerState* ps	= l_pC->ps;
@@ -1044,7 +1044,7 @@ void	game_sv_Deathmatch::LoadWeaponsForTeam		(char* caSection, TEAM_WPN_LIST *pT
 	//-----------------------------------------------------------
 	u32 j=0;
 	CInifile::Sect &sect = pSettings->r_section(m_sBaseWeaponCostSection);
-	for (CInifile::SectIt it = sect.begin(); it != sect.end(); it++)
+	for (CInifile::SectCIt it = sect.Data.begin(); it != sect.Data.end(); it++)
 	{
 		string1024	wpnSingleName;
 		std::strcpy(wpnSingleName, (*it).first.c_str());
@@ -1062,7 +1062,7 @@ void	game_sv_Deathmatch::LoadWeaponsForTeam		(char* caSection, TEAM_WPN_LIST *pT
 
 void	game_sv_Deathmatch::LoadSkinsForTeam		(char* caSection, TEAM_SKINS_NAMES* pTeamSkins)
 {
-	string256			SkinSingleName;
+	string_path			SkinSingleName;
 	string4096			Skins;
 
 	// Поле strSectionName должно содержать имя секции
@@ -1087,7 +1087,7 @@ void	game_sv_Deathmatch::LoadSkinsForTeam		(char* caSection, TEAM_SKINS_NAMES* p
 
 void	game_sv_Deathmatch::LoadDefItemsForTeam	(char* caSection, TEAM_WPN_LIST *pWpnList, DEF_ITEMS_LIST* pDefItems)
 {
-	string256			ItemName;
+	string_path			ItemName;
 	string4096			DefItems;
 
 	// Поле strSectionName должно содержать имя секции
@@ -1122,7 +1122,7 @@ void	game_sv_Deathmatch::SetSkin					(CSE_Abstract* E, u16 Team, u16 ID)
 	CSE_Visual* pV = smart_cast<CSE_Visual*>(E);
 	if (!pV) return;
 	//-------------------------------------------
-	string256 SkinName;
+	string_path SkinName;
 	std::strcpy(SkinName, pSettings->r_string("mp_skins_path", "skin_path"));
 	//загружены ли скины для этой комманды
 //	if (SkinID != -1) ID = u16(SkinID);

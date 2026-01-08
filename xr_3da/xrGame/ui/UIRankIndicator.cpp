@@ -18,7 +18,7 @@ CUIRankIndicator::~CUIRankIndicator()
 void CUIRankIndicator::InitFromXml(CUIXml& xml_doc)
 {
 	CUIXmlInit::InitWindow(xml_doc, "rank_wnd", 0,	this);
-	string256	str;
+	string_path	str;
 	for(u8 i=0; i<max_rank;++i){
 		CUIStatic*&	s	= m_ranks[i];
 		s				= xr_new<CUIStatic>();

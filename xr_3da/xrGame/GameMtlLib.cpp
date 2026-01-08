@@ -41,7 +41,7 @@ void SGameMtl::Load(IReader& fs)
 
 void CGameMtlLibrary::Load()
 {
-	string256			name;
+	string_path			name;
 	if (!FS.exist(name,	_game_data_,GAMEMTL_FILENAME)){
     	Log				("! Can't find game material file: ",name);
     	return;
@@ -144,7 +144,7 @@ void SGameMtlPair::Load(IReader& fs)
 #ifdef DEBUG
 LPCSTR SGameMtlPair::dbg_Name()
 {
-	static string256 nm;
+	static string_path nm;
 	SGameMtl* M0 = GMLib.GetMaterialByID(GetMtl0());
 	SGameMtl* M1 = GMLib.GetMaterialByID(GetMtl1());
 	sprintf(nm,"Pair: %s - %s",*M0->m_Name,*M1->m_Name);

@@ -395,7 +395,7 @@ void CActorCondition::ChangeAlcohol	(float value)
 
 void CActorCondition::UpdateTutorialThresholds()
 {
-	string256 cb_name;
+	string_path cb_name;
 	static float _cPowerThr			= pSettings->r_float("tutorial_conditions_thresholds","power");
 	static float _cPowerMaxThr		= pSettings->r_float("tutorial_conditions_thresholds","max_power");
 	static float _cBleeding			= pSettings->r_float("tutorial_conditions_thresholds","bleeding");

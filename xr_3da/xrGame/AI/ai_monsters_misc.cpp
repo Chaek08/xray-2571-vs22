@@ -176,7 +176,7 @@ u32 dwfChooseAction(u32 dwActionRefreshRate, float fMinProbability0, float fMinP
 void CAniVector::Load(CKinematicsAnimated *tpKinematics, LPCSTR caBaseName)
 {
 	A.clear		();
-	string256	S1, S2;
+	string_path	S1, S2;
 	MotionID	tpMotionDef;
 	for (int i=0; ; ++i)
 		if (!!(tpMotionDef = tpKinematics->ID_Cycle_Safe(strconcat(S1,caBaseName,itoa(i,S2,10))))) {

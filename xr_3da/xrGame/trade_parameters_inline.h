@@ -114,15 +114,15 @@ IC	void CTradeParameters::process							(_action_type type, CInifile &ini_file, 
 	_action.clear			();
 
 	CInifile::Sect			&S = ini_file.r_section(section);
-	CInifile::SectIt		I = S.begin();
-	CInifile::SectIt		E = S.end();
+	CInifile::SectCIt		I = S.Data.begin();
+	CInifile::SectCIt		E = S.Data.end();
 	for ( ; I != E; ++I) {
 		if (!(*I).second.size()) {
 			_action.disable	((*I).first);
 			continue;
 		}
 
-		string256			temp0, temp1;
+		string_path			temp0, temp1;
 		THROW3				(_GetItemCount(*(*I).second) == 2,"Invalid parameters in section",*section);
 		_action.enable		(
 			(*I).first,

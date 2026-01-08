@@ -196,7 +196,7 @@ bool CLevel::net_start3				()
 		if (strstr(m_caServerOptions.c_str(), "psw=") && !strstr(m_caClientOptions.c_str(), "psw="))
 		{
 			string64	PasswordStr = "";
-			char* PSW = strstr(m_caServerOptions.c_str(), "psw=") + 4;
+			const char* PSW = strstr(m_caServerOptions.c_str(), "psw=") + 4;
 			if (strchr(PSW, '/')) 
 				strncpy(PasswordStr, PSW, strchr(PSW, '/') - PSW);
 			else
@@ -252,7 +252,7 @@ bool CLevel::net_start6				()
 
 	if(net_start_result_total){
 		if (strstr(Core.Params,"-$")) {
-			string256				buf,cmd,param;
+			string_path				buf,cmd,param;
 			sscanf					(strstr(Core.Params,"-$")+2,"%[^ ] %[^ ] ",cmd,param);
 			strconcat				(buf,cmd," ",param);
 			Console->Execute		(buf);
@@ -267,7 +267,7 @@ bool CLevel::net_start6				()
 
 void CLevel::InitializeClientGame	(NET_Packet& P)
 {
-	string256 game_type_name;
+	string_path game_type_name;
 	P.r_stringZ(game_type_name);
 	if(game && !xr_strcmp(game_type_name, game->type_name()) )
 		return;

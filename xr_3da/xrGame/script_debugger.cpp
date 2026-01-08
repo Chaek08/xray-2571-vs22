@@ -468,7 +468,7 @@ bool CScriptDebugger::TranslateIdeMessage (CMailSlotMsg* msg)
 
 bool CScriptDebugger::HasBreakPoint(const char* fileName, s32 lineNum)
 {
-	string256 sFileName;
+	string_path sFileName;
 	char drive[_MAX_DRIVE];
 	char dir[_MAX_DIR];
 	char ext[_MAX_EXT];
@@ -496,7 +496,7 @@ void CScriptDebugger::FillBreakPointsIn(CMailSlotMsg* msg)
 	msg->r_int(nCount);
 	for(s32 i=0; i<nCount; ++i){
 		SBreakPoint bp;
-		string256	fn;
+		string_path	fn;
 		msg->r_string	(fn);
 		bp.fileName	=	fn;
 		s32 bpCount =	0;

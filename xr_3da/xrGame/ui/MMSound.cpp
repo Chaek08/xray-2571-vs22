@@ -14,7 +14,7 @@ CMMSound::~CMMSound(){
 }
 
 void CMMSound::Init(CUIXml& xml_doc, LPCSTR path){
-	string256 _path;	
+	string_path _path;	
 	m_bRandom = xml_doc.ReadAttribInt(path, 0, "random")? true : false;
 
 	int nodes_num	= xml_doc.GetNodesNum(path, 0, "menu_music");
@@ -32,7 +32,7 @@ void CMMSound::Init(CUIXml& xml_doc, LPCSTR path){
 }
 
 bool CMMSound::check_file(LPCSTR fname){
-	static string256 _path;
+	static string_path _path;
 	return FS.exist("$game_sounds$", strconcat(_path, fname, ".ogg")) ? true : false;		
 }
 
@@ -68,8 +68,8 @@ void CMMSound::music_Play(){
 	int i = rand() % m_play_list.size();
 
 	bool f = true;
-	string256 _path;
-	string256 _path2;
+	string_path _path;
+	string_path _path2;
 	strconcat(_path, m_play_list[i].c_str(), "_l.ogg");
 	strconcat(_path2, m_play_list[i].c_str(), "_r.ogg");
 	f &= FS.exist("$game_sounds$", _path ) ? true : false;	

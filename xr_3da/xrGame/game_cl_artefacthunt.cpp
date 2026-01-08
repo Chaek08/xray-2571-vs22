@@ -61,7 +61,7 @@ void game_cl_ArtefactHunt::Init ()
 	old_artefactID = 0;
 	old_teamInPossession = 0;
 	//---------------------------------------------------
-	string256	fn_game;
+	string_path	fn_game;
 	if (FS.exist(fn_game, "$level$", "level.game")) 
 	{
 		IReader *F = FS.r_open	(fn_game);
@@ -93,7 +93,7 @@ void game_cl_ArtefactHunt::Init ()
 				{
 				case rptTeamBaseParticle:
 					{
-						string256 ParticleStr;
+						string_path ParticleStr;
 						sprintf(ParticleStr, "teambase_particle_%d", RP_team);
 						if (pSettings->line_exist("artefacthunt_gamedata", ParticleStr))
 						{

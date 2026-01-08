@@ -60,7 +60,7 @@ void CCustomDetector::Load(LPCSTR section)
 		m_nightvision_particle	= pSettings->r_string(section,"night_vision_particle");
 
 	u32 i = 1;
-	string256 temp;
+	string_path temp;
 
 	//загрузить звуки для обозначения различных типов зон
 	do 

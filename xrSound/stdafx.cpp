@@ -8,18 +8,18 @@
 // and not in this file
 
 #ifdef __BORLANDC__
-#	pragma comment(lib,	"eaxB.lib"			)
-#	pragma comment(lib,	"vorbisfileB.lib"	)
-#	pragma comment(lib,	"xrCoreB.lib"		)
-#	pragma comment(lib,	"EToolsB.lib"		)
-#	pragma comment(lib,	"OpenAL32B.lib"		)
-#	pragma comment(lib,	"dsoundb.lib" 		)
+#	pragma comment(lib,	"eaxB"			)
+#	pragma comment(lib,	"vorbisfileB"	)
+#	pragma comment(lib,	"xrCoreB"		)
+#	pragma comment(lib,	"EToolsB"		)
+#	pragma comment(lib,	"OpenAL32B"		)
+#	pragma comment(lib,	"dsoundb" 		)
 #else
-#	pragma comment(lib,	"x:\\eax.lib"		)
-#	pragma comment(lib,	"x:\\xrCore"		)
-#	pragma comment(lib,	"x:\\xrCDB"			)
-#	pragma comment(lib,	"dsound.lib" 		)
+#	pragma comment(lib,	"eax"		)
+#	pragma comment(lib,	"xrCore"		)
+#	pragma comment(lib,	"xrCDB"			)
+#	pragma comment(lib,	"dsound" 		)
 #endif
 
-#pragma comment(lib,	"msacm32.lib"		)
+#pragma comment(lib,	"msacm32"		)
 

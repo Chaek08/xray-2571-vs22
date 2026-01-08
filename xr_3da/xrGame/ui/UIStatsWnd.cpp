@@ -140,7 +140,7 @@ void CUIStatsListItem::XmlInit(const char *path, CUIXml &uiXml)
 //	CUIStatic	*pStatic;
 	CUIButton	*pButton;
 
-	string256 buf;
+	string_path buf;
 	strconcat(buf, path, ":static");
 
 	int tabsCount = uiXml.GetNodesNum(path, 0, "static");

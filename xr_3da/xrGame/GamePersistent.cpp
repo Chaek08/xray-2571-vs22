@@ -59,7 +59,7 @@ CGamePersistent::CGamePersistent(void)
 	BOOL	bDemoMode	= (0!=strstr(Core.Params,"-demomode "));
 	if (bDemoMode)
 	{
-		string256	fname;
+		string_path	fname;
 		LPCSTR		name	=	strstr(Core.Params,"-demomode ") + 10;
 		sscanf				(name,"%s",fname);
 		R_ASSERT2			(fname[0],"Missing filename for 'demomode'");
@@ -316,7 +316,7 @@ void CGamePersistent::OnFrame	()
 			// Read params
 			string512			params;
 			pDemoFile->r_string	(params,sizeof(params));
-			string256			o_server, o_client, o_demo;	u32 o_time;
+			string_path			o_server, o_client, o_demo;	u32 o_time;
 			sscanf				(params,"%[^,],%[^,],%[^,],%d",o_server,o_client,o_demo,&o_time);
 
 			// Start _new level + demo
@@ -335,7 +335,7 @@ void CGamePersistent::OnFrame	()
 
 void CGamePersistent::OnEvent(EVENT E, u64 P1, u64 P2)
 {
-	string256			cmd;
+	string_path			cmd;
 	LPCSTR				demo	= LPCSTR(P1);
 	sprintf				(cmd,"demo_play %s",demo);
 	Console->Execute	(cmd);

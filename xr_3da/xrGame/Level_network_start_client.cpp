@@ -22,7 +22,7 @@ BOOL CLevel::net_Start_client	( LPCSTR options )
 	if (strchr(name_of_server,'/'))	*strchr(name_of_server,'/') = 0;
 
 	// Startup client
-	string256					temp;
+	string_path					temp;
 	sprintf						(temp,"CLIENT: Connecting to '%s'...",name_of_server);
 	pApp->LoadTitle				(temp);
 
@@ -118,7 +118,7 @@ bool	CLevel::net_start_client1				()
 	if (strchr(name_of_server,'/'))	*strchr(name_of_server,'/') = 0;
 
 	// Startup client
-	string256					temp;
+	string_path					temp;
 	sprintf						(temp,"CLIENT: Connecting to '%s'...",name_of_server);
 	pApp->LoadTitle				(temp);
 	return true;

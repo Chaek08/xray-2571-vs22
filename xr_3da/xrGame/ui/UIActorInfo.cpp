@@ -141,7 +141,7 @@ void CUIActorInfoWnd::FillPointsDetail	(int idx)
 		FillReputationDetails					(&uiXml, path);
 		return;
 	}
-	string256	str;
+	string_path	str;
 	sprintf		(str,"Detail list for %s", get_token_name(actor_stats_token,idx));
 	UIInfoHeader->GetTitleStatic()->SetText	(str);
 

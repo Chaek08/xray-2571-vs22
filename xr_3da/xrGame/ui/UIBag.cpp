@@ -195,7 +195,7 @@ bool CUIBag::IsInRank(const char* item, const char* rank){
 		return false;
 
 	xr_string itemsList; 
-	string256 single_item;
+	string_path single_item;
 
 	itemsList = pSettings->r_string(rank, "available_items");
 	int itemsCount	= _GetItemCount(itemsList.c_str());
@@ -320,7 +320,7 @@ void CUIBag::HighLightAmmo(const char* weapon){
 		return;
 
 	shared_str itemsList; 
-	string256 single_item;
+	string_path single_item;
 
 	itemsList = pSettings->r_string(weapon, "ammo_class");
 	int itemsCount	= _GetItemCount(*itemsList);
@@ -684,7 +684,7 @@ void CUIBag::InitWpnSectStorage()
 			if (armorSectionIndex == i)
 			{
 				iconName	= pSettings->r_string(m_StrSectionName, wpnSingleName);
-				m_ConformityTable.push_back(std::make_pair<shared_str, shared_str>(wpnSingleName, iconName));
+				m_ConformityTable.push_back(mk_pair<shared_str, shared_str>(wpnSingleName, iconName));
 			}
 		}
 
@@ -695,7 +695,7 @@ void CUIBag::InitWpnSectStorage()
 	wpnOneType.clear();
 
 	CInifile::Sect &sect = pSettings->r_section(m_StrPricesSection.c_str());
-	for (CInifile::SectIt it = sect.begin(); it != sect.end(); it++)
+	for (CInifile::SectCIt it = sect.Data.begin(); it != sect.Data.end(); it++)
 	{
 		u8 group_id, index;
 		GetWeaponIndexByName((*it).first.c_str(), group_id, index);
@@ -754,14 +754,14 @@ void CUIBag::FillUpItem(CUIDragDropItemMP* pDDItem, const char* name){
 		pDDItem->SetFont(UI()->Font()->pFontLetterica16Russian);
 
 		// Читаем стоимость оружия
-		string256 buff;
+		string_path buff;
 		if (pSettings->line_exist(m_StrSectionName, strconcat(buff, name, "_cost")))
 			pDDItem->SetCost(pSettings->r_u32(m_StrSectionName, buff));
 		else if (pSettings->line_exist(m_StrPricesSection, name))
 			pDDItem->SetCost(pSettings->r_u32(m_StrPricesSection, name));
 		else
 		{
-			string256	buf;
+			string_path	buf;
 			sprintf(buf, "Cannot find price for an item %s in sections: %s, %s",
 					name, *m_StrSectionName, *m_StrPricesSection);
 			R_ASSERT2(false, buf);
@@ -962,8 +962,8 @@ void CUIBag::InitAddonsInfo(CUIDragDropItemMP &DDItemMP, const xr_string &sectio
 
 void	CUIBag::ReloadItemsPrices	()
 {
-	string256 ItemCostStr = "";
-	string256 RankStr = "";
+	string_path ItemCostStr = "";
+	string_path RankStr = "";
 
 	xr_vector<CUIDragDropItemMP*>::iterator it;
 	for (it = m_allItems.begin(); it != m_allItems.end(); ++it)

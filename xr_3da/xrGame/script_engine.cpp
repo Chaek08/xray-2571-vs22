@@ -60,7 +60,7 @@ void CScriptEngine::lua_error			(CLuaVirtualMachine *L)
 	print_output			(L,"",LUA_ERRRUN);
 
 #if !XRAY_EXCEPTIONS
-	Debug.fatal				("LUA error: %s",lua_tostring(L,-1));
+	Debug.fatal				(DEBUG_INFO, "LUA error: %s",lua_tostring(L,-1));
 #else
 	throw					lua_tostring(L,-1);
 #endif
@@ -70,7 +70,7 @@ int  CScriptEngine::lua_pcall_failed	(CLuaVirtualMachine *L)
 {
 	print_output			(L,"",LUA_ERRRUN);
 #if !XRAY_EXCEPTIONS
-	Debug.fatal				("LUA error: %s",lua_isstring(L,-1) ? lua_tostring(L,-1) : "");
+	Debug.fatal				(DEBUG_INFO, "LUA error: %s",lua_isstring(L,-1) ? lua_tostring(L,-1) : "");
 #endif
 	if (lua_isstring(L,-1))
 		lua_pop				(L,1);
@@ -81,7 +81,7 @@ void lua_cast_failed					(CLuaVirtualMachine *L, LUABIND_TYPE_INFO info)
 {
 	CScriptEngine::print_output	(L,"",LUA_ERRRUN);
 
-	Debug.fatal				("LUA error: cannot cast lua value to %s",info->name());
+	Debug.fatal				(DEBUG_INFO, "LUA error: cannot cast lua value to %s",info->name());
 }
 
 void CScriptEngine::setup_callbacks		()
@@ -190,7 +190,7 @@ void CScriptEngine::load_common_scripts()
 #ifdef DBG_DISABLE_SCRIPTS
 	return;
 #endif
-	string256		S;
+	string_path		S;
 	FS.update_path	(S,"$game_config$","script.ltx");
 	CInifile		*l_tpIniFile = xr_new<CInifile>(S);
 	R_ASSERT		(l_tpIniFile);
@@ -202,7 +202,7 @@ void CScriptEngine::load_common_scripts()
 	if (l_tpIniFile->line_exist("common","script")) {
 		LPCSTR			caScriptString = l_tpIniFile->r_string("common","script");
 		u32				n = _GetItemCount(caScriptString);
-		string256		I;
+		string_path		I;
 		for (u32 i=0; i<n; ++i) {
 			process_file(_GetItem(caScriptString,i,I));
 			if (object("_G",strcat(I,"_initialize"),LUA_TFUNCTION)) {
@@ -223,7 +223,7 @@ void CScriptEngine::process_file_if_exists	(LPCSTR file_name, bool warn_if_not_e
 	if (!warn_if_not_exist && no_file_exists(file_name,string_length))
 		return;
 
-	string256				S,S1;
+	string_path				S,S1;
 	if (m_reload_modules || (*file_name && !namespace_loaded(file_name))) {
 		FS.update_path		(S,"$game_scripts$",strconcat(S1,file_name,".script"));
 		if (!warn_if_not_exist && !FS.exist(S)) {
@@ -260,7 +260,7 @@ void CScriptEngine::register_script_classes		()
 #ifdef DBG_DISABLE_SCRIPTS
 	return;
 #endif
-	string256					S;
+	string_path					S;
 	FS.update_path				(S,"$game_config$","script.ltx");
 	CInifile					*l_tpIniFile = xr_new<CInifile>(S);
 	R_ASSERT					(l_tpIniFile);
@@ -274,7 +274,7 @@ void CScriptEngine::register_script_classes		()
 	xr_delete					(l_tpIniFile);
 
 	u32							n = _GetItemCount(*m_class_registrators);
-	string256					I;
+	string_path					I;
 	for (u32 i=0; i<n; ++i) {
 		_GetItem				(*m_class_registrators,i,I);
 		luabind::functor<void>	result;
@@ -291,7 +291,7 @@ bool CScriptEngine::function_object(LPCSTR function_to_call, luabind::object &ob
 	if (!xr_strlen(function_to_call))
 		return				(false);
 
-	string256				name_space, function;
+	string_path				name_space, function;
 
 	parse_script_namespace	(function_to_call,name_space,function);
 	if (xr_strcmp(name_space,"_G"))

@@ -374,9 +374,9 @@ void game_cl_mp::ChatSayTeam(const shared_str &phrase)
 void game_cl_mp::OnChatMessage			(NET_Packet* P)
 {
 	P->r_s16();
-	string256 PlayerName;
+	string_path PlayerName;
 	P->r_stringZ(PlayerName);
-	string256 ChatMsg;
+	string_path ChatMsg;
 	P->r_stringZ(ChatMsg);
 	s16 team;
 	P->r_s16(team);
@@ -389,7 +389,7 @@ void game_cl_mp::OnChatMessage			(NET_Packet* P)
 	}
 	
 //#endif	
-	string256 colPlayerName;
+	string_path colPlayerName;
 	sprintf(colPlayerName, "%s%s:%s", Color_Teams[team], PlayerName, "%c<default>");
 	if (Level().CurrentViewEntity())
 		HUD().GetUI()->m_pMessagesWnd->AddChatMessage(ChatMsg, colPlayerName);
@@ -826,7 +826,7 @@ void	game_cl_mp::LoadSndMessages				()
 void	game_cl_mp::OnRankChanged	()
 {
 #ifdef DEBUG
-	string256 tmp;
+	string_path tmp;
 	string1024 RankStr;
 	sprintf(tmp, "rank_%d",local_player->rank);
 	sprintf(RankStr, "Your rank now is : %s", READ_IF_EXISTS(pSettings, r_string, tmp, "rank_name", ""));
@@ -905,7 +905,7 @@ void	game_cl_mp::OnMoneyChanged			(NET_Packet& P)
 	{
 		if(pUIDM)
 		{
-			string256					MoneyStr;
+			string_path					MoneyStr;
 			sprintf						(MoneyStr,(Money_Added>0)?"+%d":"%d", Money_Added);
 			pUIDM->DisplayMoneyChange	(MoneyStr);
 		}
@@ -921,7 +921,7 @@ void	game_cl_mp::OnMoneyChanged			(NET_Packet& P)
 		TotalBonusMoney += BonusMoney;
 		//---------------------------------------------------------
 		KillMessageStruct BMS;
-		string256	MoneyStr;
+		string_path	MoneyStr;
 		if (BonusMoney >=0)
 			sprintf		(MoneyStr, "+%d", BonusMoney);
 		else
@@ -1077,7 +1077,7 @@ void		game_cl_mp::LoadBonuses				()
 			Frect IconRect;
 			for (u32 r=1; r<=5; r++)
 			{
-				string256 rankstr;				
+				string_path rankstr;				
 
 				sprintf(rankstr, "ui_hud_status_green_0%d", r);
 				IconRect = CUITextureMaster::GetTextureRect(rankstr);

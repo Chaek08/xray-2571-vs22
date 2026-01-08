@@ -40,7 +40,7 @@ class CSE_ALifeSimulator :
 	float							m_update_monster_factor;
 	xrServer						*m_tpServer;
 	bool							m_bActorEnabled;
-	string256						m_caSaveName;
+	string_path						m_caSaveName;
 	u32								m_dwMaxCombatIterationCount;
 	
 	// temporary buffer for purchased by the particular trader artefacts

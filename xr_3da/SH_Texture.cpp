@@ -168,7 +168,7 @@ void CTexture::Load		()
 	Preload							();
 
 	// Check for OGM
-	string256 fn;
+	string_path fn;
 	if (FS.exist(fn,"$game_textures$",*cName,".ogm")){
 		// AVI
 		pTheora		= xr_new<CTheoraSurface>();
@@ -176,7 +176,7 @@ void CTexture::Load		()
 
 		if (!pTheora->Load(fn)) {
 			xr_delete(pTheora);
-			Debug.fatal("Can't open video stream");
+			FATAL("Can't open video stream");
 		} else {
 			flags.MemoryUsage	= pTheora->Width()*pTheora->Height()*4;
 			pTheora->Play		(TRUE,Device.dwTimeContinual);
@@ -190,7 +190,7 @@ void CTexture::Load		()
 			pSurface	= pTexture;
 			if (FAILED(hrr))
 			{
-				Debug.fatal	("Invalid video stream");
+				FATAL	("Invalid video stream");
 				R_CHK		(hrr);
 				xr_delete	(pTheora);
 				pSurface	= 0;
@@ -204,7 +204,7 @@ void CTexture::Load		()
 
 		if (!pAVI->Load(fn)) {
 			xr_delete(pAVI);
-			Debug.fatal("Can't open video stream");
+			FATAL("Can't open video stream");
 		} else {
 			flags.MemoryUsage	= pAVI->m_dwWidth*pAVI->m_dwHeight*4;
 
@@ -217,7 +217,7 @@ void CTexture::Load		()
 			pSurface	= pTexture;
 			if (FAILED(hrr))
 			{
-				Debug.fatal	("Invalid video stream");
+				FATAL	("Invalid video stream");
 				R_CHK		(hrr);
 				xr_delete	(pAVI);
 				pSurface = 0;

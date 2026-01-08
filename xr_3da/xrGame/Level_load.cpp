@@ -40,7 +40,7 @@ BOOL CLevel::Load_GameSpecific_Before()
 {
 	// AI space
 	pApp->LoadTitle						("Loading AI objects...");
-	string256							fn_game;
+	string_path							fn_game;
 	
 	if (g_pGamePersistent->GameType() == GAME_SINGLE && !ai().get_alife() && FS.exist(fn_game,"$level$","level.ai"))
 		ai().load						(net_SessionName());
@@ -57,12 +57,12 @@ BOOL CLevel::Load_GameSpecific_Before()
 BOOL CLevel::Load_GameSpecific_After()
 {
 	// loading static particles
-	string256		fn_game;
+	string_path		fn_game;
 	if (FS.exist(fn_game, "$level$", "level.ps_static")) {
 		IReader *F = FS.r_open	(fn_game);
 		CParticlesObject* pStaticParticles;
 		u32				chunk = 0;
-		string256		ref_name;
+		string_path		ref_name;
 		Fmatrix			transform;
 		Fvector			zero_vel={0.f,0.f,0.f};
 		for (IReader *OBJ = F->open_chunk_iterator(chunk); OBJ; OBJ = F->open_chunk_iterator(chunk,OBJ)) {
@@ -95,8 +95,8 @@ BOOL CLevel::Load_GameSpecific_After()
 	// loading random (around player) sounds
 	if (pSettings->section_exist("sounds_random")){ 
 		CInifile::Sect& S		= pSettings->r_section("sounds_random");
-		Sounds_Random.reserve	(S.size());
-		for (CInifile::SectIt I=S.begin(); S.end()!=I; ++I) {
+		Sounds_Random.reserve	(S.Data.size());
+		for (CInifile::SectCIt I=S.Data.begin(); S.Data.end()!=I; ++I) {
 			Sounds_Random.push_back	(ref_sound());
 			Sound->create			(Sounds_Random.back(),TRUE,*I->first);
 		}
@@ -229,7 +229,7 @@ void CLevel::Load_GameSpecific_CFORM	( CDB::TRI* tris, u32 count )
 				continue;
 			}
 
-			Debug.fatal					("Game material '%d' not found",(*I).material);
+			Debug.fatal					(DEBUG_INFO, "Game material '%d' not found",(*I).material);
 		}
 		return;
 	}
@@ -248,7 +248,7 @@ void CLevel::Load_GameSpecific_CFORM	( CDB::TRI* tris, u32 count )
 				continue;
 			}
 
-			Debug.fatal					("Game material '%d' not found",(*I).material);
+			Debug.fatal					(DEBUG_INFO, "Game material '%d' not found",(*I).material);
 		}
 	}
 #endif

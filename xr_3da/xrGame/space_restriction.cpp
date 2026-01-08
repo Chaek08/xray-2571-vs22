@@ -159,7 +159,7 @@ void CSpaceRestriction::merge_in_out_restrictions	()
 
 CSpaceRestriction::CBaseRestrictionPtr CSpaceRestriction::merge	(CBaseRestrictionPtr bridge, const RESTRICTIONS &temp_restrictions) const
 {
-	u32								acc_length = xr_strlen(*bridge->name()) + 1;
+	/*u32								acc_length = xr_strlen(*bridge->name()) + 1;
 	{
 		RESTRICTIONS::const_iterator	I = temp_restrictions.begin();
 		RESTRICTIONS::const_iterator	E = temp_restrictions.end();
@@ -173,9 +173,17 @@ CSpaceRestriction::CBaseRestrictionPtr CSpaceRestriction::merge	(CBaseRestrictio
 	RESTRICTIONS::const_iterator	I = temp_restrictions.begin();
 	RESTRICTIONS::const_iterator	E = temp_restrictions.end();
 	for ( ; I != E; ++I)
-		temp						= strconcat(S,*temp,",",*(*I)->name());
+		temp						= xr_strconcat(S,*temp,",",*(*I)->name());
 
-	xr_free							(S);
+	xr_free							(S);*/
+
+	string2048 tempBuffer;
+	shared_str						temp = bridge->name();
+
+	for (const SpaceRestrictionHolder::CBaseRestrictionPtr& it : temp_restrictions)
+	{
+		temp = strconcat(sizeof(tempBuffer), tempBuffer, *temp, ",", it->name().c_str());
+	}
 
 	return							(m_space_restriction_manager->restriction(temp));
 }
@@ -184,7 +192,7 @@ CSpaceRestriction::CBaseRestrictionPtr CSpaceRestriction::merge	(CBaseRestrictio
 void CSpaceRestriction::merge_free_in_retrictions	()
 {
 	START_PROFILE("Restricted Object/Merge Free In");
-	string256								temp;
+	string_path								temp;
 	for (u32 i=0, n=_GetItemCount(*m_in_restrictions); i<n ;++i) {
 		SpaceRestrictionHolder::CBaseRestrictionPtr bridge = m_space_restriction_manager->restriction(shared_str(_GetItem(*m_in_restrictions,i,temp)));
 		m_free_in_restrictions.push_back	(CFreeInRestriction(bridge,false));
@@ -290,11 +298,19 @@ void CSpaceRestriction::remove_border			()
 
 u32	CSpaceRestriction::accessible_nearest		(const Fvector &position, Fvector &result)
 {
-	if (m_out_space_restriction)
-		return						(m_out_space_restriction->accessible_nearest(this,position,result,true));
+	/*if (m_out_space_restriction) {
+		auto pointer = this;
+		return m_out_space_restriction->accessible_nearest(pointer, position, result, true);
+	}
 
 	VERIFY							(m_in_space_restriction);
-	return							(m_in_space_restriction->accessible_nearest(m_in_space_restriction,position,result,false));
+	return							(m_in_space_restriction->accessible_nearest(m_in_space_restriction,position,result,false));*/
+	auto pointer = this;
+	if (m_out_space_restriction)
+		return						(m_out_space_restriction->accessible_nearest(pointer, position, result, true));
+
+	VERIFY(m_in_space_restriction);
+	return							(m_in_space_restriction->accessible_nearest(m_in_space_restriction, position, result, false));
 }
 
 bool CSpaceRestriction::affect					(SpaceRestrictionHolder::CBaseRestrictionPtr bridge, const Fsphere &sphere) const

@@ -81,7 +81,7 @@ void CShootingObject::Light_Destroy		()
 
 void CShootingObject::LoadFireParams	(LPCSTR section, LPCSTR prefix)
 {
-	string256 full_name;
+	string_path full_name;
 	//базовая дисперсия оружия
 	fireDispersionBase	= pSettings->r_float	(section,"fire_dispersion_base"	);
 	fireDispersionBase	= deg2rad				(fireDispersionBase);
@@ -96,7 +96,7 @@ void CShootingObject::LoadFireParams	(LPCSTR section, LPCSTR prefix)
 
 void CShootingObject::LoadLights		(LPCSTR section, LPCSTR prefix)
 {
-	string256 full_name;
+	string_path full_name;
 
 	// light
 	if(m_bShotLight) 
@@ -187,7 +187,7 @@ void CShootingObject::UpdateParticles (CParticlesObject*& pParticles,
 
 void CShootingObject::LoadShellParticles (LPCSTR section, LPCSTR prefix)
 {
-	string256 full_name;
+	string_path full_name;
 	strconcat(full_name, prefix, "shell_particles");
 
 	if(pSettings->line_exist(section,full_name)) 
@@ -199,7 +199,7 @@ void CShootingObject::LoadShellParticles (LPCSTR section, LPCSTR prefix)
 
 void CShootingObject::LoadFlameParticles (LPCSTR section, LPCSTR prefix)
 {
-	string256 full_name;
+	string_path full_name;
 
 	// flames
 	strconcat(full_name, prefix, "flame_particles");

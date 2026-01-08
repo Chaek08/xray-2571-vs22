@@ -1741,9 +1741,6 @@
     <Filter Include="Core\Common\Dll Process Detach">
       <UniqueIdentifier>{bebfa3fc-0a9d-4c2e-b043-1f78245c8ceb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Common\IntrusivePtr">
-      <UniqueIdentifier>{1949ef6b-35f5-498c-9315-ff74d72dd0ca}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Common\NET Shared">
       <UniqueIdentifier>{74745720-40b3-4fbd-b078-59b6af4f7283}</UniqueIdentifier>
     </Filter>
@@ -5330,12 +5327,6 @@
     </ClInclude>
     <ClInclude Include="date_time.h">
       <Filter>Core\Common\DateTime</Filter>
-    </ClInclude>
-    <ClInclude Include="intrusive_ptr.h">
-      <Filter>Core\Common\IntrusivePtr</Filter>
-    </ClInclude>
-    <ClInclude Include="intrusive_ptr_inline.h">
-      <Filter>Core\Common\IntrusivePtr</Filter>
     </ClInclude>
     <ClInclude Include="client_id.h">
       <Filter>Core\Common\NET Shared</Filter>

@@ -84,7 +84,7 @@ void CUIItemInfo::InitItem(CInventoryItem* pInvItem)
 	m_pInvItem			= pInvItem;
 	if(!m_pInvItem)		return;
 
-	string256			str;
+	string_path			str;
 	UIName->SetText		(pInvItem->Name());
 
 	sprintf				(str, "%3.2f kg", pInvItem->Weight());

@@ -78,7 +78,7 @@ void CSpaceRestrictionComposition::initialize	()
 		return;
 	}
 
-	string256					element;
+	string_path					element;
 
 	for (u32 i=0; i<n ;++i)
 		if (!m_space_restriction_holder->restriction(_GetItem(*m_space_restrictors,i,element))->initialized())

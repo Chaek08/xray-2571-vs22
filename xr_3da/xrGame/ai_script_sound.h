@@ -27,7 +27,7 @@ public:
 								CLuaSound		(LPCSTR caSoundName, ESoundTypes sound_type = SOUND_TYPE_NO_SOUND)
 	{
 		m_caSoundToPlay		= caSoundName;
-		string256			l_caFileName;
+		string_path			l_caFileName;
 		if (FS.exist(l_caFileName,"$game_sounds$",caSoundName,".ogg"))
 			::Sound->create	(*(m_tpSound = xr_new<ref_sound>()),TRUE,caSoundName,sound_type);
 		else {

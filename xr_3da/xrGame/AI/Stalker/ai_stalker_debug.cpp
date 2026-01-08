@@ -187,7 +187,7 @@ LPCSTR animation_name(CAI_Stalker *self, const MotionID &animation)
 void draw_restrictions(const shared_str &restrictions, LPCSTR start_indent, LPCSTR indent, LPCSTR header)
 {
 	HUD().Font().pFontSmall->OutNext	("%s%s%s",start_indent,indent,header);
-	string256	temp;
+	string_path	temp;
 	for (u32 i=0, n=_GetItemCount(*restrictions); i<n; ++i)
 		HUD().Font().pFontSmall->OutNext("%s%s%s%s",start_indent,indent,indent,_GetItem(*restrictions,i,temp));
 }
@@ -456,7 +456,7 @@ void CAI_Stalker::OnHUDDraw				(CCustomHUD *hud)
 		}
 	}
 
-	string256							temp;
+	string_path							temp;
 
 	const CObjectHandlerPlanner			&objects = planner();
 	strconcat							(temp,indent,indent);

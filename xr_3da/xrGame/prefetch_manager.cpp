@@ -27,7 +27,7 @@ void CPrefetchManager::Load				(LPCSTR section)
 	VERIFY							(object);
 	
 	LPCSTR							textures = pSettings->r_string(section,"texture_prefetch");
-	string256						I;
+	string_path						I;
 	for (u32 i=0, n=_GetItemCount(textures); i<n; ++i)
 		object->cNameVisual_set		(_GetItem(textures,i,I));
 }

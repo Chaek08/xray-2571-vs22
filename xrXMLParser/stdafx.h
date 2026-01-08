@@ -14,9 +14,9 @@
 #include "xrXMLParser.h"
 
 #ifdef __BORLANDC__
-#pragma comment( lib, "x:\\xrCoreB.lib"	)
+#pragma comment( lib, "xrCoreB"	)
 #else
-#pragma comment( lib, "x:\\xrCore.lib"	)
+#pragma comment( lib, "xrCore"	)
 #endif
 
 #endif //stdafxH

@@ -597,7 +597,7 @@ void CEntityCondition::load	(IReader &input_packet)
 
 void CEntityCondition::SConditionChangeV::load(LPCSTR sect, LPCSTR prefix)
 {
-	string256				str;
+	string_path				str;
 	m_fV_Circumspection		=  0.01f;
 	m_fV_Satiety			= pSettings->r_float(sect,strconcat(str,"satiety_v",prefix));		
 	m_fV_Radiation			= pSettings->r_float(sect,strconcat(str,"radiation_v",prefix));	

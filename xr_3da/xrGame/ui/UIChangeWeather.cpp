@@ -38,7 +38,7 @@ void CUIChangeWeather::Init(CUIXml& xml_doc){
 	CUIXmlInit::InitStatic(xml_doc, "change_weather:header", 0, header);
 	CUIXmlInit::InitStatic(xml_doc, "change_weather:background", 0, bkgrnd);
 
-	string256 _path;
+	string_path _path;
 	for (int i = 0; i<4; i++){
 		sprintf(_path, "change_weather:btn_%d", i + 1);
 		CUIXmlInit::Init3tButton(xml_doc, _path, 0, btn[i]);

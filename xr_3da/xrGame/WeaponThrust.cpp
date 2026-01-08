@@ -303,7 +303,7 @@ bool CWeaponThrust::Action(s32 cmd, u32 flags) {
 }
 
 void CWeaponThrust::SoundCreate(sound& dest, LPCSTR s_name, int iType, BOOL bCtrlFreq) {
-	string256	name,temp;
+	string_path	name,temp;
 	strconcat	(name,"weapons\\",Name(),"_",s_name,".wav");
 	if (FS.exist(temp,"$game_sounds$",name)) 
 	{

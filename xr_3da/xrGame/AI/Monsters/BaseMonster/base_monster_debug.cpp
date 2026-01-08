@@ -22,7 +22,7 @@ CBaseMonster::SDebugInfo CBaseMonster::show_debug_info()
 	float x				= (m_show_debug_info == 1) ? 40.f : float(::Render->getTarget()->get_width() / 2) + 40.f;
 	const float delta_y	= 12;
 
-	string256	text;
+	string_path	text;
 
 	u32			color			= D3DCOLOR_XRGB(0,255,0);
 	u32			delimiter_color	= D3DCOLOR_XRGB(0,0,255);

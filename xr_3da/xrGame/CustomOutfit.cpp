@@ -152,7 +152,7 @@ void	CCustomOutfit::OnMoveToSlot		()
 					if (pSettings->line_exist(TeamSection, *cNameSect()))
 					{
 						NewVisual = pSettings->r_string(TeamSection, *cNameSect());
-						string256 SkinName;
+						string_path SkinName;
 						std::strcpy(SkinName, pSettings->r_string("mp_skins_path", "skin_path"));
 						strcat(SkinName, *NewVisual);
 						strcat(SkinName, ".ogf");

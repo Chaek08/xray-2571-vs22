@@ -124,7 +124,7 @@
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <ImportLibrary>$(OutDir)xrLUA.lib</ImportLibrary>
+      <ImportLibrary>$(SolutionDir)$(Configuration)\lib\xrLUA.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
       <AdditionalLibraryDirectories>$(SolutionDir)\SDK\dxSDK\Lib;$(SolutionDir)$(Configuration)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IncrementalLinkDatabaseFile>$(SolutionDir)$(Configuration)\intermediate\$(ProjectName)\$(TargetName).ilk</IncrementalLinkDatabaseFile>

@@ -89,7 +89,7 @@ bool CMotionManager::accel_chain_get(float cur_speed, EMotionAnim target_anim, E
 
 bool CMotionManager::accel_chain_test()
 {
-	string256 error_msg;
+	string_path error_msg;
 
 	// пройти по всем Chain-векторам
 	for (VELOCITY_CHAIN_VEC_IT I = m_accel.chain.begin(); I != m_accel.chain.end(); I++) {

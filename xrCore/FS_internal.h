@@ -31,12 +31,8 @@ public:
     		hf		= _fdopen(handle,"wb");
         }else{
 			hf			= fopen(*fName,"wb");
-#ifdef _EDITOR
 			if (hf==0)
 				Msg		("!Can't write file: '%s'. Error: '%s'.",*fName,_sys_errlist[errno]);
-#else
-			R_ASSERT3	(hf, "Can't write file. File may be open or in use.", *fName );
-#endif
 		}
 	}
 
@@ -52,7 +48,6 @@ public:
             }
         }
 	}
-    bool 			valid		() {return (0!=hf);}
 	// kernel
 	virtual void	w			(const void* _ptr, u32 count) 
     { 
@@ -71,6 +66,7 @@ public:
     };
 	virtual void	seek		(u32 pos)	{	if (0!=hf) fseek(hf,pos,SEEK_SET);		};
 	virtual u32		tell		()			{	return (0!=hf)?ftell(hf):0;				};
+	virtual bool	valid		()			{	return (0!=hf);}
 };
 
 // It automatically frees memory after destruction

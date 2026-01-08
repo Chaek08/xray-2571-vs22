@@ -237,7 +237,7 @@ IC	void CPlanner::show_target_world_state	()
 TEMPLATE_SPECIALIZATION
 IC	void CPlanner::show				(LPCSTR offset)
 {
-	string256		temp;
+	string_path		temp;
 	strconcat		(temp,offset,"    ");
 	{
 		Msg			("\n%sEVALUATORS : %d\n",offset,evaluators().size());

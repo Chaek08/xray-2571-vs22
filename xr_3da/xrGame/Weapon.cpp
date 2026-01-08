@@ -400,7 +400,7 @@ void CWeapon::LoadFireParams		(LPCSTR section, LPCSTR prefix)
 
 void CWeapon::LoadZoomOffset (LPCSTR section, LPCSTR prefix)
 {
-	string256 full_name;
+	string_path full_name;
 	m_pHUD->SetZoomOffset(pSettings->r_fvector3	(hud_sect, strconcat(full_name, prefix, "zoom_offset")));
 	m_pHUD->SetZoomRotateX(pSettings->r_float	(hud_sect, strconcat(full_name, prefix, "zoom_rotate_x")));
 	m_pHUD->SetZoomRotateY(pSettings->r_float	(hud_sect, strconcat(full_name, prefix, "zoom_rotate_y")));

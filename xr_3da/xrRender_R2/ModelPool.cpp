@@ -75,7 +75,7 @@ IRender_Visual*	CModelPool::Instance_Create(u32 type)
 		break;
 #endif
 	default:
-		Debug.fatal("Unknown visual type");
+		FATAL("Unknown visual type");
 		break;
 	}
 	R_ASSERT	(V);
@@ -98,7 +98,7 @@ IRender_Visual*	CModelPool::Instance_Duplicate	(IRender_Visual* V)
 IRender_Visual*	CModelPool::Instance_Load		(const char* N, BOOL allow_register)
 {
 	IRender_Visual	*V;
-	string512		fn;
+	string_path		fn;
 	string512		name;
 
 	// Add default ext if no ext at all
@@ -113,7 +113,7 @@ IRender_Visual*	CModelPool::Instance_Load		(const char* N, BOOL allow_register)
 				Msg("!Can't find model file '%s'.",name);
                 return 0;
 #else            
-				Debug.fatal("Can't find model file '%s'.",name);
+				Debug.fatal(DEBUG_INFO, "Can't find model file '%s'.",name);
 #endif
 			}
 	} else {
@@ -368,8 +368,8 @@ void CModelPool::Prefetch()
 	string256 section;
 	strconcat				(section,"prefetch_visuals_",g_pGamePersistent->m_game_params.m_game_type);
 	CInifile::Sect& sect	= pSettings->r_section(section);
-	for (CInifile::SectIt I=sect.begin(); I!=sect.end(); I++)	{
-		CInifile::Item& item= *I;
+	for (CInifile::SectCIt I=sect.Data.begin(); I!=sect.Data.end(); I++)	{
+		const CInifile::Item& item= *I;
 		IRender_Visual* V	= Create(item.first.c_str());
 		Delete				(V,FALSE);
 	}

@@ -27,7 +27,7 @@ void CUIFrags::Init(CUIXml& xml_doc, LPCSTR path, LPCSTR backgrnd_path){
 }
 
 void CUIFrags::InitBackground(CUIXml& xml_doc, LPCSTR path){
-	string256 _path;
+	string_path _path;
 	CUIXmlInit::InitWindow(xml_doc, path, 0, this);
 	CUIXmlInit::InitStatic(xml_doc, strconcat(_path, path, ":back_c"), 0, m_pBackC);
 	int count = xml_doc.ReadAttribInt(_path, 0, "count", 1);

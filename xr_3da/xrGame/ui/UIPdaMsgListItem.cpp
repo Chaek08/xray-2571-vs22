@@ -58,7 +58,7 @@ void CUIPdaMsgListItem::InitCharacter(CInventoryOwner* pInvOwner)
 {
 	VERIFY(pInvOwner);
 
-	string256 str;
+	string_path str;
 	sprintf(str, "name: %s", pInvOwner->Name());
 	UIName.SetText(str);
 

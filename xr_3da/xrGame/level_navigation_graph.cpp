@@ -438,13 +438,13 @@ bool CLevelNavigationGraph::valid			(LPCSTR file_name)
 void CLevelNavigationGraph::generate	(LPCSTR filename)
 {
 #ifndef AI_COMPILER
-	string256			file_name;
+	string_path			file_name;
 	FS.update_path		(file_name,"$level$","level_sectors.ai");
 #	ifndef DEBUG
 		R_ASSERT		(valid(file_name));
 #	endif
 #else
-	string256			file_name;
+	string_path			file_name;
 	strconcat			(file_name,filename,"level_sectors.ai");
 #endif
 	

@@ -19,7 +19,7 @@ CUIKeyBinding::CUIKeyBinding(){
 
 void CUIKeyBinding::InitFromXml(CUIXml& xml_doc, LPCSTR path){
 	CUIXmlInit::InitWindow		(xml_doc, path, 0, this);
-	string256 buf;
+	string_path buf;
 	CUIXmlInit::InitListWnd		(xml_doc, strconcat(buf,path,":list"),		0, &m_list);
 	CUIXmlInit::InitFrameWindow	(xml_doc, strconcat(buf,path,":frame"),		0, &m_frame);
 	CUIXmlInit::InitLabel		(xml_doc, strconcat(buf,path,":header_1"),	0, &m_header[0]);

@@ -89,7 +89,7 @@ void CUIEncyclopediaWnd::Init()
 	xml_init.InitScrollView(uiXml, "info_list", 0, UIInfoList);
 
 
-	string256 header;
+	string_path header;
 	strconcat(header, ALL_PDA_HEADER_PREFIX, "/Encyclopedia");
 	m_InfosHeaderStr = header;
 

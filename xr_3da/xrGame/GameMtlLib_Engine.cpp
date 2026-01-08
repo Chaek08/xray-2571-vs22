@@ -33,7 +33,7 @@ void CreateSounds(SoundVec& lst, LPCSTR buf)
 
 void CreateMarks(ShaderVec& lst, LPCSTR buf)
 {
-	string256	tmp;
+	string_path	tmp;
 	int cnt		=_GetItemCount(buf);	R_ASSERT(cnt<=GAMEMTL_SUBITEM_COUNT);
 	ref_shader	s;
 	for (int k=0; k<cnt; ++k)
@@ -45,7 +45,7 @@ void CreateMarks(ShaderVec& lst, LPCSTR buf)
 
 void CreatePSs(PSVec& lst, LPCSTR buf)
 {
-	string256 tmp;
+	string_path tmp;
 	int cnt=_GetItemCount(buf);	R_ASSERT(cnt<=GAMEMTL_SUBITEM_COUNT);
 	for (int k=0; k<cnt; ++k)
 		lst.push_back	(_GetItem(buf,k,tmp));

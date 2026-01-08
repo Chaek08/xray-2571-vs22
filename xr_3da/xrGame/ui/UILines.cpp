@@ -227,7 +227,7 @@ void CUILines::SetFont(CGameFont* pFont){
 }
 
 void CUILines::Draw(float x, float y){
-	static string256 passText;
+	static string_path passText;
 
 	if (m_text.empty())
 		return;

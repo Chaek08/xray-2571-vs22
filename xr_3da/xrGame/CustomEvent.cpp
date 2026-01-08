@@ -119,7 +119,7 @@ BOOL CCustomEvent::net_Spawn	( LPVOID DC )
 		u8 count;	P.r_u8			(count);
 		while (count)	{
 			DEF_EVENT			E;
-			string256			str;
+			string_path			str;
 			P.r_u8				(E.type	);
 			P.r_u16				(E.count);
 			P.r_u64				(E.CLS	);

@@ -98,8 +98,8 @@ TEMPLATE_SPECIALIZATION
 const typename CSXML_IdToIndex::ITEM_DATA* CSXML_IdToIndex::GetById (const T_ID& str_id, bool no_assert)
 {
 	T_INIT::InitXmlIdToIndex();
-		
-	for(T_VECTOR::iterator it = m_pItemDataVector->begin();
+	T_VECTOR::iterator it = m_pItemDataVector->begin();
+	for(;
 		m_pItemDataVector->end() != it; it++)
 	{
 		if( (*it).id == str_id)
@@ -171,7 +171,7 @@ typename void	CSXML_IdToIndex::InitInternal ()
 			{
 				LPCSTR item_name = uiXml.ReadAttrib(uiXml.GetRoot(), tag_name, i, "id", NULL);
 
-				string256 buf;
+				string_path buf;
 				sprintf(buf, "id for item don't set, number %d in %s", i, xml_file);
 				R_ASSERT2(item_name, buf);
 

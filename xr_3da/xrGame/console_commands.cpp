@@ -294,7 +294,7 @@ public:
 
 		u32 CLObjNum = Level().Objects.o_count();
 		xr_vector<u16>	CObjID;
-		for (i=0; i<CLObjNum; i++)
+		for (u32 i=0; i<CLObjNum; i++)
 		{
 			CObjID.push_back(Level().Objects.o_get_by_iterator(i)->ID());
 		};
@@ -763,10 +763,10 @@ public:
 			  Console->Hide		();
 			  string_path		fn;
 			  u32		loops	=	0;
-			  LPSTR		comma	=	strchr(args,',');
+			  LPCSTR		comma	=	strchr(args,',');
 			  if (comma)	{
 				  loops			=	atoi	(comma+1);
-				  *comma		=	0;	//. :)
+				  comma		=	0;	//. :)
 			  }
 			  strconcat			(fn,args,".xrdemo");
 			  g_pGameLevel->Cameras().AddCamEffector(xr_new<CDemoPlay> (fn,1.0f,loops));
@@ -856,7 +856,7 @@ class CCC_ALifeLoadFrom : public IConsole_Command {
 public:
 	CCC_ALifeLoadFrom(LPCSTR N) : IConsole_Command(N)  { bEmptyArgsHandled = true; };
 	virtual void Execute(LPCSTR args) {
-		string256	S;
+		string_path	S;
 		S[0]		= 0;
 		sscanf		(args ,"%s",S);
 		if (!xr_strlen(S)) {
@@ -1570,7 +1570,7 @@ class CCC_Script : public IConsole_Command {
 public:
 	CCC_Script(LPCSTR N) : IConsole_Command(N)  { bEmptyArgsHandled = true; };
 	virtual void Execute(LPCSTR args) {
-		string256	S;
+		string_path	S;
 		S[0]		= 0;
 		sscanf		(args ,"%s",S);
 		if (!xr_strlen(S))
@@ -1869,7 +1869,7 @@ struct CCC_JumpToLevel : public IConsole_Command {
 			Msg				("! ALife simulator is needed to perform specified command!");
 			return;
 		}
-		string256		level;
+		string_path		level;
 		sscanf(args,"%s",level);
 
 		GameGraph::LEVEL_MAP::const_iterator	I = ai().game_graph().header().levels().begin();

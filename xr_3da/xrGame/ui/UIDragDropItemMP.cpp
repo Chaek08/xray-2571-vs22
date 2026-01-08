@@ -140,7 +140,7 @@ void CUIDragDropItemMP::AttachDetachAddon(CUIDragDropItemMP *pPossibleAddon, boo
 
 LPCSTR CUIDragDropItemMP::GetGranadesSectionName(){
 	LPCSTR itemsList; 
-	static string256 single_item;
+	static string_path single_item;
 
 	itemsList = pSettings->r_string(GetSectionName(), "grenade_class");
 	_GetItem(itemsList, 0, single_item);

@@ -183,7 +183,7 @@ void CWalmarkManager::Load (CInifile	*ltx,	LPCSTR section)
 	m_wallmarks		= xr_new<SHADER_VECTOR>		();
 	
 	//кровавые отметки на стенах
-	string256	tmp;
+	string_path	tmp;
 	LPCSTR wallmarks_name = ltx->r_string(section, "wallmarks"); 
 
 	int cnt		=_GetItemCount(wallmarks_name);

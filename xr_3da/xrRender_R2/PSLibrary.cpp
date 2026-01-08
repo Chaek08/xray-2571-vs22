@@ -17,7 +17,7 @@ bool pgd_find_pred	(const PS::CPGDef* a, 	LPCSTR b)				{	return xr_strcmp(a->m_N
 //----------------------------------------------------
 void CPSLibrary::OnCreate()
 {
-	string256 fn;
+	string_path fn;
     FS.update_path(fn,_game_data_,PSLIB_FILENAME);
 	if (FS.exist(fn)){
     	if (!Load(fn)) Msg("PS Library: Unsupported version.");
@@ -30,7 +30,8 @@ void CPSLibrary::OnCreate()
  
 void CPSLibrary::OnDestroy()
 {
-	for (PS::PEDIt e_it = m_PEDs.begin(); e_it!=m_PEDs.end(); e_it++)
+	PS::PEDIt e_it = m_PEDs.begin();
+	for (; e_it!=m_PEDs.end(); e_it++)
     	(*e_it)->DestroyShader();
 
 	for (e_it = m_PEDs.begin(); e_it!=m_PEDs.end(); e_it++)

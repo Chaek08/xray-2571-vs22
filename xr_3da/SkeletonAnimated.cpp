@@ -225,7 +225,7 @@ CBlend*	CKinematicsAnimated::PlayCycle		(LPCSTR  N, BOOL bMixIn, PlayCallback Ca
 {
 	MotionID motion_ID		= ID_Cycle(N);
 	if (motion_ID.valid())	return PlayCycle(motion_ID,bMixIn,Callback,CallbackParam);
-	else					{ Debug.fatal("! MODEL: can't find cycle: %s", N); return 0; }
+	else					{ Debug.fatal(DEBUG_INFO, "! MODEL: can't find cycle: %s", N); return 0; }
 }
 CBlend*	CKinematicsAnimated::PlayCycle		(MotionID motion_ID,  BOOL bMixIn, PlayCallback Callback, LPVOID CallbackParam)
 {	
@@ -481,7 +481,7 @@ void CKinematicsAnimated::IBlend_Startup	()
 		blend_pool.push_back(B);
 
 	// cycles+fx clear
-	for (i=0; i<MAX_PARTS; i++)
+	for (u32 i=0; i<MAX_PARTS; i++)
 		blend_cycles[i].clear();
 	blend_fx.clear		();
 }
@@ -492,7 +492,7 @@ CBlend*	CKinematicsAnimated::IBlend_Create	()
 	CBlend *I=blend_pool.begin(), *E=blend_pool.end();
 	for (; I!=E; I++)
 		if (I->blend == CBlend::eFREE_SLOT) return I;
-	Debug.fatal("Too many blended motions requisted");
+	FATAL("Too many blended motions requisted");
 	return 0;
 }
 void CKinematicsAnimated::Load(const char* N, IReader *data, u32 dwFlags)
@@ -522,7 +522,7 @@ void CKinematicsAnimated::Load(const char* N, IReader *data, u32 dwFlags)
                     Msg			("!Can't find motion file '%s'.",nm);
                     return;
 #else            
-                    Debug.fatal	("Can't find motion file '%s'.",nm);
+                    Debug.fatal	(DEBUG_INFO, "Can't find motion file '%s'.",nm);
 #endif
                 }
             }

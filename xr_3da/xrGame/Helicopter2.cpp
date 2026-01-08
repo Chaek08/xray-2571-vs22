@@ -275,7 +275,7 @@ void CHelicopter::DieHelicopter()
 
 	CKinematics* K		= smart_cast<CKinematics*>(Visual());
 	if(true /*!PPhysicsShell()*/){
-		string256						I;
+		string_path						I;
 		LPCSTR bone;
 		
 		u16 bone_id;

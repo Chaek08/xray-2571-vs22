@@ -29,7 +29,8 @@ void Touch::feel_touch_update	(Fvector& C, float R)
 {
 	// Check if denied objects expire in time
 	DWORD	dwT			= Device.dwTimeGlobal;
-	for (u32 dit=0; dit<feel_touch_disable.size(); dit++){
+	u32 dit = 0;
+	for (; dit<feel_touch_disable.size(); dit++){
 		if (feel_touch_disable[dit].Expire<dwT){
 			feel_touch_disable.erase	(feel_touch_disable.begin()+dit);
 			dit--;

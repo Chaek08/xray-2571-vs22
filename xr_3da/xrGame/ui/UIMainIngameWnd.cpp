@@ -470,7 +470,7 @@ void CUIMainIngameWnd::Update()
 		m_pMPLogWnd->Update();
 
 
-	static string256 text_str;
+	static string_path text_str;
 
 	m_pActor = smart_cast<CActor*>(Level().CurrentEntity());
 	if (!m_pActor) 
@@ -610,7 +610,7 @@ void CUIMainIngameWnd::Update()
 
 					SetAmmoIcon(*sect_name);
 
-					string256 sItemName;
+					string_path sItemName;
 					strcpy(sItemName, pSettings->r_string(sect_name, "inv_name_short"));
 
 					if (pWeaponMagazined && pWeaponMagazined->HasFireModes())
@@ -813,7 +813,7 @@ bool CUIMainIngameWnd::OnKeyboardPress(int dik)
 				break;
 				// output coordinate info to the console
 			case DIK_P:
-				string256 tmpStr;
+				string_path tmpStr;
 				sprintf(tmpStr, "%s",
 					*m_pWeapon->cNameSect());
 				Log(tmpStr);
@@ -878,7 +878,7 @@ bool CUIMainIngameWnd::OnKeyboardPress(int dik)
 				break;
 				// output coordinate info to the console
 			case DIK_P:
-				string256 tmpStr;
+				string_path tmpStr;
 				if (m_pWeapon)
 				{
 					sprintf(tmpStr, "%s",
@@ -947,7 +947,7 @@ bool CUIMainIngameWnd::OnKeyboardPress(int dik)
 				break;
 				// output coordinate info to the console
 			case DIK_P:
-				string256 tmpStr;
+				string_path tmpStr;
 				if (m_pWeapon)
 				{
 					sprintf(tmpStr, "%s",
@@ -1019,7 +1019,7 @@ bool CUIMainIngameWnd::OnKeyboardPress(int dik)
 				break;
 				// output coordinate info to the console
 			case DIK_P:
-				string256 tmpStr;
+				string_path tmpStr;
 				if (m_pWeapon)
 				{
 					sprintf(tmpStr, "%s",

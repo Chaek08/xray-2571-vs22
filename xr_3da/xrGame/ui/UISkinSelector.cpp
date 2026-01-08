@@ -59,7 +59,7 @@ void CUISkinSelectorWnd::InitSkins(){
 	R_ASSERT2(pSettings->line_exist(m_strSection, "skins"), *m_strSection);
 
 	LPCSTR lst = pSettings->r_string(m_strSection,"skins");
-	string256	singleItem;
+	string_path	singleItem;
 	u32 count	= _GetItemCount(lst);
 	R_ASSERT2(count,"no skins in this game");
 	for (u32 j = 0; j < count; ++j)
