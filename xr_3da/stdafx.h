@@ -59,7 +59,7 @@
 #pragma comment( lib, "winmm"		)
 
 #pragma comment( lib, "d3d9"		)
-#pragma comment( lib, "dinput"		)
+#pragma comment( lib, "dinput8"		)
 #pragma comment( lib, "dxguid"		)
 
 #ifndef DEBUG
