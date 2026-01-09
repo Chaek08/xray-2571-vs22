@@ -745,7 +745,7 @@ public:
 		};
 		#endif
 		Console->Hide	();
-		char fn[256]; strconcat(fn,args,".xrdemo");
+		char fn[256]; strconcat(sizeof(fn),fn,args,".xrdemo");
 		g_pGameLevel->Cameras().AddCamEffector(xr_new<CDemoRecord> (fn));
 	}
 };
@@ -768,7 +768,7 @@ public:
 				  loops			=	atoi	(comma+1);
 				  comma		=	0;	//. :)
 			  }
-			  strconcat			(fn,args,".xrdemo");
+			  strconcat(sizeof(fn),fn,args,".xrdemo");
 			  g_pGameLevel->Cameras().AddCamEffector(xr_new<CDemoPlay> (fn,1.0f,loops));
 		  }
 	  }
@@ -804,7 +804,7 @@ public:
 		timer.Start				();
 #endif
 		if (!xr_strlen(S)) {
-			strconcat			(S,Core.UserName,"_","quicksave");
+			strconcat(sizeof(S),S,Core.UserName,"_","quicksave");
 			NET_Packet			net_packet;
 			net_packet.w_begin	(M_SAVE_GAME);
 			net_packet.w_stringZ(S);
@@ -824,7 +824,7 @@ public:
 		SDrawStaticStruct* _s		= HUD().GetUI()->UIGame()->AddCustomStatic("game_saved", true);
 		_s->m_endTime				= Device.fTimeGlobal+3.0f;// 3sec
 		string_path					save_name;
-		strconcat					(save_name,*CStringTable().translate("st_game_saved"),": ", S);
+		strconcat(sizeof(save_name),save_name,*CStringTable().translate("st_game_saved"),": ", S);
 		_s->wnd()->SetText			(save_name);
 
 		strcat					(S,".dds");

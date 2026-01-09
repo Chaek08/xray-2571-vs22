@@ -69,7 +69,7 @@ void CCustomEvent::Parse		(DEF_EVENT& D, LPCSTR DEF_Base)
 		if (sName[0])	{
 			int id		= Level().get_RPID(sName);
 			R_ASSERT	(id>=0);
-			strconcat	(Parsed,sBegin,itoa(id,sBuf,10),sEnd);
+			strconcat(sizeof(Parsed),Parsed,sBegin,itoa(id,sBuf,10),sEnd);
 		} else {
 			strcpy		(Parsed,Param);
 		}

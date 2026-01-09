@@ -69,8 +69,8 @@ void SMusicTrack::Load(LPCSTR fn, LPCSTR params)
 #endif
 	// create source
 	string_path			_l, _r;
-	strconcat			(_l, fn, "_l");
-	strconcat			(_r, fn, "_r");
+	strconcat(sizeof(_l),_l,fn,"_l");
+	strconcat(sizeof(_r),_r,fn,"_r");
 	m_SourceLeft.create	(TRUE,_l,0);
 	m_SourceRight.create(TRUE,_r,0);
 	// parse params

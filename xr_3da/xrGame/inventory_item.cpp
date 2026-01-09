@@ -176,7 +176,7 @@ LPCSTR CInventoryItem::NameComplex()
 		else if(GetCondition()<0.66)strcpy		(cond,	"[bad]"	);
 		else						strcpy		(cond,	"[good]");
 		string_path		temp;
-		strconcat		(temp,*m_nameComplex," ",cond)	;
+		strconcat(sizeof(temp),temp,*m_nameComplex," ",cond)	;
 		// sprintf			(temp,"%s %s",*m_nameComplex,cond);
 		m_nameComplex	= temp;
 	}

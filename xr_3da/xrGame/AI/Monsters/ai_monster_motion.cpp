@@ -127,12 +127,12 @@ bool CMotionManager::PrepareAnimation()
 	// установить анимацию	
 	{
 		string128			s1,s2;
-		m_tpCurAnim			= smart_cast<CSkeletonAnimated*>(pMonster->Visual())->ID_Cycle_Safe(strconcat(s2,*anim_it->second.target_name,itoa(index,s1,10)));
+		m_tpCurAnim			= smart_cast<CSkeletonAnimated*>(pMonster->Visual())->ID_Cycle_Safe(strconcat(sizeof(s2),s2,*anim_it->second.target_name,itoa(index,s1,10)));
 	}
 
 	// Заполнить текущую анимацию
 	string64	st,tmp;
-	strconcat	(st,*anim_it->second.target_name,itoa(index,tmp,10));
+	strconcat(sizeof(st),st,*anim_it->second.target_name,itoa(index,tmp,10));
 //	sprintf		(st, "%s%d", *anim_it->second.target_name, index);
 	m_cur_anim.name				= st; 
 	m_cur_anim.index			= u8(index);
@@ -504,7 +504,7 @@ void CMotionManager::UpdateAnimCount()
 		u8 count = 0;
 		
 		for (int i=0; ; ++i) {
-			if (smart_cast<CSkeletonAnimated*>(pMonster->Visual())->ID_Cycle_Safe(strconcat(s_temp, *it->second.target_name,itoa(i,s,10))))  count++;
+			if (smart_cast<CSkeletonAnimated*>(pMonster->Visual())->ID_Cycle_Safe(strconcat(sizeof(s_temp),s_temp,*it->second.target_name,itoa(i,s,10))))  count++;
 			else break;
 		}
 
@@ -520,7 +520,7 @@ CMotionDef *CMotionManager::get_motion_def(ANIM_ITEM_MAP_IT &it, u32 index)
 {
 	string128			s1,s2;
 	CSkeletonAnimated	*skeleton_animated = smart_cast<CSkeletonAnimated*>(pMonster->Visual());
-	const MotionID		&motion_id = skeleton_animated->ID_Cycle_Safe(strconcat(s2,*it->second.target_name,itoa(index,s1,10)));
+	const MotionID		&motion_id = skeleton_animated->ID_Cycle_Safe(strconcat(sizeof(s2),s2,*it->second.target_name,itoa(index,s1,10)));
 	return				(skeleton_animated->LL_GetMotionDef(motion_id));
 }
 

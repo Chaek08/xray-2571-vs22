@@ -182,7 +182,7 @@ void CActor::IR_OnKeyboardPress(int cmd)
 				SDrawStaticStruct* _s		= HUD().GetUI()->UIGame()->AddCustomStatic("item_used", true);
 				_s->m_endTime				= Device.fTimeGlobal+3.0f;// 3sec
 				string1024					str;
-				strconcat					(str,*CStringTable().translate("st_item_used"),": ", itm->Name());
+				strconcat(sizeof(str),str,*CStringTable().translate("st_item_used"),": ", itm->Name());
 				_s->wnd()->SetText			(str);
 			}
 		}break;

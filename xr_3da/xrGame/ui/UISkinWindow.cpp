@@ -35,12 +35,12 @@ void CUISkinWindow::Init(CUIXml& xmlDoc, int index, shared_str section){
 /////// UIBackground
 	AttachChild(&UIBackground);
 
-	texture = xmlDoc.Read(strconcat(buf,PATH_XML,":texture"), 0, NULL);
+	texture = xmlDoc.Read(strconcat(sizeof(buf),buf,PATH_XML,":texture"), 0, NULL);
 	UIBackground.Init(*texture, 0, 0, width, height);
 
 	CUIFrameWindow* pWnd = &UIBackground;
 // init left top
-	strconcat(buf, PATH_XML, ":left_top_texture");
+	strconcat(sizeof(buf),buf,PATH_XML,":left_top_texture");
 	texture = xmlDoc.Read(buf, index, NULL);
 	x = float(xmlDoc.ReadAttribInt(buf, index, "x"));
 	y = float(xmlDoc.ReadAttribInt(buf, index, "y"));
@@ -48,7 +48,7 @@ void CUISkinWindow::Init(CUIXml& xmlDoc, int index, shared_str section){
 		pWnd->InitLeftTop(*texture, x, y);
 
 // init left bottom	
-	strconcat(buf,PATH_XML,":left_bottom_texture");
+	strconcat(sizeof(buf),buf,PATH_XML,":left_bottom_texture");
 	texture = xmlDoc.Read(buf, index, NULL);
 	x = float(xmlDoc.ReadAttribInt(buf, index, "x"));
 	y = float(xmlDoc.ReadAttribInt(buf, index, "y"));
@@ -56,7 +56,7 @@ void CUISkinWindow::Init(CUIXml& xmlDoc, int index, shared_str section){
 		pWnd->InitLeftBottom(*texture, x, y);
 
 // init title
-	strconcat(buf,PATH_XML,":title");
+	strconcat(sizeof(buf),buf,PATH_XML,":title");
 	if(xmlDoc.NavigateToNode(buf,index)) 
 		xml_init.InitStatic(xmlDoc, buf, index, &pWnd->UITitleText);
 

@@ -445,7 +445,7 @@ void CLevelNavigationGraph::generate	(LPCSTR filename)
 #	endif
 #else
 	string_path			file_name;
-	strconcat			(file_name,filename,"level_sectors.ai");
+	strconcat(sizeof(file_name),file_name,filename,"level_sectors.ai");
 #endif
 	
 	if (valid(file_name))

@@ -158,7 +158,7 @@ BOOL CTheoraSurface::Load(const char* fname)
 			strcpy		(ext,pext);
 			*pext		= 0;
 		}
-		strconcat		(alpha,alpha,"#alpha",ext);
+		strconcat(sizeof(alpha),alpha,alpha,"#alpha",ext);
 		if (FS.exist(alpha)){
 			m_alpha		= xr_new<CTheoraStream>	();
 			if (!m_alpha->Load(alpha))	res = FALSE;

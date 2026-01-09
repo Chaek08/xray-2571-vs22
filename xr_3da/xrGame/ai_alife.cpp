@@ -152,7 +152,7 @@ void CSE_ALifeSimulator::Save()
 
 void CSE_ALifeSimulator::Save(LPCSTR caSaveName)
 {
-	strconcat					(m_caSaveName,caSaveName,SAVE_EXTENSION);
+	strconcat(sizeof(m_caSaveName),m_caSaveName,caSaveName,SAVE_EXTENSION);
 	CMemoryWriter				tStream;
 	CSE_ALifeHeader::Save		(tStream);
 	CSE_ALifeGameTime::Save		(tStream);
@@ -178,7 +178,7 @@ void CSE_ALifeSimulator::Load	(LPCSTR caSaveName)
 	m_tpActor					= 0;
 	m_tGameTime					= 0;
 	m_bActorEnabled				= true;
-	strconcat					(m_caSaveName,caSaveName,SAVE_EXTENSION);
+	strconcat(sizeof(m_caSaveName),m_caSaveName,caSaveName,SAVE_EXTENSION);
 
 	// loading default settings from 'system.ltx'
 	Log							("* Loading parameters...");

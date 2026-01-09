@@ -321,9 +321,9 @@ public:
 			int idx = NameIdx(keybind[i].DIK);
 			if(idx!=-1){
 				strcat(key_name,keynames[idx].name);
-				strconcat(buff,buff," binded to ",key_name);
+				strconcat(sizeof(buff),buff,buff," binded to ",key_name);
 			}else
-				strconcat(buff,buff," binded to nil");
+				strconcat(sizeof(buff),buff,buff," binded to nil");
 
 			Log(buff);
 		}

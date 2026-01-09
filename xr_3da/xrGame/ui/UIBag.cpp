@@ -182,7 +182,7 @@ int CUIBag::GetItemRank(const char* item){
 	// from 4 downto 1
 	for (int i = 4; i>=0; i--)
 	{
-		strconcat(rank,"rank_",itoa(i,foo,10));
+		strconcat(sizeof(rank),rank,"rank_",itoa(i,foo,10));
 		if (IsInRank(item,rank))
 			return i;
 	}
@@ -755,7 +755,7 @@ void CUIBag::FillUpItem(CUIDragDropItemMP* pDDItem, const char* name){
 
 		// Читаем стоимость оружия
 		string_path buff;
-		if (pSettings->line_exist(m_StrSectionName, strconcat(buff, name, "_cost")))
+		if (pSettings->line_exist(m_StrSectionName, strconcat(sizeof(buff),buff,name,"_cost")))
 			pDDItem->SetCost(pSettings->r_u32(m_StrSectionName, buff));
 		else if (pSettings->line_exist(m_StrPricesSection, name))
 			pDDItem->SetCost(pSettings->r_u32(m_StrPricesSection, name));
@@ -971,14 +971,14 @@ void	CUIBag::ReloadItemsPrices	()
 		R_ASSERT(pSettings->line_exist(m_StrPricesSection, (*it)->strName));
 		(*it)->SetCost(pSettings->r_u32(m_StrPricesSection, (*it)->strName.c_str()));
 		//-------------------------------------------------------------------------------
-		strconcat(ItemCostStr, (*it)->strName.c_str(), "_cost");
+		strconcat(sizeof(ItemCostStr),ItemCostStr,(*it)->strName.c_str(),"_cost");
 		if (pSettings->line_exist(m_StrSectionName, ItemCostStr))
 			(*it)->SetCost(pSettings->r_u32(m_StrSectionName, ItemCostStr));
 		//-------------------------------------------------------------------------------
 		for (int i=1; i<=g_mp_restrictions.GetRank(); i++)
 		{
 			string16 tmp;
-			strconcat(RankStr, "rank_", itoa(i, tmp, 10));
+			strconcat(sizeof(RankStr),RankStr,"rank_",itoa(i, tmp, 10));
 			if (!pSettings->line_exist(RankStr, ItemCostStr)) continue;
 			(*it)->SetCost(pSettings->r_u32(RankStr, ItemCostStr));
 		}

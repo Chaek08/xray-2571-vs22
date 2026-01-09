@@ -353,15 +353,15 @@ void CActor::Load	(LPCSTR section )
 	// sounds
 	char buf[256];
 
-/*	::Sound->create		(sndHit[0],			TRUE,	strconcat(buf,*cName(),"\\hurt1"),SOUND_TYPE_MONSTER_INJURING);
-	::Sound->create		(sndHit[1],			TRUE,	strconcat(buf,*cName(),"\\hurt2"),SOUND_TYPE_MONSTER_INJURING);
-	::Sound->create		(sndHit[2],			TRUE,	strconcat(buf,*cName(),"\\hurt3"),SOUND_TYPE_MONSTER_INJURING);
-	::Sound->create		(sndHit[3],			TRUE,	strconcat(buf,*cName(),"\\hurt4"),SOUND_TYPE_MONSTER_INJURING);
+/*	::Sound->create		(sndHit[0],			TRUE,	strconcat(sizeof(buf),buf,*cName(),"\\hurt1"),SOUND_TYPE_MONSTER_INJURING);
+	::Sound->create		(sndHit[1],			TRUE,	strconcat(sizeof(buf),buf,*cName(),"\\hurt2"),SOUND_TYPE_MONSTER_INJURING);
+	::Sound->create		(sndHit[2],			TRUE,	strconcat(sizeof(buf),buf,*cName(),"\\hurt3"),SOUND_TYPE_MONSTER_INJURING);
+	::Sound->create		(sndHit[3],			TRUE,	strconcat(sizeof(buf),buf,*cName(),"\\hurt4"),SOUND_TYPE_MONSTER_INJURING);
 */	
-	::Sound->create		(sndDie[0],			TRUE,	strconcat(buf,*cName(),"\\die0"), SOUND_TYPE_MONSTER_DYING);
-	::Sound->create		(sndDie[1],			TRUE,	strconcat(buf,*cName(),"\\die1"), SOUND_TYPE_MONSTER_DYING);
-	::Sound->create		(sndDie[2],			TRUE,	strconcat(buf,*cName(),"\\die2"), SOUND_TYPE_MONSTER_DYING);
-	::Sound->create		(sndDie[3],			TRUE,	strconcat(buf,*cName(),"\\die3"), SOUND_TYPE_MONSTER_DYING);
+	::Sound->create		(sndDie[0],			TRUE,	strconcat(sizeof(buf),buf,*cName(),"\\die0"), SOUND_TYPE_MONSTER_DYING);
+	::Sound->create		(sndDie[1],			TRUE,	strconcat(sizeof(buf),buf,*cName(),"\\die1"), SOUND_TYPE_MONSTER_DYING);
+	::Sound->create		(sndDie[2],			TRUE,	strconcat(sizeof(buf),buf,*cName(),"\\die2"), SOUND_TYPE_MONSTER_DYING);
+	::Sound->create		(sndDie[3],			TRUE,	strconcat(sizeof(buf),buf,*cName(),"\\die3"), SOUND_TYPE_MONSTER_DYING);
 
 	m_HeavyBreathSnd.create(TRUE, pSettings->r_string(section,"heavy_breath_snd"), SOUND_TYPE_MONSTER_INJURING);
 	m_BloodSnd.create(TRUE, pSettings->r_string(section,"heavy_blood_snd"), SOUND_TYPE_MONSTER_INJURING);
@@ -1738,10 +1738,10 @@ void CActor::OnDifficultyChanged	()
 	VERIFY(g_SingleGameDifficulty>=egdNovice && g_SingleGameDifficulty<=egdMaster); 
 	LPCSTR diff_name				= get_token_name(difficulty_type_token, g_SingleGameDifficulty);
 	string128						tmp;
-	strconcat						(tmp,"actor_immunities_",diff_name);
+	strconcat(sizeof(tmp),tmp,"actor_immunities_",diff_name);
 	conditions().LoadImmunities		(tmp,pSettings);
 	// hit probability
-	strconcat						(tmp,"hit_probability_",diff_name);
+	strconcat(sizeof(tmp),tmp,"hit_probability_",diff_name);
 	hit_probability					= pSettings->r_float(*cNameSect(),tmp);
 }
 

@@ -31,7 +31,7 @@ public:
 	HRESULT __stdcall	Open	(D3DXINCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData, LPCVOID *ppData, UINT *pBytes)
 	{
 		string256				pname;
-		IReader*		R		= FS.r_open	("$game_shaders$",strconcat(pname,::Render->getShaderPath(),pFileName));
+		IReader*		R		= FS.r_open	("$game_shaders$",strconcat(sizeof(pname),pname,::Render->getShaderPath(),pFileName));
 		if (0==R)				{
 			// possibly in shared directory or somewhere else - open directly
 			R					= FS.r_open	("$game_shaders$",pFileName);
@@ -174,7 +174,7 @@ SVS*	CResourceManager::_CreateVS		(LPCSTR _name)
 		LPD3DXSHADER_CONSTANTTABLE	pConstants	= NULL;
 		HRESULT						_hr			= S_OK;
 		string256					cname;
-		FS.update_path				(cname,	"$game_shaders$", strconcat(cname,::Render->getShaderPath(),_name,".vs"));
+		FS.update_path				(cname,	"$game_shaders$", strconcat(sizeof(cname),cname,::Render->getShaderPath(),_name,".vs"));
 		LPCSTR						target		= NULL;
 
 		/*if (HW.Caps.geometry.dwVersion>=CAP_VERSION(3,0))			target="vs_3_0";
@@ -247,7 +247,7 @@ SPS*	CResourceManager::_CreatePS			(LPCSTR name)
 		// Open file
 		includer					Includer;
 		string256					cname;
-		FS.update_path				(cname,	"$game_shaders$", strconcat(cname,::Render->getShaderPath(),name,".ps"));
+		FS.update_path				(cname,	"$game_shaders$", strconcat(sizeof(cname),cname,::Render->getShaderPath(),name,".ps"));
 
 		// duplicate and zero-terminate
 		IReader*		R		= FS.r_open(cname);

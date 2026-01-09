@@ -546,7 +546,7 @@ void CApplication::OnEvent(EVENT E, u64 P1, u64 P2)
 			if (strstr(Core.Params,"-$")) {
 				string256				buf,cmd,param;
 				sscanf					(strstr(Core.Params,"-$")+2,"%[^ ] %[^ ] ",cmd,param);
-				strconcat				(buf,cmd," ",param);
+				strconcat(sizeof(buf),buf,cmd," ",param);
 				Console->Execute		(buf);
 			}
 		} else {
@@ -793,10 +793,10 @@ void CApplication::OnFrame	( )
 void CApplication::Level_Append		(LPCSTR folder)
 {
 	string256	N1,N2,N3,N4;
-	strconcat	(N1,folder,"level");
-	strconcat	(N2,folder,"level.ltx");
-	strconcat	(N3,folder,"level.geom");
-	strconcat	(N4,folder,"level.cform");
+	strconcat(sizeof(N1),N1,folder,"level");
+	strconcat(sizeof(N2),N2,folder,"level.ltx");
+	strconcat(sizeof(N3),N3,folder,"level.geom");
+	strconcat(sizeof(N4),N4,folder,"level.cform");
 	if	(
 		FS.exist("$game_levels$",N1)		&&
 		FS.exist("$game_levels$",N2)		&&
@@ -821,7 +821,7 @@ void CApplication::Level_Scan()
 	folder									= FS.file_list_open		("$game_levels$","$debug$\\",FS_ListFolders|FS_RootOnly);
 	if (folder){
 		string_path	tmp_path;
-		for (u32 i=0; i<folder->size(); i++)Level_Append(strconcat(tmp_path,"$debug$\\",(*folder)[i]));
+		for (u32 i=0; i<folder->size(); i++)Level_Append(strconcat(sizeof(tmp_path),tmp_path,"$debug$\\",(*folder)[i]));
 		FS.file_list_close	(folder);
 	}
 #endif
@@ -836,7 +836,7 @@ void CApplication::Level_Set(u32 L)
 
 	string_path					temp;
 	string_path					temp2;
-	strconcat					(temp,"intro\\intro_",Levels[L].folder);
+	strconcat(sizeof(temp),temp,"intro\\intro_",Levels[L].folder);
 	temp[xr_strlen(temp)-1] = 0;
 	if (FS.exist(temp2, "$game_textures$", temp, ".dds"))
 		hLevelLogo.create	("font", temp);
@@ -850,7 +850,7 @@ void CApplication::Level_Set(u32 L)
 int CApplication::Level_ID(LPCSTR name)
 {
 	char buffer	[256];
-	strconcat	(buffer,name,"\\");
+	strconcat(sizeof(buffer),buffer,name,"\\");
 	for (u32 I=0; I<Levels.size(); I++)
 	{
 		if (0==stricmp(buffer,Levels[I].folder))	return int(I);

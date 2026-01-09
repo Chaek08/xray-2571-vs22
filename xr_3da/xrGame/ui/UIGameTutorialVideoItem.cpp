@@ -64,8 +64,8 @@ void CUISequenceVideoItem::Load(CUIXml* xml, int idx)
 	LPCSTR m_snd_name		= xml->Read			("sound",0,"");
 	if (m_snd_name&&m_snd_name[0]){
 		string_path			_l, _r;
-		strconcat			(_l, m_snd_name, "_l");
-		strconcat			(_r, m_snd_name, "_r");
+		strconcat(sizeof(_l),_l,m_snd_name,"_l");
+		strconcat(sizeof(_r),_r,m_snd_name,"_r");
 		m_sound[0].create	(TRUE,_l,0);	VERIFY(m_sound[0]._handle());
 		m_sound[1].create	(TRUE,_r,0);	VERIFY(m_sound[1]._handle());
 	}

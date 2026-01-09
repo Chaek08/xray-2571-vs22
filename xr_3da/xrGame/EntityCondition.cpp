@@ -599,13 +599,13 @@ void CEntityCondition::SConditionChangeV::load(LPCSTR sect, LPCSTR prefix)
 {
 	string_path				str;
 	m_fV_Circumspection		=  0.01f;
-	m_fV_Satiety			= pSettings->r_float(sect,strconcat(str,"satiety_v",prefix));		
-	m_fV_Radiation			= pSettings->r_float(sect,strconcat(str,"radiation_v",prefix));	
-	m_fV_SatietyPower		= pSettings->r_float(sect,strconcat(str,"satiety_power_v",prefix));
-	m_fV_SatietyHealth		= pSettings->r_float(sect,strconcat(str,"satiety_health_v",prefix));
-	m_fV_RadiationHealth	= pSettings->r_float(sect,strconcat(str,"radiation_health_v",prefix));
-	m_fV_EntityMorale		= pSettings->r_float(sect,strconcat(str,"morale_v",prefix));
-	m_fV_PsyHealth			= pSettings->r_float(sect,strconcat(str,"psy_health_v",prefix));	
-	m_fV_Bleeding			= pSettings->r_float(sect,strconcat(str,"bleeding_v",prefix));
-	m_fV_WoundIncarnation	= pSettings->r_float(sect,strconcat(str,"wound_incarnation_v",prefix));
+	m_fV_Satiety			= pSettings->r_float(sect,strconcat(sizeof(str),str,"satiety_v",prefix));		
+	m_fV_Radiation			= pSettings->r_float(sect,strconcat(sizeof(str),str,"radiation_v",prefix));	
+	m_fV_SatietyPower		= pSettings->r_float(sect,strconcat(sizeof(str),str,"satiety_power_v",prefix));
+	m_fV_SatietyHealth		= pSettings->r_float(sect,strconcat(sizeof(str),str,"satiety_health_v",prefix));
+	m_fV_RadiationHealth	= pSettings->r_float(sect,strconcat(sizeof(str),str,"radiation_health_v",prefix));
+	m_fV_EntityMorale		= pSettings->r_float(sect,strconcat(sizeof(str),str,"morale_v",prefix));
+	m_fV_PsyHealth			= pSettings->r_float(sect,strconcat(sizeof(str),str,"psy_health_v",prefix));	
+	m_fV_Bleeding			= pSettings->r_float(sect,strconcat(sizeof(str),str,"bleeding_v",prefix));
+	m_fV_WoundIncarnation	= pSettings->r_float(sect,strconcat(sizeof(str),str,"wound_incarnation_v",prefix));
 }

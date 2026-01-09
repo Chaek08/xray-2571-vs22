@@ -22,7 +22,7 @@ void IGame_ObjectPool::prefetch	()
 
 	string256 section	;
 	// prefetch objects
-	strconcat				(section,"prefetch_objects_",g_pGamePersistent->m_game_params.m_game_type);
+	strconcat				(sizeof(section),section,"prefetch_objects_",g_pGamePersistent->m_game_params.m_game_type);
 	CInifile::Sect& sect	= pSettings->r_section(section);
 	for (CInifile::SectCIt I=sect.Data.begin(); I!=sect.Data.end(); I++)	{
 		const CInifile::Item& item= *I;
@@ -73,7 +73,7 @@ void IGame_ObjectPool::prefetch	()
 
 	string256 section;
 	// prefetch objects
-	strconcat				(section,"prefetch_objects_",g_pGamePersistent->m_game_params.m_game_type);
+	strconcat(sizeof(section),section,"prefetch_objects_",g_pGamePersistent->m_game_params.m_game_type);
 	CInifile::Sect& sect	= pSettings->r_section(section);
 	for (CInifile::SectIt I=sect.begin(); I!=sect.end(); I++)	{
 		CInifile::Item& item= *I;

@@ -23,7 +23,7 @@ void CUIChatLog::AddLogMessage(const shared_str &msg, const shared_str &author)
 {
 	string_path fullLine;
 	::ZeroMemory(fullLine, 256);
-	strconcat(fullLine, *author, ": ", *msg);
+	strconcat(sizeof(fullLine),fullLine,*author,": ", *msg);
 	CUIColorAnimatorWrapper	*animation	= xr_new<CUIColorAnimatorWrapper>(CHAT_LOG_ITEMS_ANIMATION);
 	AddItem<CUIListItem>(fullLine, 0, animation);
 	CUIListItem	*item = GetItem(GetSize() - 1);

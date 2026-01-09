@@ -97,7 +97,7 @@ void CEnvDescriptor::load	(LPCSTR exec_tm, LPCSTR S, CEnvironment* parent)
 	exec_time_loaded		= exec_time;
 	string_path	st,st_env;
 	strcpy					(st,pSettings->r_string	(S,"sky_texture"));
-	strconcat				(st_env,st,"#small"		);
+	strconcat(sizeof(st_env),st_env,st,"#small"		);
 	sky_texture.create		(st);
 	sky_texture_env.create	(st_env);
 	clouds_texture.create	(pSettings->r_string	(S,"clouds_texture"));

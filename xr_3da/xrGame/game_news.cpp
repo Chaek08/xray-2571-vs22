@@ -57,7 +57,7 @@ LPCSTR GAME_NEWS_DATA::SingleLineText()
 #pragma todo("Satan->Satan : insert carry-over")
 	//sprintf(time, "%02i:%02i \\n", hours, minutes);
 	sprintf		(time, "%02i:%02i ", hours, minutes);
-//	strconcat	(result, locationName, time, newsPhrase);
+//	strconcat(sizeof(result),result,locationName,time, newsPhrase);
 
 
 	full_news_text			= time;

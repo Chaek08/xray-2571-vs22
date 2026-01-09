@@ -134,7 +134,7 @@ void CControlAnimationBase::select_animation()
 
 	// установить анимацию	
 	string128	s1,s2;
-	MotionID	cur_anim		= smart_cast<CKinematicsAnimated*>(m_object->Visual())->ID_Cycle_Safe(strconcat(s2,*anim_it->target_name,itoa(index,s1,10)));
+	MotionID	cur_anim		= smart_cast<CKinematicsAnimated*>(m_object->Visual())->ID_Cycle_Safe(strconcat(sizeof(s2),s2,*anim_it->target_name,itoa(index,s1,10)));
 
 	// Setup Com
 	ctrl_data->global.motion	= cur_anim;
@@ -143,7 +143,7 @@ void CControlAnimationBase::select_animation()
 
 	// Заполнить текущую анимацию
 	string64	st,tmp;
-	strconcat	(st,*anim_it->target_name,itoa(index,tmp,10));
+	strconcat(sizeof(st),st,*anim_it->target_name,itoa(index,tmp,10));
 	//	sprintf		(st, "%s%d", *anim_it->second.target_name, index);
 	m_cur_anim.name				= st; 
 	m_cur_anim.index			= u8(index);
@@ -398,7 +398,7 @@ void CControlAnimationBase::UpdateAnimCount()
 		u8 count = 0;
 
 		for (int i=0; ; ++i) {
-			strconcat	(s_temp, *((*it)->target_name),itoa(i,s,10));
+			strconcat(sizeof(s_temp),s_temp,*((*it)->target_name),itoa(i,s,10));
 			LPCSTR		name	= s_temp;
 			MotionID	id		= skel->ID_Cycle_Safe(name);
 
@@ -421,7 +421,7 @@ CMotionDef *CControlAnimationBase::get_motion_def(SAnimItem *it, u32 index)
 {
 	string128			s1,s2;
 	CKinematicsAnimated	*skeleton_animated = smart_cast<CKinematicsAnimated*>(m_object->Visual());
-	const MotionID		&motion_id = skeleton_animated->ID_Cycle_Safe(strconcat(s2,*it->target_name,itoa(index,s1,10)));
+	const MotionID		&motion_id = skeleton_animated->ID_Cycle_Safe(strconcat(sizeof(s2),s2,*it->target_name,itoa(index,s1,10)));
 	return				(skeleton_animated->LL_GetMotionDef(motion_id));
 }
 
@@ -455,7 +455,7 @@ MotionID CControlAnimationBase::get_motion_id(EMotionAnim a, u32 index)
 	}
 
 	string128			s1,s2;
-	return				(smart_cast<CKinematicsAnimated*>(m_object->Visual())->ID_Cycle_Safe(strconcat(s2,*anim_it->target_name,itoa(index,s1,10))));
+	return				(smart_cast<CKinematicsAnimated*>(m_object->Visual())->ID_Cycle_Safe(strconcat(sizeof(s2),s2,*anim_it->target_name,itoa(index,s1,10))));
 }
 
 void CControlAnimationBase::stop_now()

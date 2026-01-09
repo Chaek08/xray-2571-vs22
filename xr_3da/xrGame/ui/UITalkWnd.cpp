@@ -386,7 +386,7 @@ void CUITalkWnd::PlaySnd(LPCSTR text)
 	StopSnd						();
 	
 	string_path	fn;
-	strconcat(fn, "dialogs\\", text, ".ogg");
+	strconcat(sizeof(fn),fn,"dialogs\\",text, ".ogg");
 	if(FS.exist("$game_sounds$",fn)){
 		m_sound.create(TRUE,fn);
 		m_sound.play(0,sm_2D);

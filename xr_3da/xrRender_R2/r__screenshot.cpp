@@ -99,7 +99,7 @@ void CRender::Screenshot		(IRender_interface::ScreenshotMode mode, LPCSTR name)
 			{
 				string64			t_stemp;
 				string_path			buf;
-				strconcat			(buf,"ss_",Core.UserName,"_",timestamp(t_stemp),".jpg");
+				strconcat(sizeof(buf),buf,"ss_",Core.UserName,"_",timestamp(t_stemp),".jpg");
 				ID3DXBuffer*		saved	= 0;
 				CHK_DX				(D3DXSaveSurfaceToFileInMemory (&saved,D3DXIFF_JPG,pFB,0,0));
 				IWriter*		fs	= FS.w_open	("$screenshots$",buf); R_ASSERT(fs);
@@ -107,7 +107,7 @@ void CRender::Screenshot		(IRender_interface::ScreenshotMode mode, LPCSTR name)
 				FS.w_close			(fs);
 				_RELEASE			(saved);
 				if (strstr(Core.Params,"-ss_tga"))	{ // hq
-					strconcat			(buf,"ssq_",Core.UserName,"_",timestamp(t_stemp),".tga");
+					strconcat(sizeof(buf),buf,"ssq_",Core.UserName,"_",timestamp(t_stemp),".tga");
 					ID3DXBuffer*		saved	= 0;
 					CHK_DX				(D3DXSaveSurfaceToFileInMemory (&saved,D3DXIFF_TGA,pFB,0,0));
 					IWriter*		fs	= FS.w_open	("$screenshots$",buf); R_ASSERT(fs);
@@ -123,7 +123,7 @@ void CRender::Screenshot		(IRender_interface::ScreenshotMode mode, LPCSTR name)
 				string64			t_stemp;
 				string_path			buf;
 				VERIFY				(name);
-				strconcat			(buf,"ss_",Core.UserName,"_",timestamp(t_stemp),"_#",name);
+				strconcat(sizeof(buf),buf,"ss_",Core.UserName,"_",timestamp(t_stemp),"_#",name);
 				strcat				(buf,".tga");
 				IWriter*		fs	= FS.w_open	("$screenshots$",buf); R_ASSERT(fs);
 				TGAdesc				p;

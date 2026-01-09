@@ -95,8 +95,8 @@ void CSpawn_Event::ExportAction(NET_Packet& P, Action& A)
 	{
 	default:
 	case typeNone:		P.w_string("");												break;
-	case typeActivate:	P.w_string(strconcat(buffer,"level.activate,",A.target));	break;
-	case typeDeactivate:P.w_string(strconcat(buffer,"level.deactivate,",A.target));	break;
+	case typeActivate:	P.w_string(strconcat(sizeof(buffer),buffer,"level.activate,",A.target));	break;
+	case typeDeactivate:P.w_string(strconcat(sizeof(buffer),buffer,"level.deactivate,",A.target));	break;
 	case typeCustom:	P.w_string(A.custom);										break;
 	}
 }
