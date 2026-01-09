@@ -46,6 +46,7 @@ CALifeHumanBrain::CALifeHumanBrain			(object_type *object) : inherited(object)
 #endif
 	
 	m_dwTotalMoney					= 0;
+	m_tpKnownCustomers.clear		();
 	m_cpEquipmentPreferences.resize	(5);
 	m_cpMainWeaponPreferences.resize(4);
 
@@ -71,6 +72,7 @@ CALifeHumanBrain::~CALifeHumanBrain			()
 
 void CALifeHumanBrain::on_state_write		(NET_Packet &packet)
 {
+	save_data						(m_tpKnownCustomers,packet);
 	save_data						(m_cpEquipmentPreferences,packet);
 	save_data						(m_cpMainWeaponPreferences,packet);
 }
@@ -99,11 +101,7 @@ void CALifeHumanBrain::on_state_read		(NET_Packet &packet)
 		packet.r_stringZ			(temp);
 	}
 
-	if (object().m_wVersion < 118) {
-		ALife::OBJECT_VECTOR		temp;
-		load_data					(temp,packet);
-	}
-
+	load_data						(m_tpKnownCustomers,packet);
 	load_data						(m_cpEquipmentPreferences,packet);
 	load_data						(m_cpMainWeaponPreferences,packet);
 }

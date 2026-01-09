@@ -46,8 +46,6 @@ CActorCondition::CActorCondition(CActor *object) :
 	m_can_sleep_callback		= NULL;
 	m_get_sleep_video_name_callback	= NULL;
 	m_condition_flags.zero		();
-
-	m_fSatiety					= 1.f;
 }
 
 CActorCondition::~CActorCondition(void)
@@ -385,7 +383,6 @@ void CActorCondition::reinit	()
 	inherited::reinit	();
 	m_bLimping					= false;
 	m_bIsSleeping				= false;
-	m_fSatiety					= 1.f;
 }
 
 void CActorCondition::ChangeAlcohol	(float value)
@@ -395,7 +392,7 @@ void CActorCondition::ChangeAlcohol	(float value)
 
 void CActorCondition::UpdateTutorialThresholds()
 {
-	string_path cb_name;
+	string256 cb_name;
 	static float _cPowerThr			= pSettings->r_float("tutorial_conditions_thresholds","power");
 	static float _cPowerMaxThr		= pSettings->r_float("tutorial_conditions_thresholds","max_power");
 	static float _cBleeding			= pSettings->r_float("tutorial_conditions_thresholds","bleeding");

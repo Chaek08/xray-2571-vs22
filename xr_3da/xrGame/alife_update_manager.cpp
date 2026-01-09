@@ -12,6 +12,7 @@
 #include "alife_time_manager.h"
 #include "alife_graph_registry.h"
 #include "alife_schedule_registry.h"
+#include "alife_news_registry.h"
 #include "alife_spawn_registry.h"
 #include "alife_object_registry.h"
 #include "ef_storage.h"
@@ -181,15 +182,49 @@ void CALifeUpdateManager::update(bool switch_objects, bool spawn_update, bool sc
 {
 	init_ef_storage						();
 
-	START_PROFILE("ALife/switch");
-	if (switch_objects)
-		graph().level().update			(CSwitchPredicate(this));
-	STOP_PROFILE
+	switch (header().state()) {
+		case eZoneStateSurge : {
+			surge						();
+			header().set_state			(eZoneStateBetweenSurges);
+			break;
+		}
+		case eZoneStateBetweenSurges : {
+			if (time_manager().game_time() > time_manager().next_surge_time()) {
+				header().set_state		(eZoneStateSurge);
 
-	START_PROFILE("ALife/scheduled");
-	if (scheduled_update)
-		scheduled().update				();
-	STOP_PROFILE
+				if (switch_objects) {
+					Msg						("SURGE started");
+					NET_Packet				net_packet;
+					net_packet.w_begin		(M_CHANGE_LEVEL);
+					net_packet.w			(&graph().actor()->m_tGraphID,sizeof(graph().actor()->m_tGraphID));
+					net_packet.w			(&graph().actor()->m_tNodeID,sizeof(graph().actor()->m_tNodeID));
+					net_packet.w_vec3		(graph().actor()->o_Position);
+					net_packet.w_vec3		(graph().actor()->o_Angle);
+					Level().Send			(net_packet,net_flags(TRUE));
+					return;
+				}
+				break;
+			}
+			
+			START_PROFILE("ALife/switch");
+			if (switch_objects)
+				graph().level().update	(CSwitchPredicate(this));
+			STOP_PROFILE
+
+//			START_PROFILE("ALife/spawn");
+//			if (spawn_update)
+//				spawns().update			();
+//			STOP_PROFILE
+
+			START_PROFILE("ALife/scheduled");
+			if (scheduled_update)
+				scheduled().update		();
+			STOP_PROFILE
+
+			break;
+		}
+		default : NODEFAULT;
+	}
 }
 
 void CALifeUpdateManager::new_game			(LPCSTR save_name)
@@ -206,8 +241,7 @@ void CALifeUpdateManager::new_game			(LPCSTR save_name)
 	server().PerformIDgen				(0x0000);
 
 	time_manager().init					(m_section);
-
-	surge								();
+	header().set_state					(eZoneStateSurge);
 
 	_TIME_ID							finish_time = time_manager().game_time() + 0*120000;//3*7*24*3600*1000; // 3 weeks in milliseconds
 	float								time_factor = time_manager().time_factor();

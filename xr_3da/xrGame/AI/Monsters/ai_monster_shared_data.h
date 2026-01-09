@@ -18,7 +18,8 @@ struct SMonsterSettings {
 
 	u32						m_dwDayTimeBegin;
 	u32						m_dwDayTimeEnd;
-	float					satiety_threshold;
+	float					m_fMinSatiety;
+	float					m_fMaxSatiety;
 	
 	// ----------------------------------------------------------- 
 

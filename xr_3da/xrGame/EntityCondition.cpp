@@ -18,7 +18,6 @@
 #define MIN_HEALTH -0.01f
 
 #define MAX_SATIETY		1.0f
-#define START_SATIETY	0.5f
 
 #define MAX_POWER 1.0f
 #define MAX_RADIATION 1.0f
@@ -52,7 +51,7 @@ CEntityCondition::CEntityCondition(CEntityAlive *object)
 
 
 	m_fPower			= MAX_POWER;
-	m_fSatiety			= START_SATIETY;
+	m_fSatiety			= MAX_SATIETY;
 	m_fRadiation		= 0;
 	m_fPsyHealth		= MAX_PSY_HEALTH;
 
@@ -130,7 +129,7 @@ void CEntityCondition::reinit	()
 
 	health()				= MAX_HEALTH;
 	m_fPower				= MAX_POWER;
-	m_fSatiety				= START_SATIETY;
+	m_fSatiety				= MAX_SATIETY;
 	m_fRadiation			= 0;
 	m_fPsyHealth			= MAX_PSY_HEALTH;
 

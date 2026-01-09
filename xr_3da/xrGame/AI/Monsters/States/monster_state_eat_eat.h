@@ -6,6 +6,11 @@ class CStateMonsterEating : public CState<_Object> {
 protected:
 	typedef CState<_Object>		inherited;
 
+	enum {
+		eStateEat		= u32(0),
+		eStateWalkCloser,
+	}cur_state, prev_state;
+
 	CEntityAlive	*corpse;
 	u32				time_last_eat;
 
@@ -16,7 +21,6 @@ public:
 	virtual void		initialize				();
 	virtual	void		execute					();
 
-	virtual bool		check_start_conditions	();
 	virtual bool		check_completion		();
 };
 

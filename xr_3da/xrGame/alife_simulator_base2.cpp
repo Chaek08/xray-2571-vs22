@@ -15,6 +15,7 @@
 #include "alife_object_registry.h"
 #include "alife_story_registry.h"
 #include "alife_schedule_registry.h"
+#include "alife_trader_registry.h"
 #include "alife_smart_terrain_registry.h"
 #include "alife_group_registry.h"
 
@@ -28,6 +29,7 @@ void CALifeSimulatorBase::register_object	(CSE_ALifeDynamicObject *object, bool 
 		objects().add					(object);
 	
 	graph().update						(object);
+	traders().add						(object);
 	scheduled().add						(object);
 	story_objects().add					(object->m_story_id,object);
 	smart_terrains().add				(object);
@@ -65,6 +67,7 @@ void CALifeSimulatorBase::unregister_object	(CSE_ALifeDynamicObject *object, boo
 
 	objects().remove					(object->ID);
 	story_objects().remove				(object->m_story_id);
+	traders().remove					(object);
 	smart_terrains().remove				(object);
 	groups().remove						(object);
 

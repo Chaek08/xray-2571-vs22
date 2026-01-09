@@ -41,6 +41,13 @@ IC	const CALifeObjectRegistry			&CALifeSimulatorBase::objects				() const
 	return						(*m_objects);
 }
 
+IC	const CALifeTaskRegistry			&CALifeSimulatorBase::tasks					() const
+{
+	VERIFY						(initialized());
+	VERIFY						(m_tasks);
+	return						(*m_tasks);
+}
+
 IC	const CALifeGraphRegistry			&CALifeSimulatorBase::graph					() const
 {
 	VERIFY						(initialized());
@@ -48,11 +55,39 @@ IC	const CALifeGraphRegistry			&CALifeSimulatorBase::graph					() const
 	return						(*m_graph_objects);
 }
 
+IC	const CALifeTraderRegistry			&CALifeSimulatorBase::traders				() const
+{
+	VERIFY						(initialized());
+	VERIFY						(m_traders);
+	return						(*m_traders);
+}
+
 IC	const CALifeScheduleRegistry		&CALifeSimulatorBase::scheduled				() const
 {
 	VERIFY						(initialized());
 	VERIFY						(m_scheduled);
 	return						(*m_scheduled);
+}
+
+IC	const CALifeAnomalyRegistry			&CALifeSimulatorBase::anomalies				() const
+{
+	VERIFY						(initialized());
+	VERIFY						(m_anomalies);
+	return						(*m_anomalies);
+}
+
+IC	const CALifeOrganizationRegistry	&CALifeSimulatorBase::organizations			() const
+{
+	VERIFY						(initialized());
+	VERIFY						(m_organizations);
+	return						(*m_organizations);
+}
+
+IC	const CALifeNewsRegistry			&CALifeSimulatorBase::news					() const
+{
+	VERIFY						(initialized());
+	VERIFY						(m_news);
+	return						(*m_news);
 }
 
 IC	const CALifeStoryRegistry			&CALifeSimulatorBase::story_objects			() const
@@ -104,6 +139,13 @@ IC	CALifeObjectRegistry				&CALifeSimulatorBase::objects				()
 	return						(*m_objects);
 }
 
+IC	CALifeTaskRegistry					&CALifeSimulatorBase::tasks					()
+{
+	VERIFY						(initialized());
+	VERIFY						(m_tasks);
+	return						(*m_tasks);
+}
+
 IC	CALifeGraphRegistry					&CALifeSimulatorBase::graph					()
 {
 	VERIFY						(initialized());
@@ -111,11 +153,39 @@ IC	CALifeGraphRegistry					&CALifeSimulatorBase::graph					()
 	return						(*m_graph_objects);
 }
 
+IC	CALifeTraderRegistry				&CALifeSimulatorBase::traders				()
+{
+	VERIFY						(initialized());
+	VERIFY						(m_traders);
+	return						(*m_traders);
+}
+
 IC	CALifeScheduleRegistry				&CALifeSimulatorBase::scheduled				()
 {
 	VERIFY						(initialized());
 	VERIFY						(m_scheduled);
 	return						(*m_scheduled);
+}
+
+IC	CALifeAnomalyRegistry				&CALifeSimulatorBase::anomalies				()
+{
+	VERIFY						(initialized());
+	VERIFY						(m_anomalies);
+	return						(*m_anomalies);
+}
+
+IC	CALifeOrganizationRegistry			&CALifeSimulatorBase::organizations			()
+{
+	VERIFY						(initialized());
+	VERIFY						(m_organizations);
+	return						(*m_organizations);
+}
+
+IC	CALifeNewsRegistry					&CALifeSimulatorBase::news					()
+{
+	VERIFY						(initialized());
+	VERIFY						(m_news);
+	return						(*m_news);
 }
 
 IC	CALifeStoryRegistry					&CALifeSimulatorBase::story_objects			()

@@ -244,10 +244,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <ImportLibrary>$(SolutionDir)$(Configuration)\lib\$(TargetName).lib</ImportLibrary>
-      <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration)\lib;$(SolutionDir)\SDK\dxSDK\Lib;$(SolutionDir)\SDK\Xiph\Libs;$(SolutionDir)\SDK\OpenAL\libs;$(SolutionDir)\Release\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <IncrementalLinkDatabaseFile>$(SolutionDir)$(Configuration)\intermediate\$(ProjectName)\$(TargetName).ilk</IncrementalLinkDatabaseFile>
-      <ProfileGuidedDatabase>$(SolutionDir)$(Configuration)\intermediate\$(ProjectName)\$(TargetName).pgd</ProfileGuidedDatabase>
-      <LinkTimeCodeGenerationObjectFile>$(SolutionDir)$(Configuration)\intermediate\$(ProjectName)\$(TargetName).pgd</LinkTimeCodeGenerationObjectFile>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration)\lib;$(SolutionDir)\SDK\dxSDK\Lib;$(SolutionDir)\SDK\Xiph\Libs;$(SolutionDir)\SDK\OpenAL\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -665,11 +662,18 @@
     <ClInclude Include="ai_space_inline.h" />
     <ClInclude Include="alife_abstract_registry.h" />
     <ClInclude Include="alife_abstract_registry_inline.h" />
+    <ClInclude Include="alife_anomaly_registry.h" />
+    <ClInclude Include="alife_anomaly_registry_inline.h" />
+    <ClInclude Include="alife_artefact_demand.h" />
+    <ClInclude Include="alife_artefact_demand_inline.h" />
+    <ClInclude Include="alife_artefact_order.h" />
     <ClInclude Include="alife_combat_manager.h" />
     <ClInclude Include="alife_combat_manager_inline.h" />
     <ClInclude Include="alife_communication_manager.h" />
     <ClInclude Include="alife_communication_manager_inline.h" />
     <ClInclude Include="alife_communication_space.h" />
+    <ClInclude Include="alife_discovery.h" />
+    <ClInclude Include="alife_discovery_inline.h" />
     <ClInclude Include="alife_graph_registry.h" />
     <ClInclude Include="alife_graph_registry_inline.h" />
     <ClInclude Include="alife_group_registry.h" />
@@ -682,6 +686,8 @@
     <ClInclude Include="alife_human_object_handler_save.h" />
     <ClInclude Include="alife_interaction_manager.h" />
     <ClInclude Include="alife_interaction_manager_inline.h" />
+    <ClInclude Include="alife_known_anomaly.h" />
+    <ClInclude Include="alife_known_anomaly_inline.h" />
     <ClInclude Include="alife_level_registry.h" />
     <ClInclude Include="alife_level_registry_inline.h" />
     <ClInclude Include="alife_monster_brain.h" />
@@ -692,10 +698,18 @@
     <ClInclude Include="alife_monster_movement_manager_inline.h" />
     <ClInclude Include="alife_monster_patrol_path_manager.h" />
     <ClInclude Include="alife_monster_patrol_path_manager_inline.h" />
+    <ClInclude Include="alife_news.h" />
+    <ClInclude Include="alife_news_inline.h" />
+    <ClInclude Include="alife_news_registry.h" />
+    <ClInclude Include="alife_news_registry_inline.h" />
     <ClInclude Include="alife_object_registry.h" />
     <ClInclude Include="alife_object_registry_inline.h" />
     <ClInclude Include="alife_online_offline_group_brain.h" />
     <ClInclude Include="alife_online_offline_group_brain_inline.h" />
+    <ClInclude Include="alife_organization.h" />
+    <ClInclude Include="alife_organization_inline.h" />
+    <ClInclude Include="alife_organization_registry.h" />
+    <ClInclude Include="alife_organization_registry_inline.h" />
     <ClInclude Include="alife_registry_container.h" />
     <ClInclude Include="alife_registry_container_composition.h" />
     <ClInclude Include="alife_registry_container_inline.h" />
@@ -727,8 +741,14 @@
     <ClInclude Include="alife_surge_manager_inline.h" />
     <ClInclude Include="alife_switch_manager.h" />
     <ClInclude Include="alife_switch_manager_inline.h" />
+    <ClInclude Include="alife_task.h" />
+    <ClInclude Include="alife_task_inline.h" />
+    <ClInclude Include="alife_task_registry.h" />
+    <ClInclude Include="alife_task_registry_inline.h" />
     <ClInclude Include="alife_time_manager.h" />
     <ClInclude Include="alife_time_manager_inline.h" />
+    <ClInclude Include="alife_trader_registry.h" />
+    <ClInclude Include="alife_trader_registry_inline.h" />
     <ClInclude Include="alife_update_manager.h" />
     <ClInclude Include="alife_update_manager_inline.h" />
     <ClInclude Include="AmebaZone.h" />
@@ -980,6 +1000,8 @@
     <ClInclude Include="InfoPortionDefs.h" />
     <ClInclude Include="ini_id_loader.h" />
     <ClInclude Include="ini_table_loader.h" />
+    <ClInclude Include="intrusive_ptr.h" />
+    <ClInclude Include="intrusive_ptr_inline.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="InventoryOwner.h" />
     <ClInclude Include="inventory_item.h" />
@@ -1324,6 +1346,7 @@
     <ClInclude Include="script_storage_inline.h" />
     <ClInclude Include="script_storage_space.h" />
     <ClInclude Include="script_string_table.h" />
+    <ClInclude Include="script_task.h" />
     <ClInclude Include="script_thread.h" />
     <ClInclude Include="script_thread_inline.h" />
     <ClInclude Include="script_token_list.h" />
@@ -1916,9 +1939,12 @@
     <ClCompile Include="ai_space.cpp" />
     <ClCompile Include="ai_stalker_alife.cpp" />
     <ClCompile Include="alife_anomalous_zone.cpp" />
+    <ClCompile Include="alife_anomaly_registry.cpp" />
+    <ClCompile Include="alife_artefact_order.cpp" />
     <ClCompile Include="alife_combat_manager.cpp" />
     <ClCompile Include="alife_communication_manager.cpp" />
     <ClCompile Include="alife_creature_abstract.cpp" />
+    <ClCompile Include="alife_discovery.cpp" />
     <ClCompile Include="alife_dynamic_object.cpp" />
     <ClCompile Include="alife_graph_registry.cpp" />
     <ClCompile Include="alife_group_abstract.cpp" />
@@ -1928,6 +1954,7 @@
     <ClCompile Include="alife_human_brain_script.cpp" />
     <ClCompile Include="alife_human_object_handler.cpp" />
     <ClCompile Include="alife_interaction_manager.cpp" />
+    <ClCompile Include="alife_known_anomaly.cpp" />
     <ClCompile Include="alife_monster_abstract.cpp" />
     <ClCompile Include="alife_monster_brain.cpp" />
     <ClCompile Include="alife_monster_brain_script.cpp" />
@@ -1937,10 +1964,14 @@
     <ClCompile Include="alife_monster_movement_manager_script.cpp" />
     <ClCompile Include="alife_monster_patrol_path_manager.cpp" />
     <ClCompile Include="alife_monster_patrol_path_manager_script.cpp" />
+    <ClCompile Include="alife_news.cpp" />
+    <ClCompile Include="alife_news_registry.cpp" />
     <ClCompile Include="alife_object.cpp" />
     <ClCompile Include="alife_object_registry.cpp" />
     <ClCompile Include="alife_online_offline_group.cpp" />
     <ClCompile Include="alife_online_offline_group_brain.cpp" />
+    <ClCompile Include="alife_organization.cpp" />
+    <ClCompile Include="alife_organization_registry.cpp" />
     <ClCompile Include="alife_registry_container.cpp" />
     <ClCompile Include="alife_schedule_registry.cpp" />
     <ClCompile Include="alife_simulator.cpp" />
@@ -1954,15 +1985,19 @@
     <ClCompile Include="alife_smart_zone.cpp" />
     <ClCompile Include="alife_space.cpp" />
     <ClCompile Include="alife_spawn_registry.cpp" />
+    <ClCompile Include="alife_spawn_registry_destroy.cpp" />
     <ClCompile Include="alife_spawn_registry_header.cpp" />
     <ClCompile Include="alife_spawn_registry_spawn.cpp" />
     <ClCompile Include="alife_storage_manager.cpp" />
     <ClCompile Include="alife_story_registry.cpp" />
     <ClCompile Include="alife_surge_manager.cpp" />
     <ClCompile Include="alife_switch_manager.cpp" />
+    <ClCompile Include="alife_task.cpp" />
+    <ClCompile Include="alife_task_registry.cpp" />
     <ClCompile Include="alife_time_manager.cpp" />
     <ClCompile Include="alife_trader.cpp" />
     <ClCompile Include="alife_trader_abstract.cpp" />
+    <ClCompile Include="alife_trader_registry.cpp" />
     <ClCompile Include="alife_update_manager.cpp" />
     <ClCompile Include="AmebaZone.cpp" />
     <ClCompile Include="antirad.cpp" />
@@ -2404,6 +2439,8 @@
     <ClCompile Include="script_storage.cpp" />
     <ClCompile Include="script_string_table.cpp" />
     <ClCompile Include="script_string_table_script.cpp" />
+    <ClCompile Include="script_task.cpp" />
+    <ClCompile Include="script_task_script.cpp" />
     <ClCompile Include="script_thread.cpp" />
     <ClCompile Include="script_token_list.cpp" />
     <ClCompile Include="script_token_list_script.cpp" />
@@ -2829,40 +2866,6 @@
     <ClCompile Include="ZoneVisual.cpp" />
     <ClCompile Include="zone_effector.cpp" />
     <ClCompile Include="ZudaArtifact.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\xrLUA_JIT\xrLUA_JIT.vcxproj">
-      <Project>{9ace5473-6d68-4b96-ac42-b39eaba0fe1f}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\..\xrNetServer\xrNetServer.vcxproj">
-      <Project>{435bac9a-b225-457d-ab40-c9bd0cc8838c}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\..\xrODE\contrib\msvc7\ode_default\default.vcxproj">
-      <Project>{1bf75feb-87dd-486c-880b-227987d191c2}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\..\xrParticles\xrParticles.vcxproj">
-      <Project>{94a1c366-3d19-48e6-8170-4adc2e70df97}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\..\xrSound\xrSound.vcxproj">
-      <Project>{ccca7859-eb86-493e-9b53-c4235f45b3c5}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\..\xrXMLParser\xrXMLParser.vcxproj">
-      <Project>{94a1c366-3d19-48e6-8170-4adc2e70df98}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\xrCPU_Pipe\xrCPU_Pipe.vcxproj">
-      <Project>{ca0649dd-d089-423a-981c-46b57a884eb9}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\XR_3DA.vcxproj">
-      <Project>{2578c6d8-660d-48ae-9322-7422f8664f06}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
