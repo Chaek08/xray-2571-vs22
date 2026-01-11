@@ -341,7 +341,7 @@ void	__cdecl		intro_dshow_x	(void*)
 }
 */
 
-int APIENTRY WinMain(HINSTANCE hInstance,
+int APIENTRY WinMain_impl(HINSTANCE hInstance,
                      HINSTANCE hPrevInstance,
                      char *    lpCmdLine,
                      int       nCmdShow)
@@ -427,6 +427,44 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	}
 
 	return						0;
+}
+
+int stack_overflow_exception_filter	(int exception_code)
+{
+   if (exception_code == EXCEPTION_STACK_OVERFLOW)
+   {
+       // Do not call _resetstkoflw here, because
+       // at this point, the stack is not yet unwound.
+       // Instead, signal that the handler (the __except block)
+       // is to be executed.
+       return EXCEPTION_EXECUTE_HANDLER;
+   }
+   else
+       return EXCEPTION_CONTINUE_SEARCH;
+}
+
+int APIENTRY WinMain(HINSTANCE hInstance,
+                     HINSTANCE hPrevInstance,
+                     char *    lpCmdLine,
+                     int       nCmdShow)
+{
+	__try 
+	{
+#ifdef DEDICATED_SERVER
+		Debug._initialize(true);
+#else // DEDICATED_SERVER
+		Debug._initialize(false);
+#endif // DEDICATED_SERVER
+
+		WinMain_impl		(hInstance,hPrevInstance,lpCmdLine,nCmdShow);
+	}
+	__except(stack_overflow_exception_filter(GetExceptionCode()))
+	{
+		_resetstkoflw		();
+		FATAL				("stack overflow");
+	}
+
+	return					(0);
 }
 
 LPCSTR _GetFontTexName (LPCSTR section)
