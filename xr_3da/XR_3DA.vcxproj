@@ -253,6 +253,7 @@
       <ProfileGuidedDatabase>$(SolutionDir)$(Configuration)\intermediate\$(ProjectName)\$(TargetName).pgd</ProfileGuidedDatabase>
       <LinkTimeCodeGenerationObjectFile>$(SolutionDir)$(Configuration)\intermediate\$(ProjectName)\$(TargetName).pgd</LinkTimeCodeGenerationObjectFile>
       <ImportLibrary>$(SolutionDir)$(Configuration)\lib\$(TargetName).lib</ImportLibrary>
+      <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
