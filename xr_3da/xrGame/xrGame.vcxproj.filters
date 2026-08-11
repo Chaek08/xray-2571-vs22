@@ -6588,6 +6588,9 @@
     <ClInclude Include="ui\UIGameTutorial.h">
       <Filter>UI\Tutorial</Filter>
     </ClInclude>
+    <ClInclude Include="ui\UICellCustomItems.h">
+      <Filter>UI\UIWindows\DragDrop2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="damage_manager.cpp">
@@ -9637,6 +9640,12 @@
     </ClCompile>
     <ClCompile Include="ui\UIGameTutorialVideoItem.cpp">
       <Filter>UI\Tutorial</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIInventoryWnd3.cpp">
+      <Filter>UI\Common\InventoryWnd</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UICellCustomItems.cpp">
+      <Filter>UI\UIWindows\DragDrop2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

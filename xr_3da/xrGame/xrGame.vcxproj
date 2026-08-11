@@ -1552,6 +1552,7 @@
     <ClInclude Include="ui\UICarBodyWnd.h" />
     <ClInclude Include="ui\UICarPanel.h" />
     <ClInclude Include="ui\UICDkey.h" />
+    <ClInclude Include="ui\UICellCustomItems.h" />
     <ClInclude Include="ui\UICellItem.h" />
     <ClInclude Include="ui\UICellItemFactory.h" />
     <ClInclude Include="ui\UIChangeMap.h" />
@@ -2620,6 +2621,7 @@
     <ClCompile Include="ui\UICarBodyWnd.cpp" />
     <ClCompile Include="ui\UICarPanel.cpp" />
     <ClCompile Include="ui\UICDkey.cpp" />
+    <ClCompile Include="ui\UICellCustomItems.cpp" />
     <ClCompile Include="ui\UICellItem.cpp" />
     <ClCompile Include="ui\UICellItemFactory.cpp" />
     <ClCompile Include="ui\UIChangeMap.cpp" />
@@ -2662,6 +2664,7 @@
     <ClCompile Include="ui\UIInventoryUtilities.cpp" />
     <ClCompile Include="ui\UIInventoryWnd.cpp" />
     <ClCompile Include="ui\uiinventorywnd2.cpp" />
+    <ClCompile Include="ui\UIInventoryWnd3.cpp" />
     <ClCompile Include="ui\UIItemInfo.cpp" />
     <ClCompile Include="ui\UIJobItem.cpp" />
     <ClCompile Include="ui\UIKeyBinding.cpp" />
