@@ -77,7 +77,7 @@ void CInventoryOwner::reload				(LPCSTR section)
 	inventory().m_pOwner		= this;
 	inventory().SetSlotsUseful (true);
 
-	m_dwMoney					= 0;
+	m_money					= 0;
 	m_bTalking					= false;
 	m_pTalkPartner				= NULL;
 
@@ -165,7 +165,7 @@ void	CInventoryOwner::save	(NET_Packet &output_packet)
 
 	CharacterInfo().save(output_packet);
 	save_data	(m_game_name, output_packet);
-	save_data	(m_dwMoney,	output_packet);
+	save_data	(m_money,	output_packet);
 }
 void	CInventoryOwner::load	(IReader &input_packet)
 {
@@ -177,7 +177,7 @@ void	CInventoryOwner::load	(IReader &input_packet)
 
 	CharacterInfo().load(input_packet);
 	load_data		(m_game_name, input_packet);
-	load_data		(m_dwMoney,	input_packet);
+	load_data		(m_money,	input_packet);
 }
 
 
@@ -502,4 +502,20 @@ bool CInventoryOwner::AllowItemToTrade 			(CInventoryItem const * item, EItemPla
 			item->object().cNameSect()
 		)
 	);
+}
+
+void CInventoryOwner::set_money		(u32 amount, bool bSendEvent)
+{
+	m_money = amount;
+
+	if(bSendEvent)
+	{
+		CGameObject				*object = smart_cast<CGameObject*>(this);
+		NET_Packet				packet;
+		object->u_EventGen		(packet,GE_MONEY,object->ID());
+		packet.w_u32			(m_money);
+		object->u_EventSend		(packet);
+	}
+
+
 }

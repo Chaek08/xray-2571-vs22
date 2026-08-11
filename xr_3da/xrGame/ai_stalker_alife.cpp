@@ -170,10 +170,10 @@ u32 CAI_Stalker::fill_items						(CInventory &inventory, CGameObject *old_owner,
 void CAI_Stalker::collect_items						()
 {
 	m_temp_items.clear	();
-	m_total_money		= m_dwMoney;
+	m_total_money		= get_money();
 	u32					money_delta = fill_items(inventory(),this,m_trader_game_object->ID());
 	m_total_money		+= money_delta;
-	m_current_trader->m_dwMoney -= money_delta;
+	m_current_trader->set_money(m_current_trader->get_money() - money_delta, true);
 	fill_items			(m_current_trader->inventory(),m_trader_game_object,m_trader_game_object->ID());
 	std::sort			(m_temp_items.begin(),m_temp_items.end());
 }
@@ -201,7 +201,7 @@ void CAI_Stalker::process_items						()
 			transfer_item	((*I).m_item,(*I).m_owner_id == ID() ? this : m_trader_game_object,(*I).m_owner_id == ID() ? m_trader_game_object : this);
 	}
 
-	m_dwMoney				= m_total_money;
+	set_money				( m_total_money, false );
 	m_temp_items.clear		();
 }
 
@@ -210,7 +210,7 @@ IC	void CAI_Stalker::buy_item_virtual				(CTradeItem &item)
 	item.m_new_owner_id			= ID();
 	m_total_money				-= item.m_item->Cost();
 	if (m_current_trader)
-		m_current_trader->m_dwMoney += item.m_item->Cost();
+		m_current_trader->set_money(m_current_trader->get_money() + item.m_item->Cost(), true);
 }
 
 void CAI_Stalker::choose_food						()
@@ -411,7 +411,7 @@ void CAI_Stalker::update_sell_info					()
 
 	m_temp_items.clear		();
 	m_current_trader		= 0;
-	m_total_money			= m_dwMoney;
+	m_total_money			= get_money();
 	u32						money_delta = fill_items(inventory(),this,ALife::_OBJECT_ID(-1));
 	m_total_money			+= money_delta;
 	std::sort				(m_temp_items.begin(),m_temp_items.end());

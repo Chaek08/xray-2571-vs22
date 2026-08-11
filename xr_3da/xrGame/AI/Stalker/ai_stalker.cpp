@@ -288,7 +288,7 @@ BOOL CAI_Stalker::net_Spawn			(CSE_Abstract* DC)
 	if (!already_dead())
 		m_pPhysics_support->in_NetSpawn	(e);
 	
-	m_dwMoney						= tpHuman->m_dwMoney;
+	set_money						(tpHuman->m_dwMoney, false);
 
 #ifdef DEBUG
 	u32									_start = 0;
@@ -496,7 +496,7 @@ void CAI_Stalker::net_Import		(NET_Packet& P)
 	u8 flags;
 
 	P.r_float						();
-	m_dwMoney						= P.r_u32();
+	set_money						( P.r_u32(), false );
 
 	float health;
 	P.r_float			(health);

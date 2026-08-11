@@ -556,8 +556,8 @@ void CUITradeWnd::PerformTrade()
 
 	if (m_uidata->UIOurTradeList.GetDragDropItemsList().empty() && m_uidata->UIOthersTradeList.GetDragDropItemsList().empty()) return;
 
-	int our_money = (int)m_pInvOwner->m_dwMoney;
-	int others_money = (int)m_pOthersInvOwner->m_dwMoney;
+	int our_money = (int)m_pInvOwner->get_money();
+	int others_money = (int)m_pOthersInvOwner->get_money();
 
 	int delta_price = int(m_iOurTradePrice-m_iOthersTradePrice);
 
@@ -612,10 +612,10 @@ void CUITradeWnd::UpdatePrices()
 	sprintf(buf, "%d$", m_iOthersTradePrice);
 	m_uidata->UIOthersPriceCaption.GetPhraseByIndex(2)->str = buf;
 
-	sprintf(buf, "%d RU", m_pInvOwner->m_dwMoney);
+	sprintf(buf, "%d RU", m_pInvOwner->get_money());
 	m_uidata->UIOurMoneyStatic.SetText(buf);
 
-	sprintf(buf, "%d RU", m_pOthersInvOwner->m_dwMoney);
+	sprintf(buf, "%d RU", m_pOthersInvOwner->get_money());
 	m_uidata->UIOtherMoneyStatic.SetText(buf);
 }
 
@@ -639,6 +639,8 @@ void CUITradeWnd::SellItems(CUIDragDropList* pSellList,
 		pBuyList->AttachChild(pDragDropItem);
 	}
 	pSellList->DropAll();
+	pTrade->pThis.inv_owner->set_money ( pTrade->pThis.inv_owner->get_money(), true );
+	pTrade->pPartner.inv_owner->set_money( pTrade->pPartner.inv_owner->get_money(), true );
 }
 
 void CUITradeWnd::UpdateLists(EListType mode)
