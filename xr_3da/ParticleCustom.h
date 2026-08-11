@@ -25,6 +25,9 @@ public:
 	virtual float	GetTimeLimit		()=0;
     virtual BOOL	IsLooped			(){return GetTimeLimit()<0.f;}
 
+	virtual void	SetLiveUpdate		(BOOL b)=0;
+	virtual BOOL	GetLiveUpdate		()=0;
+
 	virtual const shared_str	Name		()=0;
 
 	virtual IParticleCustom*	dcast_ParticleCustom	()				{ return this;	}

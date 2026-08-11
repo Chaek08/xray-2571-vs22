@@ -77,13 +77,18 @@ namespace PAPI{
 			else{
 				Particle& P = particles[p_count];
 				P.pos 		= pos;
+				P.posI		= pos;
 				P.posB 		= posB;
 				P.size 		= size;
 				P.rot 		= rot;
 				P.vel 		= vel;
+				P.velI		= vel;
+				P.sizeI		= size;
+				P.rotI		= rot;
 				P.color 	= color;
 				P.age 		= age;
 				P.frame 	= frame;
+
 				P.flags.assign(flags); 
 	            if (b_cb)	b_cb(owner,param,P,p_count);
 				p_count++;
