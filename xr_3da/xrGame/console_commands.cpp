@@ -118,30 +118,51 @@ BOOL g_use_scripts_in_goap = 1;
 CUIOptConCom g_OptConCom;
 
 // console commands
-class CCC_Spawn : public IConsole_Command
-{
+class CCC_Spawn : public IConsole_Command {
 public:
-	CCC_Spawn(LPCSTR N) : IConsole_Command(N)  { };
-	virtual void Execute(LPCSTR args) {
-		R_ASSERT(g_pGameLevel);
+    CCC_Spawn(LPCSTR N) : IConsole_Command(N) { };
 
-#ifndef	DEBUG
-		if (GameID() != GAME_SINGLE) 
+    virtual void Execute(LPCSTR args) {
+        R_ASSERT(g_pGameLevel);
+
+    #ifndef DEBUG
+        if (GameID() != GAME_SINGLE)
 		{
-			Msg("For this game type entity-spawning is disabled.");
-			return;
-		};
-#endif
-		char	Name[128];	Name[0]=0;
-		sscanf	(args,"%s", Name);
-		Fvector pos = Actor()->Position();
-		pos.y		+= 2.0f;
-		Level().g_cl_Spawn	(Name,0xff,M_SPAWN_OBJECT_LOCAL, pos);
-	}
-	virtual void	Info	(TInfo& I)		
-	{
-		strcpy(I,"name,team,squad,group"); 
-	}
+            Msg("For this game type entity-spawning is disabled.");
+            return;
+        };
+    #endif
+
+        char Name[128]; 
+        Name[0] = 0;
+        int count = 1;
+
+        int num = sscanf(args, "%s %d", Name, &count);
+
+        if (num < 1)
+		{
+            Msg("! Invalid arguments. Usage: g_spawn <section> [count]");
+            return;
+        }
+
+        if (!pSettings->section_exist(Name))
+		{
+            Msg("! Cannot spawn: section [%s] not found.", Name);
+            return;
+        }
+
+        for (int i = 0; i < count; ++i)
+		{
+            Fvector pos = Actor()->Position();
+            pos.y += 2.0f;
+
+            Level().g_cl_Spawn(Name, 0xff, M_SPAWN_OBJECT_LOCAL, pos);
+        }
+    }
+
+    virtual void Info (TInfo& I) {
+        strcpy(I,"name [count]");
+    }
 };
 class CCC_GameDifficulty : public CCC_Token {
 public:
