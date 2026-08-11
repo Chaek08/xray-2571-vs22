@@ -234,10 +234,12 @@ void	CUICustomMap::SendMessage			(CUIWindow* pWnd, s16 msg, void* pData)
 bool CUIGlobalMap::OnMouse	(float x, float y, EUIMessages mouse_action)
 {
 	if(inherited::OnMouse(x,y,mouse_action)) return true;
-	if(mouse_action==WINDOW_MOUSE_MOVE){
-		if(MapWnd()&&(FALSE==pInput->iGetAsyncBtnState(1))){
-			MapWnd()->Hint(MapName());
-			return true;
+	if(mouse_action==WINDOW_MOUSE_MOVE && (FALSE==pInput->iGetAsyncBtnState(0)))
+	{
+		if( MapWnd() )
+		{
+			MapWnd()->Hint	(MapName());
+			return			true;
 		}
 	}
 	return false;
@@ -495,10 +497,12 @@ bool CUILevelMap::OnMouse	(float x, float y, EUIMessages mouse_action)
 		return true;
 	};
 
-	if(mouse_action==WINDOW_MOUSE_MOVE){
-		if(MapWnd()&&(FALSE==pInput->iGetAsyncBtnState(1))){
-			MapWnd()->Hint(MapName());
-			return true;
+	if(mouse_action==WINDOW_MOUSE_MOVE && (FALSE==pInput->iGetAsyncBtnState(0)) )
+	{
+		if( MapWnd() )
+		{
+			MapWnd()->Hint	(MapName());
+			return			true;
 		}
 	}
 

@@ -372,10 +372,10 @@ bool CUIMapWnd::OnKeyboardHold(int dik)
 				Fvector2 pos_delta; pos_delta.set(0.0f, 0.0f);
 
 
-				if(dik==DIK_UP)					pos_delta.y	-= 1.0f;
-				if(dik==DIK_DOWN)				pos_delta.y	+= 1.0f;
-				if(dik==DIK_LEFT)				pos_delta.x	-= 1.0f;
-				if(dik==DIK_RIGHT)				pos_delta.x	+= 1.0f;
+				if(dik==DIK_UP)					pos_delta.y	+= 1.0f;
+				if(dik==DIK_DOWN)				pos_delta.y	-= 1.0f;
+				if(dik==DIK_LEFT)				pos_delta.x	+= 1.0f;
+				if(dik==DIK_RIGHT)				pos_delta.x	-= 1.0f;
 				GlobalMap()->MoveWndDelta		(pos_delta);
 				UpdateScroll					();
 				m_hint->SetOwner				(NULL);
@@ -413,13 +413,14 @@ bool CUIMapWnd::OnMouse(float x, float y, EUIMessages mouse_action)
 	if(GlobalMap() && !GlobalMap()->Locked() && ActiveMapRect().in( cursor_pos ) ){
 		switch (mouse_action){
 		case WINDOW_MOUSE_MOVE:
-			if( pInput->iGetAsyncBtnState(1) ){
+			if( pInput->iGetAsyncBtnState(0) ){
 				GlobalMap()->MoveWndDelta	(GetUICursor()->GetPosDelta());
 				UpdateScroll					();
 				m_hint->SetOwner				(NULL);
 				return							true;
 			}
 		break;
+/*
 		case WINDOW_LBUTTON_DOWN:
 			if (m_flags.is_any(lmZoomIn+lmZoomOut)){
 				CUIGlobalMap* gm				= GlobalMap();
@@ -443,8 +444,42 @@ bool CUIMapWnd::OnMouse(float x, float y, EUIMessages mouse_action)
 			m_hint->SetOwner				(NULL);
 			return								true;
 		break;
+*/
 		}	
 	};
+
+	if (	((mouse_action==WINDOW_LBUTTON_DOWN)&&(m_flags.is_any(lmZoomIn+lmZoomOut)))		|| 
+			(mouse_action==WINDOW_MOUSE_WHEEL_DOWN)											||
+			(mouse_action==WINDOW_MOUSE_WHEEL_UP)	
+		)
+		{
+			bool b_zoom_in =	(mouse_action==WINDOW_LBUTTON_DOWN && m_flags.test(lmZoomIn)) || 
+								(mouse_action==WINDOW_MOUSE_WHEEL_DOWN);
+
+			if(mouse_action==WINDOW_MOUSE_WHEEL_UP)
+			{
+//.				Msg("up");
+			}
+			if(mouse_action==WINDOW_MOUSE_WHEEL_DOWN)
+			{
+//.				Msg("down");
+			}
+			CUIGlobalMap* gm				= GlobalMap();
+			float _prev_zoom				= GetZoom();
+			if(b_zoom_in)					SetZoom(GetZoom()*1.5f);
+			else							SetZoom(GetZoom()/1.5f);
+
+			if(!fsimilar(_prev_zoom, GetZoom()))
+			{
+				m_tgtCenter						= cursor_pos;
+				Fvector2 _p						= gm->GetAbsolutePos();
+				m_tgtCenter.sub					(_p);
+				m_tgtCenter.div					(gm->GetCurrentZoom());
+				ResetActionPlanner				();
+				m_hint->SetOwner				(NULL);
+			}
+			return								true;
+		}
 	return								false;
 }
 
