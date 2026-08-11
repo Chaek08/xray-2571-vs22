@@ -125,6 +125,14 @@ void InitConsole	()
 		Console						= xr_new<CConsole>	();
 	}
 	Console->Initialize			( );
+
+	strcpy_s						(Console->ConfigFile,"user.ltx");
+	if (strstr(Core.Params,"-ltx "))
+	{
+		string64				c_name;
+		sscanf					(strstr(Core.Params,"-ltx ")+5,"%[^ ] ",c_name);
+		strcpy_s				(Console->ConfigFile,c_name);
+	}
 }
 
 void InitInput		()
@@ -165,14 +173,7 @@ void destroyEngine	()
 void execUserScript				( )
 {
 // Execute script
-	strcpy						(Console->ConfigFile,"user.ltx");
-	if (strstr(Core.Params,"-ltx ")) {
-		string64				c_name;
-		sscanf					(strstr(Core.Params,"-ltx ")+5,"%[^ ] ",c_name);
-		strcpy					(Console->ConfigFile,c_name);
-	}
-	if (!FS.exist(Console->ConfigFile))
-		strcpy					(Console->ConfigFile,"user.ltx");
+	Console->Execute			("default_controls");
 	Console->ExecuteScript		(Console->ConfigFile);
 }
 void slowdownthread	( void* )
