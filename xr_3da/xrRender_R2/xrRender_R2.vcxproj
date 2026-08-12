@@ -240,6 +240,7 @@
     <ClInclude Include="Blender_Editor_Selection.h" />
     <ClInclude Include="Blender_Editor_Wire.h" />
     <ClInclude Include="blender_light_direct.h" />
+    <ClInclude Include="blender_light_direct_cascade.h" />
     <ClInclude Include="blender_light_mask.h" />
     <ClInclude Include="blender_light_occq.h" />
     <ClInclude Include="blender_light_point.h" />
@@ -286,6 +287,7 @@
     <ClInclude Include="r__occlusion.h" />
     <ClInclude Include="r__pixel_calculator.h" />
     <ClInclude Include="r__sector.h" />
+    <ClInclude Include="r__sun_cascades.h" />
     <ClInclude Include="SMAP_Allocator.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="uber_deffer.h" />
@@ -305,6 +307,7 @@
     <ClCompile Include="Blender_Editor_Selection.cpp" />
     <ClCompile Include="Blender_Editor_Wire.cpp" />
     <ClCompile Include="blender_light_direct.cpp" />
+    <ClCompile Include="blender_light_direct_cascade.cpp" />
     <ClCompile Include="blender_light_mask.cpp" />
     <ClCompile Include="blender_light_occq.cpp" />
     <ClCompile Include="blender_light_point.cpp" />

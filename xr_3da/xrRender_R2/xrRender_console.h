@@ -103,6 +103,7 @@ enum
 	R2FLAG_GLOBALMATERIAL	= (1<<8),
 	R2FLAG_ZFILL			= (1<<9),
 	R2FLAG_R1LIGHTS			= (1<<10),
+	R2FLAGEXT_SUN_ZCULLING  = (1<<11),
 };
 
 extern void						xrRender_initconsole	();

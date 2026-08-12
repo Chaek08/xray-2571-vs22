@@ -40,8 +40,8 @@
 const		float				SMAP_near_plane		= .1f	;
 
 const		u32					SMAP_adapt_min		= 32	;
-const		u32					SMAP_adapt_optimal	= 768	;
-const		u32					SMAP_adapt_max		= 1536	;
+const		u32					SMAP_adapt_optimal	= 2048	;
+const		u32					SMAP_adapt_max		= 4096	;
 
 const		u32					TEX_material_LdotN	= 128	;	// diffuse,		X, almost linear = small res
 const		u32					TEX_material_LdotH	= 256	;	// specular,	Y
@@ -74,8 +74,9 @@ const		u32					LUMINANCE_size		= 16	;
 
 // sun
 #define		SE_SUN_NEAR			0
-#define		SE_SUN_FAR			1
-#define		SE_SUN_LUMINANCE	2
+#define		SE_SUN_MIDDLE		1
+#define		SE_SUN_FAR			2
+#define		SE_SUN_LUMINANCE	3
 
 IC	float	u_diffuse2s	(float x, float y, float z)	{ float	v = (x+y+z)/3.f;	return (v<1)?powf(v,2.f/3.f):v; }
 IC	float	u_diffuse2s	(Fvector3& c)				{ return u_diffuse2s(c.x,c.y,c.z);					}
