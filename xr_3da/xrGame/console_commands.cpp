@@ -164,6 +164,18 @@ public:
         strcpy(I,"name [count]");
     }
 };
+
+class CCC_TimeFactor : public IConsole_Command {
+public:
+	CCC_TimeFactor(LPCSTR N) : IConsole_Command(N) {}
+	virtual void	Execute(LPCSTR args)
+	{
+		float				time_factor = (float)atof(args);
+		clamp(time_factor, .001f, 1000.f);
+		Device.time_factor(time_factor);
+	}
+};
+
 class CCC_GameDifficulty : public CCC_Token {
 public:
 	CCC_GameDifficulty(LPCSTR N) : CCC_Token(N,(u32*)&g_SingleGameDifficulty,difficulty_type_token)  {};
@@ -2370,6 +2382,7 @@ void CCC_RegisterCommands()
 	CMD1(CCC_MainMenu,		"main_menu"				);
 
 	CMD1(CCC_StartTimeSingle,	"start_time_single");
+	CMD1(CCC_TimeFactor,		"time_factor");	
 	CMD4(CCC_TimeFactorSingle,	"time_factor_single", &g_fTimeFactor, 0.f,flt_max);
 	CMD1(CCC_StartTimeEnvironment,	"sv_setenvtime");
 
