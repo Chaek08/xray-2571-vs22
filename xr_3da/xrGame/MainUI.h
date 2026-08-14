@@ -114,6 +114,9 @@ public:
 	void			PopScissor						();
 	void			Screenshot						(IRender_interface::ScreenshotMode mode=IRender_interface::SM_NORMAL, LPCSTR name = 0);
 
+	bool			is_16_9_mode					();
+	shared_str		get_xml_name					(LPCSTR fn);
+
 	void			RegisterPPDraw					(CUIWindow* w);
 	void			UnregisterPPDraw				(CUIWindow* w);
 

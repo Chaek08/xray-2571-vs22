@@ -86,6 +86,7 @@ public:
 	void					ShowCrosshair		(bool show);
 
 	void					SetHitmarkType		(LPCSTR tex_name);
+	virtual void			OnScreenRatioChanged();
 };
 
 

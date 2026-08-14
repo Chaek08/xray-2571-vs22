@@ -6591,6 +6591,9 @@
     <ClInclude Include="ui\UICellCustomItems.h">
       <Filter>UI\UIWindows\DragDrop2</Filter>
     </ClInclude>
+    <ClInclude Include="ui\xrUIXmlParser.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="damage_manager.cpp">
@@ -9646,6 +9649,9 @@
     </ClCompile>
     <ClCompile Include="ui\UICellCustomItems.cpp">
       <Filter>UI\UIWindows\DragDrop2</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\xrUIXmlParser.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

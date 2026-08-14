@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "UIFollowerPanel.h"
 #include "UIFollowerIcon.h"
-#include "xrxmlparser.h"
+#include "xrUIXmlParser.h"
 
 CUIFollowerPanel::~CUIFollowerPanel()
 {}

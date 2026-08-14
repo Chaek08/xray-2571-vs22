@@ -1,4 +1,4 @@
-// UIXml.cpp: implementation of the CUIXml class.
+// UIXml.cpp: implementation of the CXml class.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -22,35 +22,21 @@ XRXMLPARSER_API void XML_CleanUpMemory()
 }
 
 
-XRXMLPARSER_API CUIXml::CUIXml()
+XRXMLPARSER_API CXml::CXml()
 	:	m_root			(NULL),
 		m_pLocalRoot	(NULL)
 //		m_Doc			("x:\\Memory.xml")
 {
 }
 
-XRXMLPARSER_API CUIXml::~CUIXml()
+XRXMLPARSER_API CXml::~CXml()
 {
 	ClearInternal();
 }
 
-void CUIXml::ClearInternal()
+void CXml::ClearInternal()
 {
 	m_Doc.Clear();
-}
-
-bool CUIXml::Init(LPCSTR path_alias, LPCSTR path, LPCSTR xml_filename)
-{
-	string_path str;
-	sprintf(str,"%s\\%s", path, xml_filename);
-	return Init(path_alias, str);
-}
-
-bool CUIXml::Init(LPCSTR path_alias, LPCSTR path1, LPCSTR path2, LPCSTR xml_filename)
-{
-	string_path str;
-	sprintf(str,"%s\\%s\\%s", path1, path2, xml_filename);
-	return Init(path_alias, str);
 }
 
 void ParseFile(LPCSTR path, CMemoryWriter& W, IReader *F )
@@ -78,8 +64,19 @@ void ParseFile(LPCSTR path, CMemoryWriter& W, IReader *F )
 
 	}
 }
+
+
+bool CXml::Init(LPCSTR path_alias, LPCSTR path, LPCSTR _xml_filename)
+{
+	shared_str fn = correct_file_name(path, _xml_filename);
+
+	string_path str;
+	sprintf(str,"%s\\%s", path, *fn);
+	return Init(path_alias, str);
+}
+
 //инициализация и загрузка XML файла
-bool CUIXml::Init(LPCSTR path, LPCSTR  xml_filename)
+bool CXml::Init(LPCSTR path, LPCSTR  xml_filename)
 {
 	strcpy(m_xml_file_name, xml_filename);
 	// Load and parse xml file
@@ -105,7 +102,7 @@ bool CUIXml::Init(LPCSTR path, LPCSTR  xml_filename)
 	return true;
 }
 
-XML_NODE* CUIXml::NavigateToNode(XML_NODE* start_node, 
+XML_NODE* CXml::NavigateToNode(XML_NODE* start_node, 
 								 LPCSTR  path, 
 								 int node_index)
 {
@@ -150,12 +147,12 @@ XML_NODE* CUIXml::NavigateToNode(XML_NODE* start_node,
 	return node;
 }
 
-XML_NODE* CUIXml::NavigateToNode(LPCSTR  path, int node_index)
+XML_NODE* CXml::NavigateToNode(LPCSTR  path, int node_index)
 {
 	return NavigateToNode(GetLocalRoot()?GetLocalRoot():GetRoot(), path, node_index);
 }
 
-XML_NODE* CUIXml::NavigateToNodeWithAttribute(LPCSTR tag_name, LPCSTR attrib_name, LPCSTR attrib_value)
+XML_NODE* CXml::NavigateToNodeWithAttribute(LPCSTR tag_name, LPCSTR attrib_name, LPCSTR attrib_value)
 {
 
 	XML_NODE	*root		= GetLocalRoot() ? GetLocalRoot() : GetRoot();
@@ -174,7 +171,7 @@ XML_NODE* CUIXml::NavigateToNodeWithAttribute(LPCSTR tag_name, LPCSTR attrib_nam
 }
 
 
-LPCSTR CUIXml::Read(LPCSTR path, int index, LPCSTR   default_str_val)
+LPCSTR CXml::Read(LPCSTR path, int index, LPCSTR   default_str_val)
 {
 	XML_NODE* node = NavigateToNode(path, index);
 	LPCSTR result = Read(node,  default_str_val);
@@ -183,7 +180,7 @@ LPCSTR CUIXml::Read(LPCSTR path, int index, LPCSTR   default_str_val)
 
 
 
-LPCSTR CUIXml::Read(XML_NODE* start_node,  LPCSTR path, int index, LPCSTR   default_str_val)
+LPCSTR CXml::Read(XML_NODE* start_node,  LPCSTR path, int index, LPCSTR   default_str_val)
 {
 	XML_NODE* node = NavigateToNode(start_node, path, index);
 	LPCSTR result = Read(node,  default_str_val);
@@ -191,7 +188,7 @@ LPCSTR CUIXml::Read(XML_NODE* start_node,  LPCSTR path, int index, LPCSTR   defa
 }
 
 
-LPCSTR CUIXml::Read(XML_NODE* node,  LPCSTR   default_str_val)
+LPCSTR CXml::Read(XML_NODE* node,  LPCSTR   default_str_val)
 {
 	if(node == NULL)
 		return default_str_val;
@@ -208,7 +205,7 @@ LPCSTR CUIXml::Read(XML_NODE* node,  LPCSTR   default_str_val)
 
 
 
-int CUIXml::ReadInt(XML_NODE* node, int default_int_val)
+int CXml::ReadInt(XML_NODE* node, int default_int_val)
 {
 	LPCSTR result_str = Read(node, NULL ); 
 
@@ -217,7 +214,7 @@ int CUIXml::ReadInt(XML_NODE* node, int default_int_val)
 
 	return atoi(result_str);
 }
-int CUIXml::ReadInt(LPCSTR path, int index, int default_int_val)
+int CXml::ReadInt(LPCSTR path, int index, int default_int_val)
 {
 	LPCSTR result_str = Read(path, index, NULL ); 
 	if(result_str==NULL)
@@ -225,7 +222,7 @@ int CUIXml::ReadInt(LPCSTR path, int index, int default_int_val)
 
 	return atoi(result_str);
 }
-int CUIXml::ReadInt(XML_NODE* start_node, LPCSTR path, int index, int default_int_val)
+int CXml::ReadInt(XML_NODE* start_node, LPCSTR path, int index, int default_int_val)
 {
 	LPCSTR result_str = Read(start_node, path, index, NULL ); 
 	if(result_str==NULL)
@@ -234,7 +231,7 @@ int CUIXml::ReadInt(XML_NODE* start_node, LPCSTR path, int index, int default_in
 	return atoi(result_str);
 }
 
-float   CUIXml::ReadFlt(LPCSTR path, int index,  float default_flt_val)
+float   CXml::ReadFlt(LPCSTR path, int index,  float default_flt_val)
 {
 	LPCSTR result_str = Read(path, index, NULL ); 
 	if(result_str==NULL)
@@ -242,7 +239,7 @@ float   CUIXml::ReadFlt(LPCSTR path, int index,  float default_flt_val)
 
 	return (float)atof(result_str);
 }
-float   CUIXml::ReadFlt(XML_NODE* start_node,  LPCSTR path, int index,  float default_flt_val)
+float   CXml::ReadFlt(XML_NODE* start_node,  LPCSTR path, int index,  float default_flt_val)
 {
 	LPCSTR result_str = Read(start_node, path, index, NULL ); 
 	if(result_str==NULL)
@@ -250,7 +247,7 @@ float   CUIXml::ReadFlt(XML_NODE* start_node,  LPCSTR path, int index,  float de
 
 	return (float)atof(result_str);
 }
-float   CUIXml::ReadFlt(XML_NODE* node,  float default_flt_val)
+float   CXml::ReadFlt(XML_NODE* node,  float default_flt_val)
 {
 	LPCSTR result_str = Read(node, NULL ); 
 
@@ -262,7 +259,7 @@ float   CUIXml::ReadFlt(XML_NODE* node,  float default_flt_val)
 
 
 
-LPCSTR CUIXml::ReadAttrib(XML_NODE* start_node, LPCSTR path,  int index, 
+LPCSTR CXml::ReadAttrib(XML_NODE* start_node, LPCSTR path,  int index, 
 					LPCSTR attrib, LPCSTR   default_str_val)
 {
 	XML_NODE* node = NavigateToNode(start_node, path, index);
@@ -272,14 +269,14 @@ LPCSTR CUIXml::ReadAttrib(XML_NODE* start_node, LPCSTR path,  int index,
 }
 
 
-LPCSTR CUIXml::ReadAttrib(LPCSTR path,  int index, 
+LPCSTR CXml::ReadAttrib(LPCSTR path,  int index, 
 					LPCSTR attrib, LPCSTR   default_str_val)
 {
 	XML_NODE* node = NavigateToNode(path, index);
 	LPCSTR result = ReadAttrib(node, attrib, default_str_val);
 	return	result;
 }
-LPCSTR CUIXml::ReadAttrib(XML_NODE* node, LPCSTR attrib, LPCSTR   default_str_val)
+LPCSTR CXml::ReadAttrib(XML_NODE* node, LPCSTR attrib, LPCSTR   default_str_val)
 {
 	if(node == NULL)
 		return default_str_val;
@@ -309,7 +306,7 @@ LPCSTR CUIXml::ReadAttrib(XML_NODE* node, LPCSTR attrib, LPCSTR   default_str_va
 }
 
 
-int CUIXml::ReadAttribInt(XML_NODE* node, LPCSTR attrib, int default_int_val)
+int CXml::ReadAttribInt(XML_NODE* node, LPCSTR attrib, int default_int_val)
 {
 	LPCSTR result_str = ReadAttrib(node, attrib, NULL); 
 
@@ -319,7 +316,7 @@ int CUIXml::ReadAttribInt(XML_NODE* node, LPCSTR attrib, int default_int_val)
 	return atoi(result_str);
 }
 
-int CUIXml::ReadAttribInt(LPCSTR path, int index,  
+int CXml::ReadAttribInt(LPCSTR path, int index,  
 					LPCSTR attrib, int default_int_val)
 {
 	LPCSTR result_str = ReadAttrib(path, index, attrib, NULL); 
@@ -331,7 +328,7 @@ int CUIXml::ReadAttribInt(LPCSTR path, int index,
 }
 
 
-int CUIXml::ReadAttribInt(XML_NODE* start_node, LPCSTR path, int index,  
+int CXml::ReadAttribInt(XML_NODE* start_node, LPCSTR path, int index,  
 					LPCSTR attrib, int default_int_val)
 {
 	LPCSTR result_str = ReadAttrib(start_node, path, index, attrib, NULL); 
@@ -341,7 +338,7 @@ int CUIXml::ReadAttribInt(XML_NODE* start_node, LPCSTR path, int index,
 	return atoi(result_str);
 }
 
-float   CUIXml::ReadAttribFlt(LPCSTR path,	int index,  LPCSTR attrib, float default_flt_val)
+float   CXml::ReadAttribFlt(LPCSTR path,	int index,  LPCSTR attrib, float default_flt_val)
 {
 	LPCSTR result_str = ReadAttrib(path, index, attrib, NULL); 
 
@@ -351,7 +348,7 @@ float   CUIXml::ReadAttribFlt(LPCSTR path,	int index,  LPCSTR attrib, float defa
 	return (float)atof(result_str);
 }
 
-float   CUIXml::ReadAttribFlt(XML_NODE* start_node, LPCSTR path, int index,  LPCSTR attrib, float default_flt_val)
+float   CXml::ReadAttribFlt(XML_NODE* start_node, LPCSTR path, int index,  LPCSTR attrib, float default_flt_val)
 {
 	LPCSTR result_str = ReadAttrib(start_node, path, index, attrib, NULL); 
 
@@ -360,7 +357,7 @@ float   CUIXml::ReadAttribFlt(XML_NODE* start_node, LPCSTR path, int index,  LPC
 
 	return (float)atof(result_str);
 }
-float   CUIXml::ReadAttribFlt(XML_NODE* node,	LPCSTR attrib, float default_flt_val)
+float   CXml::ReadAttribFlt(XML_NODE* node,	LPCSTR attrib, float default_flt_val)
 {
 	LPCSTR result_str = ReadAttrib(node, attrib, NULL); 
 
@@ -370,7 +367,7 @@ float   CUIXml::ReadAttribFlt(XML_NODE* node,	LPCSTR attrib, float default_flt_v
 	return (float)atof(result_str);
 }
 
-int CUIXml::GetNodesNum(LPCSTR path, int index, LPCSTR  tag_name)
+int CXml::GetNodesNum(LPCSTR path, int index, LPCSTR  tag_name)
 {
 	XML_NODE* node = NULL;
 	
@@ -389,7 +386,7 @@ int CUIXml::GetNodesNum(LPCSTR path, int index, LPCSTR  tag_name)
 	return GetNodesNum(node, tag_name);
 }
 
-int CUIXml::GetNodesNum(XML_NODE* node, LPCSTR  tag_name)
+int CXml::GetNodesNum(XML_NODE* node, LPCSTR  tag_name)
 {
 	if(node == NULL) return 0;
 
@@ -415,7 +412,7 @@ int CUIXml::GetNodesNum(XML_NODE* node, LPCSTR  tag_name)
 }
 
 //нахождение элемнета по его атрибуту
-XML_NODE* CUIXml::SearchForAttribute(LPCSTR path, int index, 
+XML_NODE* CXml::SearchForAttribute(LPCSTR path, int index, 
 									 LPCSTR tag_name, 	
 									 LPCSTR attrib, 
 									 LPCSTR attrib_value_pattern)
@@ -426,7 +423,7 @@ XML_NODE* CUIXml::SearchForAttribute(LPCSTR path, int index,
 	return	result;
 }
 
-XML_NODE* CUIXml::SearchForAttribute(XML_NODE* start_node, 
+XML_NODE* CXml::SearchForAttribute(XML_NODE* start_node, 
 									LPCSTR tag_name,
 									LPCSTR attrib, 
 									LPCSTR attrib_value_pattern)
@@ -455,7 +452,7 @@ XML_NODE* CUIXml::SearchForAttribute(XML_NODE* start_node,
 }
 
 
-LPCSTR CUIXml::CheckUniqueAttrib (XML_NODE* start_node, 
+LPCSTR CXml::CheckUniqueAttrib (XML_NODE* start_node, 
 									LPCSTR tag_name,
 									LPCSTR attrib_name)
 {
@@ -480,7 +477,7 @@ LPCSTR CUIXml::CheckUniqueAttrib (XML_NODE* start_node,
 
 //////////////////////////////////////////////////////////////////////////
 
-XML_ATTRIBUTE * CUIXml::QueryForAttrib(XML_NODE *node, int attribIdx)
+XML_ATTRIBUTE * CXml::QueryForAttrib(XML_NODE *node, int attribIdx)
 {
 	R_ASSERT3(node,"QueryForAttrib failed in XML file ",m_xml_file_name);
 
@@ -500,7 +497,7 @@ XML_ATTRIBUTE * CUIXml::QueryForAttrib(XML_NODE *node, int attribIdx)
 
 //////////////////////////////////////////////////////////////////////////
 
-CUIXml::AttribPair CUIXml::QueryAttribData(XML_ATTRIBUTE *attrib)
+CXml::AttribPair CXml::QueryAttribData(XML_ATTRIBUTE *attrib)
 {
 	R_ASSERT3	(attrib, "QueryAttribData failed in XML file ",m_xml_file_name);
 	return std::make_pair(attrib->Name(), attrib->Value());

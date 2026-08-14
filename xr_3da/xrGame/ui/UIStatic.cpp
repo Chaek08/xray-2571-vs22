@@ -604,6 +604,10 @@ void CUIStatic::RescaleRelative2Rect(const Frect& r){
 	Frect my_r = m_xxxRect;
 	float h_rel = my_r.width()/r.width();
 	float v_rel = my_r.height()/r.height();
+	if (UI()->is_16_9_mode())
+	{
+		h_rel *= (3.0f / 4.0f);
+	}
 	float w;
 	float h;
 	if (h_rel < v_rel){

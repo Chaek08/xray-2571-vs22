@@ -37,6 +37,7 @@ public:
 //	virtual		void		Hit						(int idx, float power){;}
 
 	virtual IC	CUI*		GetUI					()=0;
+	virtual void			OnScreenRatioChanged	()=0;
 };
 
 #endif //__XR_CUSTOMHUD_H__
