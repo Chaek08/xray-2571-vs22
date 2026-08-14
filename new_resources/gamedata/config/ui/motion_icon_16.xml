@@ -29,15 +29,15 @@
 		<texture>ui_hud_soldier_sprint</texture>
 	</state_sprint>
 
-	<power_progress x="24" y="94" width="43" height="7" length="43" horz="1" min="0" max="100" pos="50">
-		<texture width="43" height="7" length="43">ui_hud_shk_stamina</texture>
+	<power_progress  x="24" y="94" width="43" height="7" length="57" horz="1" min="0" max="100" pos="50">
+		<texture width="43" height="7" length="57">ui_hud_shk_stamina</texture>
 	</power_progress>
 	
-	<luminosity_progress x="79" y="34" width="8" height="71" length="8" horz="0" min="0" max="200" pos="100">
+	<luminosity_progress x="79" y="34" width="71" height="10" length="71" horz="0" min="0" max="200" pos="100">
 		<texture width="8" height="71" length="71">ui_hud_shk_light</texture>
 	</luminosity_progress>
 	
-	<noise_progress x="8" y="34" width="8" height="71" length="8" horz="0" min="0" max="400" pos="100">
+	<noise_progress x="8" y="34" width="71" height="10" length="71" horz="0" min="0" max="400" pos="100">
 		<texture width="8" height="71" length="71">ui_hud_shk_noise</texture>
 	</noise_progress>
 </window>
