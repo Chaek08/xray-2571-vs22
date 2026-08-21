@@ -148,26 +148,6 @@ void CStats::Show()
 	float		f_base_size	= 8;	//F.GetSize();
 				F.SetSize	(f_base_size);
 
-	if( Device.Pause() && !g_pGamePersistent->m_pMainUI->IsActive() && bShowPauseString){
-		float sz		= pFont->GetSize();
-		pFont->SetSize	(32);
-		pFont->SetColor	(0x80FF0000	);
-		pFont->OutSet	(Device.dwWidth/2.0f-(pFont->SizeOf("Game paused")/2.0f),Device.dwHeight/2.0f);
-		pFont->OutNext	("Game paused");
-		pFont->OnRender	();
-		pFont->SetSize	(sz);
-	}
-
-	if (vtune.enabled())	{
-		float sz		= pFont->GetSize();
-		pFont->SetSize	(16);
-		pFont->SetColor	(0xFFFF0000	);
-		pFont->OutSet	(Device.dwWidth/2.0f+(pFont->SizeOf("Game paused")/2.0f),Device.dwHeight/2.0f);
-		pFont->OutNext	("--= tune =--");
-		pFont->OnRender	();
-		pFont->SetSize	(sz);
-	};
-
 	// Show them
 	if (psDeviceFlags.test(rsStatistic))
 	{

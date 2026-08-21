@@ -10,6 +10,7 @@
 #include "../igame_level.h"
 #include "clsid_game.h"
 
+extern ENGINE_API BOOL bShowPauseString;
 
 CFontManager::CFontManager()
 {
@@ -220,6 +221,17 @@ void  CHUDManager::RenderUI()
 
 	// Recalc new scale factor if resolution was changed
 //	OnDeviceCreate();
+
+	CGameFont* pFont = Font().pFontStat;
+	if (Device.Pause() && !g_pGamePersistent->m_pMainUI->IsActive() && bShowPauseString) {
+		float sz = pFont->GetSize();
+		pFont->SetSize(32);
+		pFont->SetColor(0x80FF0000);
+		pFont->OutSet(Device.dwWidth / 2.0f - (pFont->SizeOf("Game paused") / 2.0f), Device.dwHeight / 2.0f);
+		pFont->OutNext("Game paused");
+		pFont->OnRender();
+		pFont->SetSize(sz);
+	}
 }
 
 //--------------------------------------------------------------------
