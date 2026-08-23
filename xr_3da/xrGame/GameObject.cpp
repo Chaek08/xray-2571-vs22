@@ -825,4 +825,10 @@ LPCSTR CGameObject::visual_name			(CSE_Abstract *server_entity)
 	return						(visual->get_visual());
 }
 
+bool CGameObject::shedule_Needed( )
+{
+	return						( !getDestroy( ) );
+//	return						(processing_enabled() || CScriptBinder::object());
+};
+
 

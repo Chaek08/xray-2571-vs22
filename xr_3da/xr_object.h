@@ -161,6 +161,7 @@ public:
 	
 	// Update
 	virtual void						shedule_Update		(u32 dt);							// Called by sheduler
+	virtual bool						shedule_Needed		()					{return processing_enabled();};
 	virtual void						renderable_Render	();
 
 	virtual void						UpdateCL			();									// Called each frame, so no need for dt
