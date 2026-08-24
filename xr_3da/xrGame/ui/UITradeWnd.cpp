@@ -1,4 +1,4 @@
-}// UITradeWnd.cpp:  диалог торговли
+// UITradeWnd.cpp:  диалог торговли
 // 
 //////////////////////////////////////////////////////////////////////
 
@@ -534,7 +534,7 @@ float CUITradeWnd::CalcItemsWeight(CUIDragDropList* pList)
 	return res;
 }
 
-u32 CUITradeWnd::CalcItemsPrice(CUIDragDropList* pList, CTrade* pTrade)
+u32 CUITradeWnd::CalcItemsPrice(CUIDragDropList* pList, CTrade* pTrade, bool bBuying)
 {
 	u32 iPrice = 0;
 	
@@ -543,7 +543,7 @@ u32 CUITradeWnd::CalcItemsPrice(CUIDragDropList* pList, CTrade* pTrade)
 						  ++it)
 	{
 		CUIDragDropItem* pDragDropItem = *it;
-		iPrice += pTrade->GetItemPrice((PIItem)pDragDropItem->GetData());
+		iPrice += pTrade->GetItemPrice((PIItem)pDragDropItem->GetData(), bBuying);
 	}
 
 
@@ -565,13 +565,13 @@ void CUITradeWnd::PerformTrade()
 	others_money-=delta_price;
 
 	//денег хватает, продать вещи
-	if(our_money>0 && others_money>0 && (m_iOurTradePrice>0 || m_iOthersTradePrice>0))
+	if(our_money>=0 && others_money>=0 && (m_iOurTradePrice>=0 || m_iOthersTradePrice>0))
 	{
 		m_pOthersTrade->OnPerformTrade(m_iOthersTradePrice, m_iOurTradePrice);
 		
 		if (m_pCurrentDragDropItem) m_pCurrentDragDropItem->Highlight(false);
-		SellItems(&m_uidata->UIOurTradeList, &m_uidata->UIOthersBagList, m_pTrade);
-		SellItems(&m_uidata->UIOthersTradeList, &m_uidata->UIOurBagList, m_pOthersTrade);
+		TransferItems		(&m_uidata->UIOurTradeList,		&m_uidata->UIOthersBagList, m_pOthersTrade,	true);
+		TransferItems		(&m_uidata->UIOthersTradeList,	&m_uidata->UIOurBagList,	m_pOthersTrade,	false);
 	}else
 	{
 		m_uidata->UIDealMsg				= HUD().GetUI()->UIGame()->AddCustomStatic("not_enough_money", true);
@@ -602,8 +602,8 @@ void CUITradeWnd::EnableAll()
 
 void CUITradeWnd::UpdatePrices()
 {
-	m_iOurTradePrice	= CalcItemsPrice(&m_uidata->UIOurTradeList,		 m_pTrade);
-	m_iOthersTradePrice = CalcItemsPrice(&m_uidata->UIOthersTradeList, m_pOthersTrade);
+	m_iOurTradePrice	= CalcItemsPrice	(&m_uidata->UIOurTradeList,		m_pOthersTrade, true);
+	m_iOthersTradePrice = CalcItemsPrice	(&m_uidata->UIOthersTradeList,	m_pOthersTrade, false);
 
 
 	char buf[255];
@@ -619,9 +619,10 @@ void CUITradeWnd::UpdatePrices()
 	m_uidata->UIOtherMoneyStatic.SetText(buf);
 }
 
-void CUITradeWnd::SellItems(CUIDragDropList* pSellList,
-							CUIDragDropList* pBuyList,
-							CTrade* pTrade)
+void CUITradeWnd::TransferItems(CUIDragDropList* pSellList,
+								CUIDragDropList* pBuyList,
+								CTrade* pTrade,
+								bool bBuying)
 {
 
 	DRAG_DROP_LIST list_to_sell = pSellList->GetDragDropItemsList();
@@ -631,7 +632,7 @@ void CUITradeWnd::SellItems(CUIDragDropList* pSellList,
 	{	
 		CUIDragDropItem* pDragDropItem = *it;
 		pDragDropItem->SetColor(0xffffffff);//un-colorize
-		pTrade->SellItem((PIItem)pDragDropItem->GetData());
+		pTrade->TransferItem((PIItem)pDragDropItem->GetData(), bBuying);
 			
 		if(pDragDropItem->GetParent())
 			pDragDropItem->GetParent()->DetachChild(pDragDropItem);

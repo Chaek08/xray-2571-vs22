@@ -49,20 +49,18 @@ protected:
 	static bool OthersBagProc(CUIDragDropItem* pItem, CUIDragDropList* pList);
 	static bool OurTradeProc(CUIDragDropItem* pItem, CUIDragDropList* pList);
 	static bool OthersTradeProc(CUIDragDropItem* pItem, CUIDragDropList* pList);
-
-	bool ToOurTrade();
-	bool ToOthersTrade();
-	bool ToOurBag();
-	bool ToOthersBag();
-	void SendEvent_ItemDrop(PIItem pItem);
 	
-	//посчет цены вещей в списке
-	u32		CalcItemsPrice(CUIDragDropList* pList, CTrade* pTrade);
-	float	CalcItemsWeight(CUIDragDropList* pList);	
-	//продажа вещей из списка с переносом их в другой список
-	void SellItems(CUIDragDropList* pSellList,
-				   CUIDragDropList* pBuyList,
-				   CTrade* pTrade);
+	bool 				ToOurTrade					();
+	bool 				ToOthersTrade				();
+	bool 				ToOurBag					();
+	bool 				ToOthersBag					();
+	void 				SendEvent_ItemDrop			(PIItem pItem);
+
+	u32					CalcItemsPrice				(CUIDragDropList* pList, CTrade* pTrade, bool bBuying);
+	float				CalcItemsWeight				(CUIDragDropList* pList);
+		
+	void				TransferItems				(CUIDragDropList* pSellList, CUIDragDropList* pBuyList, CTrade* pTrade, bool bBuying);
+
 
 
 	//произвести торговлю

@@ -5,21 +5,10 @@ class CInventory;
 class CInventoryItem;
 class CEntity;
 
-/**
-struct TradeFactors {
-	float   fBuyFactorHostile;
-	float   fBuyFactorFriendly;
-	float   fSellFactorHostile;
-	float   fSellFactorFriendly;
+class CTrade 
+{
+	xr_vector<CObject*>	m_nearest;
 
-//	bool	Loaded;
-
-//	TradeFactors(){Loaded = false;}
-	TradeFactors(){}
-};
-/**/
-
-class CTrade {
 	bool	TradeState;					// режим торговли. true - включен
 	u32		m_dwLastTradeTime;			
 
@@ -62,14 +51,14 @@ public:
 
 	void		OnPerformTrade		(u32 money_get, u32 money_put);
 
-	void		SellItem(CInventoryItem* pItem);
+	void					TransferItem			(CInventoryItem* pItem, bool bBuying);
 
 	CInventoryOwner*	GetPartner();	
 	CTrade*				GetPartnerTrade();
 	CInventory*			GetPartnerInventory();
 
 	//возвращает цену элемента с учетом отношения конкретного торговца.
-	u32			GetItemPrice(CInventoryItem* pItem);
+	u32						GetItemPrice			(CInventoryItem* pItem, bool b_buying);
 
 	void		UpdateTrade();
 private:
