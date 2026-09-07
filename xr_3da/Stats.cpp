@@ -144,9 +144,9 @@ void CStats::Show()
 		pFont->OnRender	();
 	}
 
-	CGameFont&	F			= *((CGameFont*)pFont);
-	float		f_base_size	= 8;	//F.GetSize();
-				F.SetSize	(f_base_size);
+	CGameFont& F = *pFont;
+	float		f_base_size	= 0.01f;
+				F.SetHeightI	(f_base_size);
 
 	// Show them
 	if (psDeviceFlags.test(rsStatistic))
@@ -259,19 +259,19 @@ void CStats::Show()
 
 		//////////////////////////////////////////////////////////////////////////
 		// Renderer specific
-		F.SetSize						(f_base_size);
+		F.SetHeightI						(f_base_size);
 		F.OutSet						(200,0);
 		Render->Statistics				(&F);
 
 		//////////////////////////////////////////////////////////////////////////
 		// Game specific
-		F.SetSize						(f_base_size);
+		F.SetHeightI						(f_base_size);
 		F.OutSet						(400,0);
 		g_pGamePersistent->Statistics	(&F);
 
 		//////////////////////////////////////////////////////////////////////////
 		// process PURE STATS
-		F.SetSize						(f_base_size);
+		F.SetHeightI						(f_base_size);
 		seqStats.Process				(rp_Stats);
 		pFont->OnRender					();
 	}

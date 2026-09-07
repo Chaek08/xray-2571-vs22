@@ -70,15 +70,6 @@ void CUIDebugFonts::FillUpList(){
 	pItem->SetText("pFontGraffiti50Russian 1 2 3 4 5 6 7 8 9 0");
 	m_list.AddItem(pItem);	
 
-	pItem = xr_new<CUIListItem>();
-	pItem->SetFont(UI()->Font()->pFontHeaderEurope);
-	pItem->SetText("pFontHeaderEurope 1 2 3 4 5 6 7 8 9 0");
-	m_list.AddItem(pItem);	
-
-	pItem = xr_new<CUIListItem>();
-	pItem->SetFont(UI()->Font()->pFontHeaderRussian);
-	pItem->SetText("pFontHeaderRussian 1 2 3 4 5 6 7 8 9 0");
-	m_list.AddItem(pItem);
 
 	pItem = xr_new<CUIListItem>();
 	pItem->SetFont(UI()->Font()->pFontLetterica16Russian);

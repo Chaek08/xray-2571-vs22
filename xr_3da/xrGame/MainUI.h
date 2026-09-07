@@ -39,7 +39,8 @@ class CMainUI :
 	public IMainUI,
 	public IInputReceiver,
 	public pureRender,
-	public CDialogHolder
+	public CDialogHolder,
+	public CDeviceResetNotifier
 
 {
 	CFontManager*		m_pFontManager;
@@ -65,6 +66,13 @@ class CMainUI :
 			void	ReadTextureInfo();
 
 	xr_vector<CUIWindow*>		m_pp_draw_wnds;
+
+	Fvector2		m_pp_scale_;
+	Fvector2		m_scale_;
+	Fvector2*		m_current_scale;
+
+	IC float		ClientToScreenScaledX			(float left)				{return left * m_current_scale->x;};
+	IC float		ClientToScreenScaledY			(float top)					{return top * m_current_scale->y;};
 
 public:
 					CMainUI							();
@@ -105,8 +113,9 @@ public:
 	IC float		GetScaleY						()							{return (m_bPostprocess)?float(::Render->getTarget()->get_height())/float(UI_BASE_HEIGHT):float(Device.dwHeight)/float(UI_BASE_HEIGHT);   }
 
 	void			ClientToScreenScaled			(Fvector2& dest, float left, float top);
-	float			ClientToScreenScaledX			(float left);
-	float			ClientToScreenScaledY			(float top);
+	void			ClientToScreenScaled			(Fvector2& src_and_dest);
+	void			ClientToScreenScaledWidth		(float& src_and_dest);
+	void			ClientToScreenScaledHeight		(float& src_and_dest);
 
 	Frect			ScreenRect						();
 	const C2DFrustum& ScreenFrustum					(){return (m_bPostprocess)?m_2DFrustum2:m_2DFrustum;}
@@ -114,6 +123,7 @@ public:
 	void			PopScissor						();
 	void			Screenshot						(IRender_interface::ScreenshotMode mode=IRender_interface::SM_NORMAL, LPCSTR name = 0);
 
+	virtual void	OnDeviceReset					();
 	bool			is_16_9_mode					();
 	shared_str		get_xml_name					(LPCSTR fn);
 

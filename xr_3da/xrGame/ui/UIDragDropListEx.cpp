@@ -205,7 +205,7 @@ void CUIDragDropListEx::Draw()
 	if(0 && bDebug){
 		CGameFont* F		= UI()->Font()->pFontDI;
 		F->SetAligment		(CGameFont::alCenter);
-		F->SetSizeI			(0.02f);
+		F->SetHeight		(0.02f);
 		F->OutSetI			(0.f,-0.5f);
 		F->SetColor			(0xffffffff);
 		Ivector2			pt = m_container->PickCell(GetUICursor()->GetPos());
@@ -593,8 +593,8 @@ void CUICellContainer::Draw()
 								 {0.0f,0.0f},{tx,ty},{0.0f,ty}};
 
 	// calculate cell size in screen pixels
-	float		fw				= cell_sz.x*UI()->GetScaleX();
-	float		fh				= cell_sz.y*UI()->GetScaleY();
+	Fvector2 f_len;
+	UI()->ClientToScreenScaled(f_len, float(cell_sz.x), float(cell_sz.y) );
 
 	// fill cell buffer
 	u32 vOffset					= 0;
@@ -607,8 +607,8 @@ void CUICellContainer::Draw()
 			for (u32 k=0; k<6; ++k,++pv){
 				const Fvector2& p	= pts[k];
 				const Fvector2& uv	= uvs[k];
-				pv->set			(iFloor(drawLT.x + p.x*(fw) +fw*x)-0.5f, 
-								 iFloor(drawLT.y + p.y*(fh) +fh*y)-0.5f, 
+				pv->set			(iFloor(drawLT.x + p.x*(f_len.x) + f_len.x*x)-0.5f, 
+								 iFloor(drawLT.y + p.y*(f_len.y) + f_len.y*y)-0.5f, 
 								 0xFFFFFFFF,tp.x+uv.x,tp.y+uv.y);
 			}
 		}

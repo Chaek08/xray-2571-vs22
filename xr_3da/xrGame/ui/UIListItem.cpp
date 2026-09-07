@@ -60,7 +60,7 @@ void CUIListItem::Draw()
 
 int CUIListItem::GetSignWidht()
 {
-	return (int)GetFont()->SizeOf(GetText());
+	return (int)GetFont()->SizeOf_(GetText());
 }
 
 bool CUIListItem::IsHighlightText()

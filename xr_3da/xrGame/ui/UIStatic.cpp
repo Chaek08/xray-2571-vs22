@@ -595,8 +595,11 @@ void CUIStatic::AdjustHeightToText(){
 	SetHeight				(m_pLines->GetVisibleHeight());
 }
 
-void CUIStatic::AdjustWidthToText(){
-	SetWidth(m_pLines->GetTextLength());
+void CUIStatic::AdjustWidthToText()
+{
+	float _len = m_pLines->GetFont()->SizeOf_(m_pLines->GetText());
+	UI()->ClientToScreenScaledWidth(_len);
+	SetWidth(_len);
 }
 
 void CUIStatic::RescaleRelative2Rect(const Frect& r){

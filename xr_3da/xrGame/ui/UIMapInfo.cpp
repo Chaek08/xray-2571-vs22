@@ -31,6 +31,7 @@ void CUIMapInfo::Init(float x, float y, float width, float height){
 							text += *str_tbl.translate(z);									\
 						text += "%c<default>\\n";											\
 						st = xr_new<CUIStatic>();											\
+						st->SetTextComplexMode(true);										\
 						st->SetFont(txt_font);												\
 						st->SetTextColor(header_color);										\
 						st->SetText(text.c_str());											\
@@ -67,6 +68,7 @@ void CUIMapInfo::InitMap(const char* map_name){
 		//map name
 		st = xr_new<CUIStatic>(); 
 		CUIXmlInit::InitStatic(xml_doc,"map_name",0,st); 
+		st->SetTextComplexMode(true);
 		if (ltx.line_exist("map_info","name"))
 			st->SetText(*ltx.r_string_wb("map_info", "name"));
 		else

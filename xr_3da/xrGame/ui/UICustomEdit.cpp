@@ -158,12 +158,15 @@ bool CUICustomEdit::KeyPressed(int dik)
 	case DIKEYBOARD_RIGHT:
 		m_lines.IncCursorPos();		
 		break;
+/*
 	case DIK_UP:
 		m_lines.MoveCursorUp();
 		break;
 	case DIK_DOWN:
 		m_lines.MoveCursorDown();
 		break;
+*/
+
 	case DIK_LSHIFT:
 	case DIK_RSHIFT:
 		m_bShift = true;
@@ -260,7 +263,7 @@ bool CUICustomEdit::KeyReleased(int dik)
 void CUICustomEdit::AddChar(char c)
 {
 	int text_length;
-	text_length = (int)m_lines.GetFont()->SizeOfRel(m_lines.GetText());
+	text_length = (int)m_lines.GetFont()->SizeOf_(m_lines.GetText());
 	if (!m_lines.GetTextComplexMode() && (text_length>GetWidth() - 1))
             return;
 	m_lines.AddCharAtCursor(c);
@@ -346,11 +349,61 @@ void CUICustomEdit::Update()
 
 void  CUICustomEdit::Draw()
 {
-	CUIWindow::Draw();
-	Fvector2 pos = GetAbsolutePos();
-	m_lines.Draw(pos.x + m_textPos.x, pos.y + m_textPos.y);
-	if(m_bInputFocus)
-		m_lines.DrawCursor(pos.x + m_textPos.x, pos.y + m_textPos.y);
+	CUIWindow::Draw			();
+    Fvector2 pos = GetAbsolutePos();
+	m_lines.Draw			(pos.x + m_textPos.x, pos.y + m_textPos.y);
+
+    if(m_bInputFocus)
+	{ //draw cursor here
+        m_lines.UpdateCursor();
+
+        Fvector2 outXY;
+
+        outXY.x = 0.0f;
+
+        float _h = m_lines.m_pFont->CurrentHeight_();
+        UI()->ClientToScreenScaledHeight(_h);
+
+        float base_y = pos.y + m_textPos.y;
+        float v_indent = m_lines.GetVIndentByAlign();
+        outXY.y = base_y + v_indent + (_h + m_lines.m_interval) * m_lines.m_cursor_pos.y;
+
+        float _w_tmp;
+        int i = m_lines.m_iCursorPos;
+
+        int line_start = i - m_lines.m_cursor_pos.x;
+        if (line_start < 0) line_start = 0;
+        if (line_start > i) line_start = i;
+
+        string256 buff;
+        int slice_len = i - line_start;
+        if (slice_len > (int)sizeof(buff) - 1) slice_len = (int)sizeof(buff) - 1;
+        if (slice_len > 0)
+            memcpy(buff, m_lines.m_text.c_str() + line_start, slice_len);
+        buff[slice_len] = 0;
+
+        if (m_lines.uFlags.test(CUILines::flPasswordMode))
+		{
+            for (int k = 0; k < slice_len; ++k) buff[k] = '*';
+            buff[slice_len] = 0;
+        }
+
+        _w_tmp = m_lines.m_pFont->SizeOf_(buff);
+        UI()->ClientToScreenScaledWidth(_w_tmp);
+
+        float base_x = pos.x + m_textPos.x;
+        float x_align = m_lines.GetIndentByAlign();
+        outXY.x = base_x + x_align + _w_tmp;
+        
+        _w_tmp = m_lines.m_pFont->SizeOf_("-");
+        UI()->ClientToScreenScaledWidth(_w_tmp);
+        UI()->ClientToScreenScaled(outXY);
+
+		//наху€ нам рвотный курсор? но ведь так было в билдах!
+        //m_lines.m_pFont->SetColor(m_lines.m_dwCursorColor);
+        m_lines.m_pFont->Out(outXY.x, outXY.y, "_");
+        m_lines.m_pFont->OnRender();
+    }
 }
 
 void CUICustomEdit::SetText(LPCSTR str)

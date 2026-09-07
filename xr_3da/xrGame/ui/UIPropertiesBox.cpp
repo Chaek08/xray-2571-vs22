@@ -14,7 +14,7 @@
 #define FRAME_BORDER_WIDTH	20
 #define FRAME_BORDER_HEIGHT	22
 
-#define ITEM_HEIGHT (GetFont()->CurrentHeight()+2.0f)
+#define ITEM_HEIGHT (GetFont()->CurrentHeight_()+2.0f)
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

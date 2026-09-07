@@ -15,6 +15,7 @@
 
 extern CUICursor*	GetUICursor(){return UI()->GetUICursor();};
 extern CMainUI*		UI(){return (CMainUI*)(g_pGamePersistent->m_pMainUI);};
+extern ENGINE_API Fvector2		g_current_font_scale;
 
 //----------------------------------------------------------------------------------
 void S2DVert::rotate_pt(const Fvector2& pivot, float cosA, float sinA)
@@ -119,9 +120,25 @@ CMainUI::CMainUI	()
 	g_btnHint					= xr_new<CUIButtonHint>();
 	m_bPostprocess				= false;
 
+	OnDeviceReset();
+
+	m_current_scale = &m_scale_;
+	g_current_font_scale.set(1.0f, 1.0f);
+
 	m_pMessageInvalidHost = NULL;
 	m_pMessageInvalidPass = NULL;
 	m_pMessageSessionFull = NULL;
+}
+
+void CMainUI::OnDeviceReset()
+{
+	m_scale_.set(float(Device.dwWidth) / UI_BASE_WIDTH, float(Device.dwHeight) / UI_BASE_HEIGHT);
+
+	m_2DFrustum.CreateFromRect(Frect().set(0.0f,
+		0.0f,
+		float(Device.dwWidth),
+		float(Device.dwHeight)
+	));
 }
 
 CMainUI::~CMainUI	()
@@ -314,11 +331,19 @@ void CMainUI::OnRenderPPUI_main	()
 
 	m_bPostprocess = true;
 
+	m_pp_scale_.set	( float(::Render->getTarget()->get_width())/float(UI_BASE_WIDTH),	float(::Render->getTarget()->get_height())/float(UI_BASE_HEIGHT) );	m_pp_scale_.set(float(::Render->getTarget()->get_width()) / float(UI_BASE_WIDTH), float(::Render->getTarget()->get_height()) / float(UI_BASE_HEIGHT));
+
 	m_2DFrustum2.CreateFromRect	(Frect().set(	0.0f,
 												0.0f,
 												ClientToScreenScaledX(UI_BASE_WIDTH),
 												ClientToScreenScaledY(UI_BASE_HEIGHT)
 												));
+
+	m_current_scale			= &m_pp_scale_;
+//.	g_current_font_scale	= m_pp_scale_;
+	
+	g_current_font_scale.set(	float(::Render->getTarget()->get_width())/float(Device.dwWidth),	
+								float(::Render->getTarget()->get_height())/float(Device.dwHeight) );
 
 	DoRenderDialogs();
 
@@ -336,6 +361,9 @@ void CMainUI::OnRenderPPUI_PP	()
 			(*it)->Draw();
 	}
 	m_bPostprocess = false;
+
+	m_current_scale			= &m_scale_;
+	g_current_font_scale.set	(1.0f,1.0f);
 }
 
 //pureFrame
@@ -383,14 +411,21 @@ void CMainUI::ClientToScreenScaled(Fvector2& dest, float left, float top)
 	dest.set(ClientToScreenScaledX(left),	ClientToScreenScaledY(top));
 }
 
-float CMainUI::ClientToScreenScaledX(float left)
+void CMainUI::ClientToScreenScaled(Fvector2& src_and_dest)
 {
-	return left * GetScaleX();
+	src_and_dest.set(ClientToScreenScaledX(src_and_dest.x),	ClientToScreenScaledY(src_and_dest.y));
 }
 
-float CMainUI::ClientToScreenScaledY(float top)
+void CMainUI::ClientToScreenScaledWidth(float& src_and_dest)
 {
-	return top * GetScaleY();
+//.	src_and_dest		= ClientToScreenScaledX(src_and_dest);
+	src_and_dest		/= m_current_scale->x;
+}
+
+void CMainUI::ClientToScreenScaledHeight(float& src_and_dest)
+{
+//.	src_and_dest		= ClientToScreenScaledY(src_and_dest);
+	src_and_dest		/= m_current_scale->y;
 }
 
 void CMainUI::OutText(CGameFont *pFont, Frect r, float x, float y, LPCSTR fmt, ...)

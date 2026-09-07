@@ -57,6 +57,7 @@ u32 CUIGameLog::GetTextColor(){
 
 CUIPdaKillMessage* CUIGameLog::AddLogMessage(KillMessageStruct& msg){
 	CUIPdaKillMessage* pItem = pItem = xr_new<CUIPdaKillMessage>();	
+	pItem->SetTextComplexMode(true);
 	pItem->SetFont(GetFont());
 	pItem->SetTextColor(txt_color);
 	pItem->SetWidth(GetDesiredChildWidth());
@@ -75,6 +76,7 @@ void CUIGameLog::AddChatMessage(LPCSTR msg, LPCSTR author){
 	CUIStatic* pItem = NULL;
 
 	pItem = xr_new<CUIStatic>();
+	pItem->SetTextComplexMode(true);
 	pItem->SetText(fullLine);
     pItem->m_pLines->SetCutWordsMode(true);
 	pItem->SetFont(GetFont());

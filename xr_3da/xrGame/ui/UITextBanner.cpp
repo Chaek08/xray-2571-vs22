@@ -86,17 +86,10 @@ void CUITextBanner::Out(float x, float y, const char *fmt, ...)
 	R_ASSERT(m_pFont);
 	m_pFont->SetColor(m_Cl);
 	m_pFont->SetAligment(aligment);
-	if(fontSize>0.0f)
-		m_pFont->SetSize(fontSize);
 
-	if (x >= 1.0f && y >= 1.0f)
-	{
-		x *= UI()->GetScaleX();
-		y *= UI()->GetScaleY();
-	}
-	m_pFont->Out(x, y, buf.c_str());
-//	if (m_bNewRenderMethod)
-//		m_pFont->OnRender();
+	Fvector2 pos;
+	UI()->ClientToScreenScaled(pos, x, y);
+	m_pFont->Out(pos.x, pos.y, "%s", buf.c_str());
 }
 
 ////////////////////////////////////////////////////////////////////////////////

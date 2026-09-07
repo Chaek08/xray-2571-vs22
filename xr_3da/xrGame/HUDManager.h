@@ -1,5 +1,3 @@
-#ifndef __XR_HUDMANAGER_H__
-#define __XR_HUDMANAGER_H__
 #pragma once
 
 #include "../CustomHUD.h"
@@ -26,10 +24,7 @@ struct CFontManager :public pureDeviceReset			{
 	CGameFont*				pFontSmall;
 	CGameFont*				pFontMedium;
 	CGameFont*				pFontDI;
-	//заголовочный шрифт
-	CGameFont*				pFontHeaderRussian;
-	CGameFont*				pFontHeaderEurope;
-	//шрифты для интерфейса
+
 	CGameFont*				pFontArial14;
 	CGameFont*				pFontGraffiti19Russian;
 	CGameFont*				pFontGraffiti22Russian;
@@ -52,9 +47,7 @@ class CHUDManager :
 {
 	friend class CUI;
 private:
-	// ui
 	CUI*					pUI;
-	// hit marker
 	CHitMarker				HitMarker;
 	// hud cursor
 	CHUDCursor*				m_pHUDCursor;
@@ -68,8 +61,8 @@ public:
 	virtual		void		Load				();
 	
 	virtual		void		Render_First		();
-	virtual		void		Render_Last			();	 
-	virtual		void		Render_Actor_Shadow	();	// added by KD	
+	virtual		void		Render_Last			();	   
+	virtual		void		Render_Actor_Shadow	();	// added by KD
 	virtual		void		OnFrame				();
 
 	virtual		void		RenderUI			();
@@ -83,12 +76,9 @@ public:
 
 
 	//устанвка внешнего вида прицела в зависимости от текущей дисперсии
-	void					SetCrosshairDisp	(float disp);
+	void					SetCrosshairDisp	(float dispf, float disps = 0.f);
 	void					ShowCrosshair		(bool show);
 
 	void					SetHitmarkType		(LPCSTR tex_name);
 	virtual void			OnScreenRatioChanged();
 };
-
-
-#endif // __XR_HUDMANAGER_H__

@@ -1259,7 +1259,8 @@ void CActor::RenderText				(LPCSTR Text, Fvector dpos, float* pdup, u32 color)
 	Device.mFullTransform.transform(v0r,v0);
 	Device.mFullTransform.transform(v1r,v1);
 	float size = v1r.distance_to(v0r);
-	float OldFontSize = HUD().Font().pFontDI->GetSize		();	
+	CGameFont* pFont = HUD().Font().pFontArial14;
+	if (!pFont) return;
 	float delta_up = 0.0f;
 	if (size < mid_size) delta_up = upsize;
 	else delta_up = upsize*(mid_size/size);
@@ -1277,13 +1278,10 @@ void CActor::RenderText				(LPCSTR Text, Fvector dpos, float* pdup, u32 color)
 
 	float x = (1.f + v_res.x)/2.f * (Device.dwWidth);
 	float y = (1.f - v_res.y)/2.f * (Device.dwHeight);
-
-	HUD().Font().pFontDI->SetAligment	(CGameFont::alCenter);
-	HUD().Font().pFontDI->SetColor		(color);
-	HUD().Font().pFontDI->SetSize		(NewFontSize);
-	HUD().Font().pFontDI->Out			(x,y,Text);
+	pFont->SetAligment	(CGameFont::alCenter);
+	pFont->SetColor		(color);
+	pFont->Out			(x,y,Text);
 	//-------------------------------------------------
-	HUD().Font().pFontDI->SetSize(OldFontSize);
 	*pdup = delta_up;
 };
 
