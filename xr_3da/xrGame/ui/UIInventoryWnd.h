@@ -128,6 +128,9 @@ protected:
 	CInventory*				m_pInv;
 
 	CUICellItem*			m_pCurrentCellItem;
+
+	bool				TryUseItem					(PIItem itm);
+
 	//---------------------------------------------------------------------
 	static void				SendEvent_Item2Slot			(PIItem	pItem);
 	static void				SendEvent_Item2Belt			(PIItem	pItem);
@@ -143,7 +146,7 @@ protected:
 	void					Activate_Artefact			();
 
 	void					DropCurrentItem				();
-	void					EatCurrentItem				();
+	void					EatItem						(PIItem itm);
 	
 	bool					ToSlot						(CUICellItem* itm, bool force_place);
 	bool					ToBag						(CUICellItem* itm, bool b_use_cursor_pos);
