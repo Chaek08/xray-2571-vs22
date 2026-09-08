@@ -18,7 +18,6 @@ private:
 	Fmatrix						m_offset;
 	u16							m_bone_id;
 	bool						m_enabled;
-	bool						m_auto_attach;
 #ifdef DEBUG
 	bool						m_valid;
 #endif

@@ -13,13 +13,6 @@
 #include "inventory_item.h"
 #include "physicsshellholder.h"
 
-struct CStringPredicate {
-	bool		operator()	(const shared_str &s1, const shared_str &s2) const
-	{
-		return			(s1 < s2);
-	}
-};
-
 CAttachmentOwner::~CAttachmentOwner()
 {
 }
@@ -37,8 +30,6 @@ void CAttachmentOwner::reload				(LPCSTR section)
 	m_attach_item_sections.resize(item_count);
 	for (u32 i=0; i<item_count; ++i)
 		m_attach_item_sections[i] = _GetItem(attached_sections,i,current_item_section);
-
-	std::sort					(m_attach_item_sections.begin(),m_attach_item_sections.end(),CStringPredicate());
 }
 
 void CAttachmentOwner::reinit	()
