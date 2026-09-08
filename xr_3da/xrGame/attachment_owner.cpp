@@ -165,7 +165,7 @@ bool CAttachmentOwner::can_attach			(const CInventoryItem *inventory_item) const
 		return			(false);
 
 	//можно ли присоединять объекты такого типа
-	if(!(std::binary_search(m_attach_item_sections.begin(),m_attach_item_sections.end(),inventory_item->object().cNameSect(),CStringPredicate())))
+	if( m_attach_item_sections.end() == std::find(m_attach_item_sections.begin(),m_attach_item_sections.end(),inventory_item->object().cNameSect()) )
 		return false;
 	//если уже есть присоединненый объет такого типа 
 	if(attached(inventory_item->object().cNameSect()))
