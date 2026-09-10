@@ -34,7 +34,6 @@ class CGamePersistent:
 
 	void				WeathersUpdate			();
 
-	u32					m_eGameType;
 public:
 	IReader*			pDemoFile;
 	u32					uTime2Change;
@@ -56,10 +55,11 @@ public:
 	virtual void		OnFrame					();
 	virtual void		OnEvent					(EVENT E, u64 P1, u64 P2);
 
+	virtual void		UpdateGameType			();
+
 	virtual void		RegisterModel			(IRender_Visual* V);
 	virtual	float		MtlTransparent			(u32 mtl_idx);
 	virtual	void		Statistics				(CGameFont* F);
-	virtual	u32			GameType				() {return m_eGameType;}
 
 	virtual bool		OnRenderPPUI_query		();
 	virtual void		OnRenderPPUI_main		();

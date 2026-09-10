@@ -27,6 +27,7 @@ public:
 			string256	m_game_type;
 			string256	m_alife;
 			string256	m_new_or_load;
+			u32			m_e_game_type;
 		};
 		string256		m_params[4];
 						params		()	{	reset();	}
@@ -51,6 +52,7 @@ public:
 	xr_vector<CPS_Instance*>		ps_destroy;
 	xr_vector<CPS_Instance*>		ps_needtoplay;
 public:
+	virtual void					PreStart			(LPCSTR op);
 	virtual void					Start				(LPCSTR op);
 	virtual void					Disconnect			();
 
@@ -76,6 +78,8 @@ public:
 	virtual	void					OnGameStart			(); 
 	virtual void					OnGameEnd			();
 
+	virtual void					UpdateGameType		() {};
+
 	virtual void					RegisterModel		(IRender_Visual* V)
 #ifndef _EDITOR
      = 0;
@@ -92,7 +96,8 @@ public:
 	IGame_Persistent				();
 	virtual ~IGame_Persistent		();
 
-	virtual u32						GameType			() {return 0;};
+	virtual u32						GameType			() {return m_game_params.m_e_game_type;
+	};
 	virtual void					Statistics			(CGameFont* F)
 #ifndef _EDITOR
      = 0;
