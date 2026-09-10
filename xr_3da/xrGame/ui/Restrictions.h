@@ -7,7 +7,7 @@ typedef struct {
 
 typedef struct {
 	xr_string	name;
-	RESTR_N		n;
+	int			n;
 } RESTR;
 
 class CRestrictions {

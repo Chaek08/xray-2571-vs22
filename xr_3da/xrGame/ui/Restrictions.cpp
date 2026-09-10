@@ -106,7 +106,7 @@ void CRestrictions::InitGroups(){
 			{
 				_GetItem(lst, j, singleItem);
 				RESTR r = GetRestr(singleItem);
-				m_base_rank_rest.insert(mk_pair(r.name, r.n));
+				m_base_rank_rest.insert(mk_pair(r.name, RESTR_N{ r.n, 0 }));
 			}
 		}
 
@@ -129,22 +129,24 @@ void CRestrictions::AddRestriction4rank(int rank, LPCSTR lst){
 	{
 		_GetItem(lst, j, singleItem);
 		RESTR r = GetRestr(singleItem);
-		rest.insert(mk_pair(r.name, r.n));
+		rest.insert(mk_pair(r.name, RESTR_N{ r.n, 0 }));
 	}
 }
 
-RESTR CRestrictions::GetRestr(LPCSTR item){ //PIDOR
+RESTR CRestrictions::GetRestr(LPCSTR item){ // private function
 	RESTR ret;
-	const char* pos = strstr(item,":");
+	const char* pos = strchr(item, ':');
 	R_ASSERT(pos);
-	pos=0;
 
-	ret.name = item;
-	ret.n.cur_val = 0;
-	if (0 == xr_strcmp(++pos,"no_limit"))
-		ret.n.max_val = 65536;
+	ret.name.assign(item, pos - item);
+
+	++pos;
+
+	if (xr_strcmp(pos, "no_limit") == 0)
+		ret.n = 65536;
 	else
-    	ret.n.max_val = atoi(pos);
+		ret.n = atoi(pos);
+
 	return ret;
 }
 
