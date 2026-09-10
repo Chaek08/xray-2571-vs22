@@ -16,6 +16,8 @@ CFontManager::CFontManager()
 	m_all_fonts.push_back(&pFontSmall				);// used cpp
 	m_all_fonts.push_back(&pFontMedium				);// used cpp
 	m_all_fonts.push_back(&pFontDI					);// used cpp
+	m_all_fonts.push_back(&pFontHeaderEurope		);
+	m_all_fonts.push_back(&pFontHeaderRussian		); // ???
 	m_all_fonts.push_back(&pFontArial14				);// used xml
 	m_all_fonts.push_back(&pFontGraffiti19Russian	);
 	m_all_fonts.push_back(&pFontGraffiti22Russian	);
@@ -41,6 +43,8 @@ void CFontManager::InitializeFonts()
 	InitializeFont(pFontSmall				,"hud_font_small"				);
 	InitializeFont(pFontMedium				,"hud_font_medium"				);
 	InitializeFont(pFontDI					,"hud_font_di",					CGameFont::fsGradient|CGameFont::fsDeviceIndependent);
+	InitializeFont(pFontHeaderEurope		,"ui_font_header_europe"		);
+	InitializeFont(pFontHeaderRussian		,"ui_font_header_russian"		);
 	InitializeFont(pFontArial14				,"ui_font_arial_14"				);
 	InitializeFont(pFontGraffiti19Russian	,"ui_font_graffiti19_russian"	);
 	InitializeFont(pFontGraffiti22Russian	,"ui_font_graffiti22_russian"	);
@@ -225,10 +229,8 @@ void  CHUDManager::RenderUI()
 	if (psHUD_Flags.is(HUD_CROSSHAIR|HUD_CROSSHAIR_RT) && !bAlready)	
 		m_pHUDCursor->Render();
 
-	//почини размеры шрифта
-
 	if( Device.Pause() && bShowPauseString){
-		CGameFont* pFont	= Font().pFontStat;
+		CGameFont* pFont	= Font().pFontGraffiti50Russian;
 		pFont->SetColor		(0x80FF0000	);
 		LPCSTR _str			= CStringTable().translate("Game paused").c_str();
 		
