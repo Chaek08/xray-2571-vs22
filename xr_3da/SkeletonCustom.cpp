@@ -662,8 +662,8 @@ void CKinematics::RenderWallmark(CSkeletonWallmark* wm, FVF::LIT* &V)
 		CSkeletonWallmark::WMFace& F=wm->m_Faces[f_idx];
 		float w	= (Device.fTimeGlobal-wm->TimeStart())/LIFE_TIME;
 		for (u32 k=0; k<3; k++){
-			Fvector P;
-			if (F.bone_id[k][0]==F.bone_id[k][1]){
+			Fvector P; 
+			if (F.bone_id[k][0]==F.bone_id[k][1]){ //почини пожалуйста
 				// 1-link
 				Fmatrix& xform0			= LL_GetBoneInstance(F.bone_id[k][0]).mRenderTransform; 
 				xform0.transform_tiny	(P,F.vert[k]);
