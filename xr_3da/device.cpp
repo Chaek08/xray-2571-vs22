@@ -264,26 +264,18 @@ void CRenderDevice::FrameMove()
 		dwTimeDelta		=	20;
 		dwTimeGlobal	+=	20;
 	} else {
-		// Real time since previous frame.
-		float realFrameTime = Timer.GetRealElapsed_sec();
+		// Timer
+		float fPreviousFrameTime = Timer.GetElapsed_sec(); Timer.Start();	// previous frame
+		fTimeDelta = 0.1f * fTimeDelta + 0.9f*fPreviousFrameTime;			// smooth random system activity - worst case ~7% error
+		if (fTimeDelta>.1f) fTimeDelta=.1f;									// limit to 15fps minimum
 
-		// Smooth time factor.
-		Timer.update_time_factor(realFrameTime);
-		TimerGlobal.update_time_factor(realFrameTime);
+		if(Pause())		fTimeDelta = 0.0f;
 
-		// Game time.
-		float fPreviousFrameTime = Timer.GetElapsed_sec();
-		Timer.Start();
-
-		fTimeDelta = 0.1f * fTimeDelta + 0.9f * fPreviousFrameTime;
-
-		if (fTimeDelta > .1f) fTimeDelta = .1f;
-		if (Pause()) fTimeDelta = 0.0f;
-
-		fTimeGlobal = TimerGlobal.GetElapsed_sec();
-		u32 _old_global = dwTimeGlobal;
-		dwTimeGlobal = TimerGlobal.GetElapsed_ms();
-		dwTimeDelta = dwTimeGlobal - _old_global;
+//		u64	qTime		= TimerGlobal.GetElapsed_clk();
+		fTimeGlobal		= TimerGlobal.GetElapsed_sec(); //float(qTime)*CPU::cycles2seconds;
+		u32	_old_global	= dwTimeGlobal;
+		dwTimeGlobal	= TimerGlobal.GetElapsed_ms	();	//u32((qTime*u64(1000))/CPU::cycles_per_second);
+		dwTimeDelta		= dwTimeGlobal-_old_global;
 	}
 
 	// Frame move

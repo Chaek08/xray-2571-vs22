@@ -50,12 +50,9 @@ private:
 	typedef CTimerBase					inherited;
 
 private:
-	float m_time_factor;
-	float m_time_factor_target;
-	float m_time_factor_speed;
-
-	u64   m_real_ticks;
-	u64   m_ticks;
+	float				m_time_factor;
+	u64					m_real_ticks;
+	u64					m_ticks;
 
 private:
 	IC	u64				GetElapsed_ticks(const u64 &current_ticks) const
@@ -69,7 +66,7 @@ private:
 	}
 
 public:
-	IC					CTimer			() : m_time_factor(1.f), m_time_factor_target(1.f), m_time_factor_speed(4.f), m_real_ticks(0), m_ticks(0) {}
+	IC					CTimer			() : m_time_factor(1.f), m_real_ticks(0), m_ticks(0) {}
 
 	ICF	void			Start			()
 	{
@@ -89,27 +86,10 @@ public:
 
 	IC	void			time_factor		(const float &time_factor)
 	{
-		m_time_factor_target = time_factor;
-	}
-
-	IC void update_time_factor(float dt)
-	{
-		if (m_time_factor == m_time_factor_target)
-			return;
-
-		u64 current = inherited::GetElapsed_ticks();
-
-		m_ticks = GetElapsed_ticks(current);
-		m_real_ticks = current;
-
-		float k = 1.f - expf(-m_time_factor_speed * dt);
-
-		m_time_factor += (m_time_factor_target - m_time_factor) * k;
-
-		if (fabsf(m_time_factor - m_time_factor_target) < 0.001f)
-		{
-			m_time_factor = m_time_factor_target;
-		}
+		u64				current = inherited::GetElapsed_ticks();
+		m_ticks			= GetElapsed_ticks(current);
+		m_real_ticks	= current;
+		m_time_factor	= time_factor;
 	}
 
 	IC	u64				GetElapsed_ticks() const
@@ -142,11 +122,6 @@ public:
 		FPU::m24r		();
 #endif
 		return			(result);
-	}
-
-	IC float GetRealElapsed_sec() const
-	{
-		return inherited::GetElapsed_sec();
 	}
 
 	IC	void			Dump			() const
