@@ -306,7 +306,7 @@ void CGamePersistent::OnFrame	()
 	if(!g_pGameLevel)			return;
 	if(!g_pGameLevel->bReady)	return;
 
-	if(Device.Pause()){
+	if(Device.Paused()){
 		if(g_actor)
 		Level().Cameras().Update(Actor()->cam_Active());
 	}
@@ -371,22 +371,35 @@ static BOOL bEntryFlag		= TRUE;
 
 void CGamePersistent::OnAppActivate		()
 {
-	if(!bRestorePause)
-		Device.Pause(FALSE);
+	bool bIsMP = (g_pGameLevel && Level().game && GameID() != GAME_SINGLE);
+	bIsMP		&= !Device.Paused();
+
+	if( !bIsMP )
+	{
+		Device.Pause			(FALSE, !bRestorePause, TRUE, "CGP::OnAppActivate");
+	}else
+	{
+		Device.Pause			(FALSE, TRUE, TRUE, "CGP::OnAppActivate MP");
+	}
 
 	bEntryFlag = TRUE;
-//.	Level().Cameras().Update(Actor()->cam_Active());
 }
 
 void CGamePersistent::OnAppDeactivate	()
 {
 	if(!bEntryFlag) return;
 
+	bool bIsMP = (g_pGameLevel && Level().game && GameID() != GAME_SINGLE);
+
 	bRestorePause = FALSE;
-	if (!g_pGameLevel || (g_pGameLevel && Level().game && GameID()== GAME_SINGLE) )
+
+	if ( !bIsMP )
 	{
-		bRestorePause = Device.Pause();
-		Device.Pause(TRUE);
+		bRestorePause			= Device.Paused();
+		Device.Pause			(TRUE, TRUE, TRUE, "CGP::OnAppDeactivate");
+	}else
+	{
+		Device.Pause			(TRUE, FALSE, TRUE, "CGP::OnAppDeactivate MP");
 	}
 	bEntryFlag = FALSE;
 }
@@ -406,4 +419,9 @@ void CGamePersistent::OnRenderPPUI_main()
 void CGamePersistent::OnRenderPPUI_PP()
 {
 	UI()->OnRenderPPUI_PP();
+}
+
+bool CGamePersistent::CanBePaused()
+{
+	return IsGameTypeSingle();
 }

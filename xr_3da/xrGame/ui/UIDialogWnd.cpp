@@ -165,6 +165,6 @@ bool CUIDialogWnd::IR_process()
 {
 	if(!IsEnabled())					return false;
 	if(UI()->IsActive())				return true;
-	if(Device.Pause()&&!WorkInPause())	return false;
+	if(Device.Paused()&&!WorkInPause())	return false;
 	return true;
 }

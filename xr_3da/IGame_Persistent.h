@@ -104,6 +104,8 @@ public:
 #else
 	{}
 #endif
+
+	virtual bool					CanBePaused			()		{ return true;}
 };
 
 class IMainUI

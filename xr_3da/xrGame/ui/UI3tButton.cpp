@@ -10,7 +10,7 @@
 #include "StdAfx.h"
 #include "UI3tButton.h"
 #include "../MainUI.h"
-#include "../../sound.h"
+#include "../../../xrSound/Sound.h"
 #include "xrXmlParser.h"
 #include "UIXmlInit.h"
 

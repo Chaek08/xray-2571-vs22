@@ -140,15 +140,15 @@ void CUISequenceSimpleItem::Update			()
 #include "UIPdaWnd.h"
 void CUISequenceSimpleItem::Start()
 {
-	m_flags.set					(etiStoredPauseState, Device.Pause());
+	m_flags.set					(etiStoredPauseState, Device.Paused());
 	
 	if(m_flags.test(etiNeedPauseOn) && !m_flags.test(etiStoredPauseState)){
-		Device.Pause			(TRUE);
+		Device.Pause			(TRUE, TRUE, FALSE, "simpleitem_start");
 		bShowPauseString		= FALSE;
 	}
 
 	if(m_flags.test(etiNeedPauseOff) && m_flags.test(etiStoredPauseState))
-		Device.Pause			(FALSE);
+		Device.Pause			(FALSE, TRUE, FALSE, "simpleitem_start");
 
 	GetUICursor()->SetPos		(m_desired_cursor_pos.x, m_desired_cursor_pos.y);
 	m_time_start				= float(Device.dwTimeContinual)/1000.0f;
@@ -198,10 +198,10 @@ bool CUISequenceSimpleItem::Stop			(bool bForce)
 	m_sound.stop				();
 
 	if(m_flags.test(etiNeedPauseOn) && !m_flags.test(etiStoredPauseState))
-		Device.Pause			(FALSE);
+		Device.Pause			(FALSE, TRUE, FALSE, "simpleitem_stop");
 
 	if(m_flags.test(etiNeedPauseOff) && m_flags.test(etiStoredPauseState))
-		Device.Pause			(TRUE);
+		Device.Pause			(TRUE, TRUE, FALSE, "simpleitem_stop");
 
 	return true;
 }

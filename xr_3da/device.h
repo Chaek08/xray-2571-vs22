@@ -109,8 +109,10 @@ public:
 		Timer.Start			();
 		m_bNearer			= FALSE;
 	};
-	void	Pause							(BOOL bOn);
-	IC BOOL	Pause							()	{return g_pauseMngr.Paused();};
+
+	void	Pause							(BOOL bOn, BOOL bTimer, BOOL bSound, LPCSTR reason);
+	BOOL	Paused							();
+
 	// Scene control
 	void PreCache							(u32 frames);
 	BOOL Begin								();

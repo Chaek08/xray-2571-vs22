@@ -41,7 +41,7 @@ void CLevel::IR_OnMouseWheel( int direction )
 	if(	g_bDisableAllInput	) return;
 
 	if (HUD().GetUI()->IR_OnMouseWheel(direction)) return;
-	if( Device.Pause()		) return;
+	if( Device.Paused()		) return;
 
 	if ( Game().IR_OnMouseWheel(direction) ) return;
 
@@ -70,6 +70,9 @@ public:
 }	vtune	;
 
 // Обработка нажатия клавиш
+
+extern bool g_block_pause;
+
 extern	BOOL	g_bEnableMPL;	//.
 void CLevel::IR_OnKeyboardPress	(int key)
 {
@@ -113,28 +116,23 @@ void CLevel::IR_OnKeyboardPress	(int key)
 		}break;
 
 	case kPAUSE:
-		if (GameID() == GAME_SINGLE)
+		if(!g_block_pause)
 		{
-			Device.Pause(!Device.Pause());
+			if ( IsGameTypeSingle() )
+			{
+				Device.Pause(!Device.Paused(), TRUE, TRUE, "li_pause_key");
+			}
 		}
-		else
-		if (OnServer())
-		{
-			NET_Packet					net_packet;
-			net_packet.w_begin			(M_PAUSE_GAME);
-			net_packet.w_u8				(u8(!Device.Pause()));
-			Send						(net_packet,net_flags(TRUE));
-		}
-		
 		return;
 		break;
+
 	};
 
 	if(	g_bDisableAllInput	) return;
 
 	if (pHUD->GetUI()->IR_OnKeyboardPress(key)) return;
 
-	if( Device.Pause()		) return;
+	if( Device.Paused()		) return;
 
 	if ( Game().IR_OnKeyboardPress(key) ) return;
 
@@ -355,7 +353,7 @@ void CLevel::IR_OnKeyboardRelease(int key)
 {
 	if(	g_bDisableAllInput	) return;
 	if (pHUD->GetUI()->IR_OnKeyboardRelease(key)) return;
-	if( Device.Pause()		) return;
+	if( Device.Paused()		) return;
 	if ( Game().OnKeyboardRelease(key_binding[key]) ) return;
 
 	if( HUD().GetUI()->MainInputReceiver() )return;
@@ -371,7 +369,7 @@ void CLevel::IR_OnKeyboardHold(int key)
 
 	if (pHUD->GetUI()->IR_OnKeyboardHold(key)) return;
 	if( HUD().GetUI()->MainInputReceiver() )return;
-	if( Device.Pause() ) return;
+	if( Device.Paused() ) return;
 	if (CURRENT_ENTITY())		{
 		IInputReceiver*		IR	= smart_cast<IInputReceiver*>	(smart_cast<CGameObject*>(CURRENT_ENTITY()));
 		if (IR)				IR->IR_OnKeyboardHold				(key_binding[key]);

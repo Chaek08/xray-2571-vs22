@@ -195,14 +195,17 @@ void CChangeLevelWnd::SendMessage(CUIWindow *pWnd, s16 msg, void *pData)
 		inherited::SendMessage(pWnd, msg, pData);
 }
 
+bool g_block_pause = false;
 void CChangeLevelWnd::Show()
 {
-	Device.Pause							(TRUE);
+	g_block_pause							= true;
+	Device.Pause							(TRUE, TRUE, TRUE, "CChangeLevelWnd_show");
 	bShowPauseString						= FALSE;
 }
 
 void CChangeLevelWnd::Hide()
 {
-	Device.Pause							(FALSE);
+	g_block_pause							= false;
+	Device.Pause							(FALSE, TRUE, TRUE, "CChangeLevelWnd_hide");
 }
 

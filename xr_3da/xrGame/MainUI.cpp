@@ -172,33 +172,52 @@ void CMainUI::ReadTextureInfo(){
 	}
 }
 
+extern ENGINE_API BOOL	bShowPauseString;
+extern bool				IsGameTypeSingle();
+
 void CMainUI::Activate	(bool bActivate)
 {
 	if(!!m_Flags.is(flActive) == bActivate)	return;
-		
+
+	bool b_is_single		= IsGameTypeSingle();
+
 	if(bActivate){
 		m_Flags.set					(flActive|flNeedChangeCapture,TRUE);
-		DLL_Pure* dlg = NEW_INSTANCE (TEXT2CLSID("MAIN_MNU"));
-		if(!dlg) {
-			m_Flags.set				(flActive|flNeedChangeCapture,FALSE);
-			return;
+
+		Device.Pause(TRUE, FALSE, TRUE, "mm_activate1");
+
+		{
+			DLL_Pure* dlg = NEW_INSTANCE(TEXT2CLSID("MAIN_MNU"));
+			if (!dlg)
+			{
+				m_Flags.set(flActive | flNeedChangeCapture, FALSE);
+				return;
+			}
+			xr_delete(m_startDialog);
+			m_startDialog = smart_cast<CUIDialogWnd*>(dlg);
+			VERIFY(m_startDialog);
 		}
-		xr_delete(m_startDialog);
-		m_startDialog = smart_cast<CUIDialogWnd*>(dlg);
-		VERIFY(m_startDialog);
 
 		m_Flags.set					(flRestoreConsole,Console->bVisible);
-		m_Flags.set					(flRestorePause,Device.Pause());
+
+		if (b_is_single)	m_Flags.set(flRestorePause, Device.Paused());
+
 		Console->Hide				();
 
 		m_Flags.set					(flRestoreCursor,GetUICursor()->IsVisible());
 
-		if(!m_Flags.is(flRestorePause))
-			Device.Pause			(TRUE);
-		::Sound->set_volume			(1.0f);// pause set to 0
+		if(b_is_single)
+		{
+			m_Flags.set					(flRestorePauseStr, bShowPauseString);
+			bShowPauseString			= FALSE;
+			if(!m_Flags.test(flRestorePause))
+				Device.Pause			(TRUE, TRUE, FALSE, "mm_activate2");
+		}
 
 		StartStopMenu				(m_startDialog,true);
-		if(g_pGameLevel){
+
+		if(g_pGameLevel)
+		{
 			Device.seqFrame.Remove	(g_pGameLevel);
 			Device.seqRender.Remove	(g_pGameLevel);
 			CCameraManager::ResetPP	();
@@ -222,17 +241,27 @@ void CMainUI::Activate	(bool bActivate)
 
 		CleanInternals				();
 		if(g_pGameLevel){
-			Device.seqFrame.Add		(g_pGameLevel);
+			if (b_is_single) {
+				Device.seqFrame.Add(g_pGameLevel);
+
+			}
 			Device.seqRender.Add	(g_pGameLevel);
 		};
 		if(m_Flags.is(flRestoreConsole))
 			Console->Show			();
 
-		if(!m_Flags.is(flRestorePause))
-			Device.Pause(FALSE);
+		if(b_is_single)
+		{
+			if(!m_Flags.test(flRestorePause))
+				Device.Pause			(FALSE, TRUE, FALSE, "mm_deactivate1");
+
+			bShowPauseString			= m_Flags.test(flRestorePauseStr);
+		}	
 	
 		if(m_Flags.is(flRestoreCursor))
 			GetUICursor()->Show();
+
+		Device.Pause					(FALSE, FALSE, TRUE, "mm_deactivate2");
 	}
 }
 bool CMainUI::IsActive	()

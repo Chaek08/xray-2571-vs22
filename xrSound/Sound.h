@@ -260,6 +260,7 @@ public:
 	virtual void					clone					( ref_sound& S, const ref_sound& from,		int		type=st_SourceType)					= 0;
 	virtual void					destroy					( ref_sound& S)																			= 0;
 	virtual void					stop_emitters			( )																						= 0;	
+	virtual int						pause_emitters			( bool val )																			= 0;
 
 	virtual void					play					( ref_sound& S, CObject* O,								u32 flags=0, float delay=0.f)	= 0;
 	virtual void					play_at_pos				( ref_sound& S, CObject* O,	const Fvector &pos,	u32 flags=0, float delay=0.f)			= 0;
@@ -272,7 +273,7 @@ public:
 	virtual void					set_handler				( sound_event* E )																		= 0;
 	//@}
 
-	virtual void					update					( const Fvector& P, const Fvector& D, const Fvector& N, float dt )						= 0;
+	virtual void					update					( const Fvector& P, const Fvector& D, const Fvector& N)									= 0;
 	virtual void					statistic				( CSound_stats&  dest )																	= 0;
 
 	virtual float					get_occlusion_to		( const Fvector& hear_pt, const Fvector& snd_pt, float dispersion=0.2f)					= 0;

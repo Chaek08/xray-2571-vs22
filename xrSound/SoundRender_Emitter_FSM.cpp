@@ -10,6 +10,7 @@ XRSOUND_API extern float			psSoundCull				;
 void CSoundRender_Emitter::update	(float dt)
 {
 	u32	dwTime			= SoundRender->Timer_Value;
+	u32 dwDeltaTime		= SoundRender->Timer_Delta;
 
 	VERIFY2(!!(owner_data) || (!(owner_data)&&(state==stStopped)),"owner");
 	VERIFY2(owner_data?(int)owner_data->feedback:1,"owner");
@@ -24,11 +25,13 @@ void CSoundRender_Emitter::update	(float dt)
 	case stStopped:
 		break;
 	case stStartingDelayed:
+		if (iPaused)		break;
 	    starting_delay		-= dt;
     	if (starting_delay<=0) 
         	state			= stStarting;
     	break;
 	case stStarting:
+		if (iPaused)		break;
 		dwTimeStarted		= dwTime;
 		dwTimeToStop		= dwTime + source->dwTimeTotal;
 		dwTimeToPropagade	= dwTime;
@@ -45,6 +48,7 @@ void CSoundRender_Emitter::update	(float dt)
 		else state			=	stSimulating;
 		break;
 	case stStartingLoopedDelayed:
+		if (iPaused)		break;
 	    starting_delay		-= dt;
     	if (starting_delay<=0) 
 	    	state			= stStartingLooped;
@@ -64,6 +68,16 @@ void CSoundRender_Emitter::update	(float dt)
 		}else state		  	=	stSimulatingLooped;
 		break;
 	case stPlaying:
+		if (iPaused){
+			if (target){
+				SoundRender->i_stop(this);
+				state			= stSimulating;
+			}
+			dwTimeStarted		+= dwDeltaTime;
+			dwTimeToStop		+= dwDeltaTime;
+			dwTimeToPropagade	+= dwDeltaTime;
+			break;
+		}
 		if (dwTime>=dwTimeToStop){
 			// STOP
 			state					=	stStopped;
@@ -80,6 +94,12 @@ void CSoundRender_Emitter::update	(float dt)
 		}
 		break;
 	case stSimulating:
+		if (iPaused){
+			dwTimeStarted		+= dwDeltaTime;
+			dwTimeToStop		+= dwDeltaTime;
+			dwTimeToPropagade	+= dwDeltaTime;
+			break;
+		}
 		if (dwTime>=dwTimeToStop){
 			// STOP
 			state					=	stStopped;
@@ -94,6 +114,15 @@ void CSoundRender_Emitter::update	(float dt)
 		}
 		break;
 	case stPlayingLooped:
+		if (iPaused){
+			if (target){
+				SoundRender->i_stop(this);
+				state			= stSimulatingLooped;
+			}
+			dwTimeStarted		+= dwDeltaTime;
+			dwTimeToPropagade	+= dwDeltaTime;
+			break;
+		}
 		if (!update_culling(dt)){
 			// switch to: SIMULATE
 			state					=	stSimulatingLooped;	// switch state
@@ -104,6 +133,11 @@ void CSoundRender_Emitter::update	(float dt)
 		}
 		break;
 	case stSimulatingLooped:
+		if (iPaused){
+			dwTimeStarted		+= dwDeltaTime;
+			dwTimeToPropagade	+= dwDeltaTime;
+			break;
+		}
 		if (update_culling(dt)){
 			// switch to: PLAY
 			state					=	stPlayingLooped;	// switch state

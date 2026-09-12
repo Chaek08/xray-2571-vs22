@@ -229,7 +229,7 @@ void  CHUDManager::RenderUI()
 	if (psHUD_Flags.is(HUD_CROSSHAIR|HUD_CROSSHAIR_RT) && !bAlready)	
 		m_pHUDCursor->Render();
 
-	if( Device.Pause() && bShowPauseString){
+	if( Device.Paused() && bShowPauseString){
 		CGameFont* pFont	= Font().pFontGraffiti50Russian;
 		pFont->SetColor		(0x80FF0000	);
 		LPCSTR _str			= CStringTable().translate("Game paused").c_str();

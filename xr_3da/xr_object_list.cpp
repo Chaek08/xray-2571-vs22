@@ -110,7 +110,7 @@ void clear_crow_vec	(xr_vector<CObject*>& o)
 
 void CObjectList::Update		()
 {
-	if (Device.Pause())		return		;
+	if (Device.Paused())		return		;
 
 	// Select Crow-Mode
 	Device.Statistic->UpdateClient_updated	= 0;

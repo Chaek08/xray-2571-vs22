@@ -114,15 +114,15 @@ void CUISequenceVideoItem::OnRender()
 
 void CUISequenceVideoItem::Start()
 {
-	m_flags.set					(etiStoredPauseState, Device.Pause());
+	m_flags.set					(etiStoredPauseState, Device.Paused());
 
 	if(m_flags.test(etiNeedPauseOn) && !m_flags.test(etiStoredPauseState)){
-		Device.Pause			(TRUE);
+		Device.Pause			(TRUE, TRUE, TRUE, "videoitem_start");
 		bShowPauseString		= FALSE;
 	}
 
 	if(m_flags.test(etiNeedPauseOff) && m_flags.test(etiStoredPauseState))
-		Device.Pause			(FALSE);
+		Device.Pause			(FALSE, TRUE, TRUE, "videoitem_start");
 
 	m_flags.set					(etiPlaying,TRUE);
 	m_flags.set					(etiNeedStart,TRUE);
@@ -151,10 +151,10 @@ bool CUISequenceVideoItem::Stop	(bool bForce)
 	m_texture					= 0;
 
 	if(m_flags.test(etiNeedPauseOn) && !m_flags.test(etiStoredPauseState))
-		Device.Pause			(FALSE);
+		Device.Pause			(FALSE, TRUE, TRUE, "videoitem_stop");
 
 	if(m_flags.test(etiNeedPauseOff) && m_flags.test(etiStoredPauseState))
-		Device.Pause			(TRUE);
+		Device.Pause			(TRUE, TRUE, TRUE, "videoitem_stop");
 
 	return true;
 }

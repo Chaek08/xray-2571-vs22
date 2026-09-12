@@ -63,6 +63,17 @@ void CSoundRender_Emitter::rewind()
 	bRewind						=	TRUE;
 }
 
+void CSoundRender_Emitter::pause(BOOL bVal, int id)
+{
+	if (bVal)
+	{
+		if (0==iPaused)	iPaused	= id;
+	}else
+	{
+		if (id==iPaused)iPaused	= 0;
+	}
+}
+
 void CSoundRender_Emitter::cancel()
 {
 	// Msg		("- %10s : %3d[%1.4f] : %s","cancel",dbg_ID,priority(),source->fname);

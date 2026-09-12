@@ -269,7 +269,7 @@ void CRenderDevice::FrameMove()
 		fTimeDelta = 0.1f * fTimeDelta + 0.9f*fPreviousFrameTime;			// smooth random system activity - worst case ~7% error
 		if (fTimeDelta>.1f) fTimeDelta=.1f;									// limit to 15fps minimum
 
-		if(Pause())		fTimeDelta = 0.0f;
+		if(Paused())		fTimeDelta = 0.0f;
 
 //		u64	qTime		= TimerGlobal.GetElapsed_clk();
 		fTimeGlobal		= TimerGlobal.GetElapsed_sec(); //float(qTime)*CPU::cycles2seconds;
@@ -305,11 +305,42 @@ void ProcessLoading				(RP_FUNC *f)
 }
 
 ENGINE_API BOOL bShowPauseString = TRUE;
-void	CRenderDevice::Pause							(BOOL bOn)
+#include "IGame_Persistent.h"
+
+void CRenderDevice::Pause(BOOL bOn, BOOL bTimer, BOOL bSound, LPCSTR reason)
 {
-	if (!g_bBenchmark){
-		g_pauseMngr.Pause	(bOn);
-		bShowPauseString	= TRUE;
-//.		::Sound->set_volume (bOn?0.0f:1.0f);
+	static int snd_emitters_ = -1;
+
+	if (g_bBenchmark)	return;
+
+	if(bOn)
+	{
+		if(!Paused())						
+			bShowPauseString				= TRUE;
+
+		if( bTimer && g_pGamePersistent->CanBePaused() )
+			g_pauseMngr.Pause				(TRUE);
+	
+		if(bSound){
+			snd_emitters_ =					::Sound->pause_emitters(true);
+		}
+	}else
+	{
+		if( bTimer && /*g_pGamePersistent->CanBePaused() &&*/ g_pauseMngr.Paused() )
+			g_pauseMngr.Pause				(FALSE);
+		
+		if(bSound)
+		{
+			if(snd_emitters_>0) //avoid crash
+			{
+				snd_emitters_ =				::Sound->pause_emitters(false);
+			}
+		}
 	}
+
 }
+
+BOOL CRenderDevice::Paused()
+{
+	return g_pauseMngr.Paused();
+};

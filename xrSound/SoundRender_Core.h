@@ -31,6 +31,7 @@ public:
     WAVEFORMATEX						wfm;
 	CTimer								Timer;
 	u32									Timer_Value;
+	u32									Timer_Delta;
 	sound_event*						Handler;
 protected:
 	// Collider
@@ -50,6 +51,8 @@ protected:
 	u32									s_targets_pu;			// parameters update
 	SoundEnvironment_LIB*				s_environment;
 	CSoundRender_Environment			s_user_environment;
+
+	int									m_iPauseCounter;
 public:
 	// Cache
 	CSoundRender_Cache					cache;
@@ -72,6 +75,7 @@ public:
 	virtual void						clone					( ref_sound& S, const ref_sound& from,		int		type=0);
 	virtual void						destroy					( ref_sound& S);
 	virtual void						stop_emitters			( );
+	virtual int							pause_emitters			( bool val );
 
 	virtual void						play					( ref_sound& S, CObject* O,								u32 flags=0, float delay=0.f);
 	virtual void						play_at_pos				( ref_sound& S, CObject* O,		const Fvector &pos,		u32 flags=0, float delay=0.f);
@@ -82,7 +86,7 @@ public:
 	virtual void						set_geometry_occ		( CDB::MODEL*	M );
 	virtual void						set_handler				( sound_event*	E );
 
-	virtual void						update					( const Fvector& P, const Fvector& D, const Fvector& N, float dt );
+	virtual void						update					( const Fvector& P, const Fvector& D, const Fvector& N);
 	virtual void						update_events			( );
 	virtual void						statistic				( CSound_stats&  dest );
 

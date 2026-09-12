@@ -51,10 +51,11 @@ class CMainUI :
 	enum{
 		flRestoreConsole	= (1<<0),
 		flRestorePause		= (1<<1),
-		flActive			= (1<<2),
-		flNeedChangeCapture	= (1<<3),
-		flRestoreCursor		= (1<<4),
-		flGameSaveScreenshot= (1<<5),
+		flRestorePauseStr	= (1<<2),
+		flActive			= (1<<3),
+		flNeedChangeCapture	= (1<<4),
+		flRestoreCursor		= (1<<5),
+		flGameSaveScreenshot= (1<<6),
 	};
 	Flags8			m_Flags;
 	xr_stack<Frect> m_Scissors;

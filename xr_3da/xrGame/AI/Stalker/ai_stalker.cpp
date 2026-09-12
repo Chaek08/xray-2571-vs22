@@ -864,7 +864,7 @@ void CAI_Stalker::load (IReader &input_packet)
 
 void CAI_Stalker::SelectAnimation(const Fvector &view, const Fvector &move, float speed)
 {
-	if (!Device.Pause())
+	if (!Device.Paused())
 		animation().update();
 }
 
