@@ -425,3 +425,12 @@ bool CGamePersistent::CanBePaused()
 {
 	return IsGameTypeSingle();
 }
+
+#include "string_table.h"
+#include "../x_ray.h"
+void CGamePersistent::LoadTitle(LPCSTR str)
+{
+	string512			buff;
+	sprintf_s(buff, "%s...", CStringTable().translate(str).c_str());
+	pApp->LoadTitleInt(buff);
+}

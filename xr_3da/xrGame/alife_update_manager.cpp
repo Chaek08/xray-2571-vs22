@@ -226,10 +226,10 @@ void CALifeUpdateManager::update(bool switch_objects, bool spawn_update, bool sc
 		default : NODEFAULT;
 	}
 }
-
+#include "../igame_persistent.h"
 void CALifeUpdateManager::new_game			(LPCSTR save_name)
 {
-	pApp->LoadTitle						("Creating new game...");
+	g_pGamePersistent->LoadTitle		("st_creating_new_game");
 
 	Msg									("* Creating new game...");
 
@@ -278,7 +278,7 @@ void CALifeUpdateManager::new_game			(LPCSTR save_name)
 
 void CALifeUpdateManager::load			(LPCSTR game_name, bool no_assert, bool new_only)
 {
-	pApp->LoadTitle						("SERVER: Loading alife simulator...");
+	g_pGamePersistent->LoadTitle		("st_loading_alife_simulator");
 
 #ifdef DEBUG
 	Memory.mem_compact					();
@@ -293,7 +293,7 @@ void CALifeUpdateManager::load			(LPCSTR game_name, bool no_assert, bool new_onl
 #ifdef DEBUG
 	Msg									("* Loading alife simulator is successfully completed (%7.3f Mb)",float(Memory.mem_usage() - memory_usage)/1048576.0);
 #endif
-	pApp->LoadTitle						("SERVER: Connecting...");
+	g_pGamePersistent->LoadTitle		("st_server_connecting");
 }
 
 void CALifeUpdateManager::reload		(LPCSTR section)

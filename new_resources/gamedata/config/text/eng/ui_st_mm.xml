@@ -1,214 +1,224 @@
 <?xml version="1.0" encoding="windows-1251" standalone="no" ?>
 <string_table>
 	<string id="ui_mm_return_game">
-		<text>Возврат к игре</text>
+		<text>Return to Game</text>
 	</string>
 	<string id="ui_mm_newgame">
-        <text>Новая игра</text>
+        <text>New Game</text>
     </string>
     <string id="ui_mm_quit2windows">
-        <text>Выйти в Windows</text>
+        <text>Quit to Windows</text>
     </string>
     <string id="ui_mm_quit_game">
-        <text>Завершить игру</text>
+        <text>Quit the Game</text>
     </string>
     <string id="ui_mm_disconnect">
-        <text>Отсоединиться</text>
+        <text>Disconnect</text>
     </string>    
     <string id="ui_mm_novice">
-        <text>Новичок</text>
+        <text>Novice</text>
     </string>
     <string id="ui_mm_stalker">
-        <text>Сталкер</text>
+        <text>Stalker</text>
     </string>
     <string id="ui_mm_veteran">
-        <text>Ветеран</text>
+        <text>Veteran</text>
     </string>
     <string id="ui_mm_master">
-        <text>Мастер</text>
+        <text>Master</text>
     </string>
-    <string id="ui_mm_last_save">
-        <text>Последн. сохран.</text>
-    </string>    
     <string id="ui_mm_action">
-        <text>действие</text>
+        <text>action</text>
+    </string>
+    <string id="ui_mm_advanced">
+        <text>Advanced</text>
+    </string>
+    <string id="ui_mm_alternative">
+        <text>alternative</text>
     </string>
     <string id="ui_mm_apply">
-        <text>Применить</text>
+        <text>Apply</text>
     </string>
     <string id="ui_mm_back">
-        <text>Назад</text>
+        <text>Back</text>
     </string>
     <string id="ui_mm_blood">
-        <text>Кровь</text>
+        <text>Blood</text>
     </string>
     <string id="ui_mm_brightness">
-        <text>Яркость</text>
+        <text>Brightness</text>
     </string>
     <string id="ui_mm_cancel">
-        <text>Отмена</text>
+        <text>Cancel</text>
     </string>
     <string id="ui_mm_contrast">
-        <text>Контраст</text>
+        <text>Contrast</text>
     </string>
     <string id="ui_mm_controls">
-        <text>Управление</text>
+        <text>Controls</text>
     </string>
     <string id="ui_mm_delete">
-        <text>Удалить</text>
+        <text>Delete</text>
     </string>
     <string id="ui_mm_eax">
         <text>EAX</text>
     </string>
     <string id="ui_mm_fullscreen">
-        <text>Полный екран</text>
+        <text>Full Screen</text>
     </string>
     <string id="ui_mm_gameplay">
-        <text>Игра</text>
+        <text>Gameplay</text>
     </string>
     <string id="ui_mm_gamma">
-        <text>Гамма</text>
+        <text>Gamma</text>
     </string>
     <string id="ui_mm_invert_mouse">
-        <text>Ивертировать Мышь</text>
+        <text>Invert Mouse</text>
     </string>
     <string id="ui_mm_keyboard_setup">
-        <text>Настройка клавиатуры</text>
+        <text>Keyboard setup</text>
     </string>
     <string id="ui_mm_load">
-        <text>Загрузить</text>
+        <text>Load</text>
     </string>
     <string id="ui_mm_load_game">
-        <text>Загрузка игры</text>
+        <text>Load Game</text>
     </string>
     <string id="ui_mm_key">
-        <text>кнопка</text>
+        <text>key</text>
     </string>
     <string id="ui_mm_mouse_sense">
-        <text>Чувствительность мыши</text>
+        <text>Mouse Sensitivity</text>
     </string>
     <string id="ui_mm_multiplayer">
-        <text>МУЛЬТИПЛЭЕР</text>
+        <text>MULTIPLAYER</text>
     </string>
     <string id="ui_mm_multiplayer_n">
-        <text>Мультиплэер</text>
+        <text>Multiplayer</text>
     </string>    
     <string id="ui_mm_music_volume">
-        <text>Громкость музыки</text>
+        <text>Music Volume</text>
     </string>
     <string id="ui_mm_no_vsync">
-        <text>Без вертикальной синхронизации</text>
+        <text>No VSYNC</text>
     </string>
     <string id="ui_mm_options">
-        <text>ОПЦИИ</text>
+        <text>OPTIONS</text>
     </string>
     <string id="ui_mm_options_n">
-        <text>Опции</text>
+        <text>Options</text>
     </string>
     <string id="ui_mm_quality_presets">
-        <text>Установки качества</text>
+        <text>Quality presets</text>
     </string>
     <string id="ui_mm_resolution">
-        <text>Разрешение</text>
+        <text>Resolution</text>
+    </string>
+    <string id="ui_mm_reverse_speakers">
+        <text>Reverse Speakers</text>
     </string>
     <string id="ui_mm_save">
-        <text>Сохранить</text>
+        <text>Save</text>
     </string>
     <string id="ui_mm_save_game">
-        <text>Сохранить игру</text>
+        <text>Save Game</text>
+    </string>
+    <string id="ui_mm_sfx_volume">
+        <text>SFX Volume</text>
     </string>
     <string id="ui_mm_master_volume">
-        <text>Громкость</text>
+        <text>Master Volume</text>
     </string>
     <string id="ui_mm_sound">
-        <text>Звук</text>
+        <text>Sound</text>
     </string>
     <string id="ui_mm_sound_quality">
-        <text>Качесво звука</text>
+        <text>Sound Quality</text>
+    </string>
+    <string id="ui_mm_speakers_setup">
+        <text>Speakers Setup</text>
     </string>
     <string id="ui_mm_tips">
-        <text>Подсказки</text>
+        <text>Tips</text>
     </string>
     <string id="ui_mm_video">
-        <text>Видео</text>
+        <text>Video</text>
+    </string>
+    <string id="ui_mm_voice_volume">
+        <text>Voice volume</text>
     </string>
     <string id="ui_mm_quit_game_message">
-        <text>Действительно ли вы желаете покинуть игру?</text>
+        <text>Do you really want to end the game?</text>
     </string>
     <string id="ui_mm_disconnect_message">
-        <text>Действительно ли вы желаете отсоединится?</text>
+        <text>Do you really want to disconnect?</text>
     </string>
     <string id="ui_mm_quit_windows_message">
-        <text>Действительно ли выйти в Windows?</text>
+        <text>Do you really want to quit to Windows?</text>
     </string>
     <string id="ui_mm_switch_torch">
-		<text>использование фонариков AI</text>
+		<text>Enable torch for AI</text>
     </string>
     <string id="ui_mm_difficulty">
-		<text>Сложность</text>
-    </string>
-    <string id="st_level">
-	<text>Уровень</text>
-    </string>
-    <string id="ui_inv_health">
-	<text>Здоровье</text>
+		<text>Difficulty</text>
     </string>
 
 	<string id="st_opening_stream">
-		<text>Открытие потока</text>
+		<text>Opening stream</text>
 	</string>
 	<string id="st_loading_cform">
-		<text>Загрузка формы объектов</text>
+		<text>Loading CFORM</text>
 	</string>
 	<string id="st_prefetching_objects">
-		<text>Кэширование объектов</text>
+		<text>Prefetching objects</text>
 	</string>
 	<string id="st_creating_new_game">
-		<text>Создание новой игры</text>
+		<text>Creating new game</text>
 	</string>
 	<string id="st_loading_alife_simulator">
-		<text>Сервер: Загрузка симуляции жизни</text>
+		<text>SERVER: Loading alife simulator</text>
 	</string>
 	<string id="st_server_connecting">
-		<text>Сервер: Соединяемся</text>
+		<text>SERVER: Connecting</text>
 	</string>
 	<string id="st_loading_saved_game">
-		<text>Загрузка игры</text>
+		<text>Loading saved game</text>
 	</string>
 	<string id="st_validating_cdkey">
-		<text>Проверка ключа</text>
+		<text>Validating CD Key</text>
 	</string>
 	<string id="st_loading_ai_objects">
-		<text>Загрузка ИИ объектов</text>
+		<text>Loading AI objects</text>
 	</string>
 	<string id="st_client_connecting_to">
-		<text>Клиент: Соединение с</text>
+		<text>CLIENT: Connecting to</text>
 	</string>
 	<string id="st_client_spawning">
-		<text>Клиент: Создание</text>
+		<text>CLIENT: Spawning</text>
 	</string>
 	<string id="st_loading_textures">
-		<text>Загрузка текстур</text>
+		<text>Loading textures</text>
 	</string>
 	<string id="st_client_synchronising">
-		<text>Клиент: Синхронизация</text>
+		<text>CLIENT: Synchronising</text>
 	</string>
 	<string id="st_server_starting">
-		<text>Сервер: Старт</text>
+		<text>SERVER: Starting</text>
 	</string>
 	<string id="st_loading_shaders">
-		<text>Загрузка шейдеров</text>
+		<text>Loading shaders</text>
 	</string>
 	<string id="st_loading_geometry">
-		<text>Загрузка геометрии</text>
+		<text>Loading geometry</text>
 	</string>
 	<string id="st_loading_spatial_db">
-		<text>Загрузка базы пространств</text>
+		<text>Loading spatial-DB</text>
 	</string>
 	<string id="st_loading_details">
-		<text>Загрузка детальных объектов</text>
+		<text>Loading details</text>
 	</string>
 	<string id="st_loading_sectors_portals">
-		<text>Загрузка секторов и порталов</text>
+		<text>Loading sectors & portals</text>
 	</string>
+
 </string_table>

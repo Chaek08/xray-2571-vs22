@@ -3,7 +3,7 @@
 #include "xrMessages.h"
 #include "../x_ray.h"
 #include "GameSpy/GameSpy_GCD_Client.h"
-
+#include "../igame_persistent.h"
 
 void						CLevel::OnGameSpyChallenge			(NET_Packet* P)
 {
@@ -23,6 +23,6 @@ void						CLevel::OnGameSpyChallenge			(NET_Packet* P)
 	newP.w_stringZ(ResponseStr);
 	Send(newP);
 
-	pApp->LoadTitle				("Validating CD Key...");
+	g_pGamePersistent->LoadTitle("st_validating_cdkey");
 };
 

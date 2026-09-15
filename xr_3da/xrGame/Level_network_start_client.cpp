@@ -107,7 +107,7 @@ BOOL CLevel::net_Start_client	( LPCSTR options )
 	
 	return FALSE;
 }
-
+#include "string_table.h"
 bool	CLevel::net_start_client1				()
 {
 	pApp->LoadBegin	();
@@ -118,9 +118,11 @@ bool	CLevel::net_start_client1				()
 	if (strchr(name_of_server,'/'))	*strchr(name_of_server,'/') = 0;
 
 	// Startup client
-	string_path					temp;
-	sprintf						(temp,"CLIENT: Connecting to '%s'...",name_of_server);
-	pApp->LoadTitle				(temp);
+	string256					temp;
+	sprintf 						(temp,"%s %s",
+								CStringTable().translate("st_client_connecting_to").c_str(), name_of_server);
+
+	g_pGamePersistent->LoadTitle				(temp);
 	return true;
 }
 
@@ -155,7 +157,7 @@ bool	CLevel::net_start_client4				()
 {
 	if(connected_to_server){
 		// Begin spawn
-		pApp->LoadTitle						("CLIENT: Spawning...");
+		g_pGamePersistent->LoadTitle		("st_client_spawning");
 
 		// Send physics to single or multithreaded mode
 		LoadPhysicsGameParams				();
@@ -188,7 +190,7 @@ bool	CLevel::net_start_client5				()
 		// Textures
 		if	(!g_pGamePersistent->bDedicatedServer)
 		{
-			pApp->LoadTitle						("Loading textures...");
+			g_pGamePersistent->LoadTitle				("st_loading_textures");
 			Device.Resources->DeferredLoad		(FALSE);
 			Device.Resources->DeferredUpload	();
 			LL_CheckTextures					();
@@ -201,7 +203,7 @@ bool	CLevel::net_start_client6				()
 {
 	if(connected_to_server){
 		// Sync
-		pApp->LoadTitle				("CLIENT: Synchronising...");
+		g_pGamePersistent->LoadTitle		("st_client_synchronising");
 		Device.PreCache				(30);
 		net_start_result_total		= TRUE;
 	}else{

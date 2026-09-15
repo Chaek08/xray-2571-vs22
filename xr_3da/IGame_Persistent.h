@@ -104,6 +104,7 @@ public:
 #else
 	{}
 #endif
+	virtual	void					LoadTitle			(LPCSTR str) {}
 
 	virtual bool					CanBePaused			()		{ return true;}
 };
