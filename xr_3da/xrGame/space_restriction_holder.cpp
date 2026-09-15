@@ -24,7 +24,14 @@ const u32 time_to_delete = 300000;
 
 CSpaceRestrictionHolder::~CSpaceRestrictionHolder			()
 {
-	delete_data				(m_restrictions);
+	clear();
+}
+
+void CSpaceRestrictionHolder::clear							()
+{
+	delete_data					(m_restrictions);
+	m_default_out_restrictions	= "";
+	m_default_in_restrictions	= "";
 }
 
 shared_str CSpaceRestrictionHolder::normalize_string	(shared_str space_restrictors)

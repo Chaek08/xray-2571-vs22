@@ -19,6 +19,7 @@ class CGamePersistent:
 	u32					ambient_effect_stop_time;
 
 	CUISequencer*		m_intro;
+	EVENT				eQuickLoad;
 
 	fastdelegate::FastDelegate0<> m_intro_event;
 

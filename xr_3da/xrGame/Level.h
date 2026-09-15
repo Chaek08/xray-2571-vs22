@@ -302,6 +302,9 @@ protected:
 public:
 	virtual	u32				GetRealPing() { return m_dwRealPing; };
 
+public:
+			void			remove_objects				();
+
 	DECLARE_SCRIPT_REGISTER_FUNCTION
 };
 add_to_type_list(CLevel)

@@ -7,37 +7,95 @@
 #include "PHCommander.h"
 #include "net_queue.h"
 #include "MainUI.h"
+#include "stalker_animation_data_storage.h"
+#include "space_restriction_manager.h"
+#include "client_spawn_manager.h"
 
-void CLevel::net_Stop		()
+void CLevel::remove_objects	()
 {
-	Msg							("- Disconnect");
-	
-	if (OnServer())
-		Server->SLS_Clear		();
-	
-	if (OnClient())
-		ClearAllObjects			();
+	if (!IsGameTypeSingle()) Msg("CLevel::remove_objects - Start");
+	BOOL						b_stored = psDeviceFlags.test(rsDisableObjectsAsCrows);
 
-	BOOL b_stored = psDeviceFlags.test(rsDisableObjectsAsCrows);
+	if (OnServer()) {
+		VERIFY					(Server);
+		Server->SLS_Clear		();
+	}
+	
+	snd_Events.clear			();
 	for (int i=0; i<6; ++i) {
-		psDeviceFlags.set(rsDisableObjectsAsCrows,TRUE);
+		psNET_Flags.set			(NETFLAG_MINIMIZEUPDATES,FALSE);
+		// ugly hack for checks that update is twice on frame
+		// we need it since we do updates for checking network messages
+		++(Device.dwFrame);
+		psDeviceFlags.set		(rsDisableObjectsAsCrows,TRUE);
 		ClientReceive			();
 		ProcessGameEvents		();
 		Objects.Update			();
+		Sleep					(100);
 	}
-	
-	IGame_Level::net_Stop		();
-	IPureClient::Disconnect		();
+
+	if (OnClient())
+		ClearAllObjects			();
 
 	BulletManager().Clear		();
 	ph_commander().clear		();
 	ph_commander_scripts().clear();
+
+	if(!g_pGamePersistent->bDedicatedServer)
+		space_restriction_manager().clear	();
+
+	psDeviceFlags.set			(rsDisableObjectsAsCrows, b_stored);
+
+	stalker_animation_data_storage().clear		();
+	
+	VERIFY										(Render);
+	Render->models_Clear						();
+
+#ifdef DEBUG
+	if(!g_dedicated_server)
+		if (!client_spawn_manager().registry().empty())
+			client_spawn_manager().dump				();
+#endif // DEBUG
+	if(!g_pGamePersistent->bDedicatedServer)
+	{
+		VERIFY										(client_spawn_manager().registry().empty());
+		client_spawn_manager().clear			();
+	}
+
+	for (int i=0; i<6; i++)
+	{
+		++(Device.dwFrame);
+		Objects.Update();
+	}
+
+//.	xr_delete									(m_seniority_hierarchy_holder);
+//.	m_seniority_hierarchy_holder				= xr_new<CSeniorityHierarchyHolder>();
+	if (!IsGameTypeSingle()) Msg("CLevel::remove_objects - End");
+}
+
+#ifdef DEBUG
+	extern void	show_animation_stats	();
+#endif // DEBUG
+
+void CLevel::net_Stop		()
+{
+	Msg							("- Disconnect");
+	bReady						= false;
+	game_configured				= FALSE;
+
+	remove_objects				();
+	
+	IGame_Level::net_Stop		();
+	IPureClient::Disconnect		();
+
 	if (Server) {
 		Server->Disconnect		();
 		xr_delete				(Server);
 	}
-	psDeviceFlags.set(rsDisableObjectsAsCrows, b_stored);
 
+#ifdef DEBUG
+	show_animation_stats		();
+#endif // DEBUG
 }
 
 BOOL	g_bCalculatePing = FALSE;

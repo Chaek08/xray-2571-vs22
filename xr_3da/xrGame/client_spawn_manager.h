@@ -44,6 +44,7 @@ public:
 			void		add						(ALife::_OBJECT_ID	requesting_id, ALife::_OBJECT_ID requested_id, CGameObject *object);
 			void		remove					(ALife::_OBJECT_ID	requesting_id, ALife::_OBJECT_ID requested_id);
 			void		clear					(ALife::_OBJECT_ID	requested_id);
+			void		clear					();
 			void		callback				(CObject			*object);
 			void		callback				(CSpawnCallback		&spawn_callback, CObject *object);
 	DECLARE_SCRIPT_REGISTER_FUNCTION

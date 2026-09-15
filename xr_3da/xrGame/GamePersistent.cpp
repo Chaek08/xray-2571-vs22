@@ -75,6 +75,8 @@ CGamePersistent::CGamePersistent(void)
 	}
 
 	CWeaponHUD::CreateSharedContainer();
+
+	eQuickLoad = Engine.Event.Handler_Attach("Game:QuickLoad", this);
 }
 
 CGamePersistent::~CGamePersistent(void)
@@ -83,6 +85,7 @@ CGamePersistent::~CGamePersistent(void)
 	FS.r_close					(pDemoFile);
 	Device.seqFrame.Remove		(this);
 	Engine.Event.Handler_Detach	(eDemoStart,this);
+	Engine.Event.Handler_Detach	(eQuickLoad,this);
 }
 
 void CGamePersistent::RegisterModel(IRender_Visual* V)
@@ -342,14 +345,34 @@ void CGamePersistent::OnFrame	()
 #endif
 }
 
+#include "game_sv_single.h"
+#include "xrServer.h"
+
 void CGamePersistent::OnEvent(EVENT E, u64 P1, u64 P2)
 {
-	string_path			cmd;
-	LPCSTR				demo	= LPCSTR(P1);
-	sprintf				(cmd,"demo_play %s",demo);
-	Console->Execute	(cmd);
-	xr_free				(demo);
-	uTime2Change		= Device.TimerAsync() + u32(P2)*1000;
+	if(E==eQuickLoad)
+	{
+		if (Device.Paused())
+			Device.Pause		(FALSE, TRUE, TRUE, "eQuickLoad");
+		
+		LPSTR		saved_name	= (LPSTR)(P1);
+
+		Level().remove_objects	();
+		game_sv_Single			*game = smart_cast<game_sv_Single*>(Level().Server->game);
+		R_ASSERT				(game);
+		game->restart_simulator	(saved_name);
+		xr_free					(saved_name);
+		return;
+	}else
+	if(E==eDemoStart)
+	{
+		string256			cmd;
+		LPCSTR				demo	= LPCSTR(P1);
+		sprintf_s				(cmd,"demo_play %s",demo);
+		Console->Execute	(cmd);
+		xr_free				(demo);
+		uTime2Change		= Device.TimerAsync() + u32(P2)*1000;
+	}
 }
 
 void CGamePersistent::Statistics	(CGameFont* F)

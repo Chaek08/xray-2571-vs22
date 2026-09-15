@@ -119,3 +119,8 @@ void CClientSpawnManager::merge_spawn_callbacks	(CSpawnCallback &new_callback, C
 
 	old_callback.m_callback		= new_callback.m_callback;
 }
+
+void CClientSpawnManager::clear		()
+{
+	m_registry.clear				();
+}

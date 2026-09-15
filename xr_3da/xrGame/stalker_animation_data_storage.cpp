@@ -46,6 +46,14 @@ CStalkerAnimationDataStorage::~CStalkerAnimationDataStorage	()
 	}
 }
 
+void CStalkerAnimationDataStorage::clear					()
+{
+	while (!m_objects.empty()) {
+		xr_delete			(m_objects.back().second);
+		m_objects.pop_back	();
+	}
+}
+
 const CStalkerAnimationData *CStalkerAnimationDataStorage::object	(CKinematicsAnimated *skeleton_animated)
 {
 	OBJECTS::const_iterator	I = std::find_if(m_objects.begin(),m_objects.end(),data_predicate(skeleton_animated));
