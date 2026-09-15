@@ -770,5 +770,5 @@ void CUIMapWnd::Select				(CMapLocation* ml)
 
 void CUIMapWnd::Hint					(const shared_str& text)
 {
-	m_text_hint->SetText				(*text);
+	m_text_hint->SetTextST				(*text);
 }
