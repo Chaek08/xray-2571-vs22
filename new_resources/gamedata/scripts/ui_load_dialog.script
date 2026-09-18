@@ -127,7 +127,7 @@ function file_data(fname)
 		local y,m,d,h,min,sec,ms = 0,0,0,0,0,0,0
 		y,m,d,h,min,sec,ms = sg:game_time():get(y,m,d,h,min,sec,ms)
 
-		local date_time = string.format("[%02d:%02d %02d/%02d/%04d]", h, min, m, d, y)
+		local date_time = string.format("%02d:%02d %02d/%02d/%04d", h, min, m, d, y)
 		local health = string.format("\\n%s: %d%s", game.translate_string("ui_inv_health"), sg:actor_health() * 100, "%")
 		
 		return game.translate_string("st_level") .. ": " .. game.translate_string(sg:level_name()) .. "\\n" .. game.translate_string("ui_inv_time")..": " .. date_time .. health
