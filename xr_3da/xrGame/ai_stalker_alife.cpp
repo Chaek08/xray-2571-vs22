@@ -379,6 +379,9 @@ void CAI_Stalker::choose_equipment					()
 
 void CAI_Stalker::select_items						()
 {
+	if (!m_can_select_items)
+		return;
+
 	choose_food			();
 	choose_weapon		(ALife::eWeaponPriorityTypeKnife);
 	choose_weapon		(ALife::eWeaponPriorityTypeSecondary);
@@ -614,6 +617,12 @@ void CAI_Stalker::update_conflicted					(CInventoryItem *item, const CWeapon *ne
 
 void CAI_Stalker::on_after_take						(const CGameObject *object)
 {
+	if (!g_Alive())
+		return;
+
+	if (!READ_IF_EXISTS(pSettings,r_bool,cNameSect(),"use_single_item_rule",true))
+		return;
+
 	const CWeapon				*new_weapon = smart_cast<const CWeapon*>(object);
 	if (!new_weapon)
 		return;

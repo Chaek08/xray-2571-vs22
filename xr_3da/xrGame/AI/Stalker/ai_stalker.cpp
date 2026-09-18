@@ -268,6 +268,8 @@ void CAI_Stalker::Load				(LPCSTR section)
 	
 	// skeleton physics
 	m_pPhysics_support->in_Load		(section);
+
+	m_can_select_items				= !!READ_IF_EXISTS(pSettings, r_bool, section, "can_select_items", true);
 }
 #include "../../location_manager.h"
 BOOL CAI_Stalker::net_Spawn			(CSE_Abstract* DC)

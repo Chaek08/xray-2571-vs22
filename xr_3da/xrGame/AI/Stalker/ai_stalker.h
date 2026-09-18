@@ -407,6 +407,10 @@ public:
 			void						debug_planner					(const script_planner *planner);
 #endif
 	virtual void						on_enemy_change					(const CEntityAlive *enemy);
+private:
+		bool	m_can_select_items;
+
+public:
 	DECLARE_SCRIPT_REGISTER_FUNCTION
 };
 add_to_type_list(CAI_Stalker)
