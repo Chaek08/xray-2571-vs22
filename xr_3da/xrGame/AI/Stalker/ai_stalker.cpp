@@ -682,6 +682,10 @@ void CAI_Stalker::shedule_Update		( u32 DT )
 	if (g_Alive()) {
 		animation().play_delayed_callbacks	();
 
+#ifndef USE_SCHEDULER_IN_AGENT_MANAGER
+		agent_manager().update();
+#endif // USE_SCHEDULER_IN_AGENT_MANAGER
+
 //		bool			check = !!memory().enemy().selected();
 #if 0//def DEBUG
 		memory().visual().check_visibles();
