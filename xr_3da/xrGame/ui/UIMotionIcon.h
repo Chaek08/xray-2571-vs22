@@ -24,7 +24,7 @@ public:
 							CUIMotionIcon		();
 			void			Init				();
 			void			ShowState			(EState state);
-			void			SetPower			(s16 Pos);
-			void			SetNoise			(s16 Pos);
-			void			SetLuminosity		(s16 Pos);
+			void			SetPower			(float Pos);
+			void			SetNoise			(float Pos);
+			void			SetLuminosity		(float Pos);
 };

@@ -315,10 +315,12 @@ void CGamePersistent::OnFrame	()
 	}
 	__super::OnFrame			();
 
-	Engine.Sheduler.Update		();
+	if(!Device.Paused())
+		Engine.Sheduler.Update		();
 
 	// update weathers ambient
-	WeathersUpdate				();
+	if(!Device.Paused())
+		WeathersUpdate				();
 
 	if	(0!=pDemoFile){
 		if	(Device.dwTimeGlobal>uTime2Change){

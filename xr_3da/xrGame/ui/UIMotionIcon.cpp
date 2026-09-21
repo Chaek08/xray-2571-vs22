@@ -74,18 +74,18 @@ void CUIMotionIcon::ShowState(EState state)
 	m_curren_state=state;
 }
 
-void CUIMotionIcon::SetPower(s16 Pos)
+void CUIMotionIcon::SetPower(float Pos)
 {
 	m_power_progress.SetProgressPos(Pos);
 }
 
-void CUIMotionIcon::SetNoise(s16 Pos)
+void CUIMotionIcon::SetNoise(float Pos)
 {
 	Pos	= clampr(Pos, m_noise_progress.GetRange_min(), m_noise_progress.GetRange_max());
 	m_noise_progress.SetProgressPos(Pos);
 }
 
-void CUIMotionIcon::SetLuminosity(s16 Pos)
+void CUIMotionIcon::SetLuminosity(float Pos)
 {
 	Pos	= clampr(Pos, m_luminosity_progress.GetRange_min(), m_luminosity_progress.GetRange_max());
 	m_luminosity_progress.SetProgressPos(Pos);

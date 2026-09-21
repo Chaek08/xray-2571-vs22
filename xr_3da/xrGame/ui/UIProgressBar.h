@@ -15,15 +15,16 @@
 class CUIProgressBar : public CUIWindow
 {
 	friend class CUIXmlInit;
+	typedef CUIWindow	inherited;
 protected:
 	//горизонтальный или вертикальный 
 	bool			m_bIsHorizontal;
 
 	//текущая позиция
-	s16				m_iProgressPos;
+	Fvector2		m_ProgressPos; // x - current, y - target
 	//границы отображения
-	s16				m_iMinPos;
-	s16				m_iMaxPos;
+	float			m_iMinPos;
+	float			m_iMaxPos;
 
 	//текущий состояние полосы в пикселях
 	float				m_iCurrentLength;
@@ -40,6 +41,8 @@ protected:
 	bool			m_bBackgroundPresent;
 	Fvector2		m_BackgroundOffset;
 
+	u32				m_last_render_frame;
+
 	//обновить полосу
 	void			UpdateProgressBar();
 
@@ -48,6 +51,8 @@ public:
 	bool			m_bUseColor;
 	Fcolor			m_minColor;
 	Fcolor			m_maxColor;
+
+	float			m_inertion;
 
 public:
 					CUIProgressBar(void);
@@ -60,16 +65,20 @@ public:
 						float x, float y, float width, float height, u32 color = 0xFFFFFFFF);
 	void			SetBackgroundTexture(LPCSTR tex_name, float x, float y, float width, float height, float offs_x, float offs_y);
 
-	void			SetRange(s16 iMin, s16 iMax) {m_iMinPos = iMin;  m_iMaxPos = iMax;
-						UpdateProgressBar();}
+	void			SetRange(float iMin, float iMax)
+	{
+		m_iMinPos = iMin;
+		m_iMaxPos = iMax;
+		UpdateProgressBar();
+	}
+
 	void			GetRange(s16& iMin, s16& iMax) {iMin = m_iMinPos;  iMax = m_iMaxPos;}
 
-	s16				GetRange_min() {return  m_iMinPos;}
-	s16				GetRange_max() {return  m_iMaxPos;}
+	float			GetRange_min() { return m_iMinPos; }
+	float			GetRange_max() { return m_iMaxPos; }
 
-	void			SetProgressPos(s16 iPos) { m_iProgressPos = iPos; 
-						UpdateProgressBar();}
-	s16				GetScrollPos() {return m_iProgressPos;}
+	void			SetProgressPos(float iPos);
+	float			GetProgressPos() { return m_ProgressPos.y; }
 
 	//базовые размеры для кнопок
 	//enum {PROGRESSBAR_WIDTH = 32, PROGRESSBAR_HEIGHT = 32};
@@ -80,6 +89,7 @@ public:
 	bool			ProgressDec();
 
 	virtual void	Draw();
+	virtual void	Update();
 };
 
 add_to_type_list(CUIProgressBar)

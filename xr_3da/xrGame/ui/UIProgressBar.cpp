@@ -16,6 +16,11 @@ CUIProgressBar::CUIProgressBar(void)
 
 	m_bBackgroundPresent	= false;
 	m_bUseColor				= false;
+
+	m_ProgressPos.x			= 0.0f;
+	m_ProgressPos.y			= 0.0f;
+	m_inertion				= 0.0f;
+	m_last_render_frame		= u32(-1);
 }
 
 CUIProgressBar::~CUIProgressBar(void)
@@ -81,29 +86,69 @@ void CUIProgressBar::SetBackgroundTexture(LPCSTR tex_name, float x, float y, flo
 
 void CUIProgressBar::UpdateProgressBar()
 {
-	//относительный размер единичного прокручемого элемента
-	float progressbar_unit;
-	progressbar_unit = (float)1/(m_iMaxPos-m_iMinPos);
+	if (fsimilar(m_iMaxPos, m_iMinPos))
+		m_iMaxPos += EPS;
 
-	float fCurrentLength = m_iProgressPos*progressbar_unit;
+	float progressbar_unit = 1.0f / (m_iMaxPos - m_iMinPos);
 
-	//утановить размер и положение каретки
-	if(m_bIsHorizontal)	m_iCurrentLength = GetWidth()*fCurrentLength; 	
-	else				m_iCurrentLength = GetHeight()*fCurrentLength; 	
+	float fCurrentLength = m_ProgressPos.x * progressbar_unit;
 
-	if(m_bUseColor){
+	if (m_bIsHorizontal)
+		m_iCurrentLength = GetWidth() * fCurrentLength;
+	else
+		m_iCurrentLength = GetHeight() * fCurrentLength;
+
+	if (m_bUseColor)
+	{
 		Fcolor curr;
-		curr.lerp							(m_minColor,m_maxColor,fCurrentLength);
-		m_UIProgressItem.SetColor			(curr);
-//		m_UIBackgroundItem.SetColor			(0x70000000);
+		curr.lerp(m_minColor, m_maxColor, fCurrentLength);
+		m_UIProgressItem.SetColor(curr);
+	}
+}
+
+void CUIProgressBar::SetProgressPos(float iPos)
+{
+	m_ProgressPos.y = iPos;
+	clamp(m_ProgressPos.y, m_iMinPos, m_iMaxPos);
+
+	if (m_last_render_frame + 1 != Device.dwFrame)
+		m_ProgressPos.x = m_ProgressPos.y;
+
+	UpdateProgressBar();
+}
+
+float _sign(const float& v)
+{
+	return (v > 0.0f) ? 1.0f : -1.0f;
+}
+
+void CUIProgressBar::Update()
+{
+	inherited::Update();
+
+	if (!fsimilar(m_ProgressPos.x, m_ProgressPos.y))
+	{
+		if (fsimilar(m_iMaxPos, m_iMinPos))
+			m_iMaxPos += EPS;
+
+		float _diff = m_ProgressPos.y - m_ProgressPos.x;
+		float _length = m_iMaxPos - m_iMinPos;
+		float _val = _length * (1.0f - m_inertion) * Device.fTimeDelta;
+
+		_val = _min(_abs(_val), _abs(_diff));
+		_val *= _sign(_diff);
+
+		m_ProgressPos.x += _val;
+
+		UpdateProgressBar();
 	}
 }
 
 bool CUIProgressBar::ProgressDec()
 {
-	if(m_iProgressPos>m_iMinPos){
-		--m_iProgressPos;
-		UpdateProgressBar();
+	if (m_ProgressPos.y > m_iMinPos)
+	{
+		SetProgressPos(m_ProgressPos.y - 1.0f);
 		return true;
 	}
 
@@ -112,9 +157,9 @@ bool CUIProgressBar::ProgressDec()
 
 bool CUIProgressBar::ProgressInc()
 {
-	if(m_iProgressPos<m_iMaxPos){
-		++m_iProgressPos;
-		UpdateProgressBar();
+	if (m_ProgressPos.y < m_iMaxPos)
+	{
+		SetProgressPos(m_ProgressPos.y + 1.0f);
 		return true;
 	}
 
@@ -147,4 +192,6 @@ void CUIProgressBar::Draw()
 		m_UIProgressItem.Render();
 		UI()->PopScissor	();
 	}
+
+	m_last_render_frame = Device.dwFrame;
 }
