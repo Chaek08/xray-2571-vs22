@@ -7,6 +7,7 @@
 #include "StdAfx.h"
 #include "UISpinText.h"
 #include "UILines.h"
+#include "../string_table.h"
 
 CUISpinText::CUISpinText(){
     m_curItem = -1;
@@ -31,7 +32,7 @@ void CUISpinText::AddItem(const char* item){
 
 void CUISpinText::SetItem(){
 	R_ASSERT(m_curItem != -1);
-	m_pLines->SetText(m_list[m_curItem].c_str());
+	m_pLines->SetText(CStringTable().translate(m_list[m_curItem].c_str()).c_str());
 }
 
 void CUISpinText::SetCurrentValue(){
@@ -55,11 +56,11 @@ void CUISpinText::SetCurrentValue(){
 
 void CUISpinText::SaveValue(){
 	CUIOptionsItem::SaveValue();
-	SaveOptTokenValue(m_pLines->GetText());
+	SaveOptTokenValue(m_list[m_curItem].c_str());
 }
 
 bool CUISpinText::IsChanged(){
-	return 0 != xr_strcmp(GetOptTokenValue(), m_pLines->GetText());
+	return 0 != xr_strcmp(GetOptTokenValue(), m_list[m_curItem].c_str());
 }
 
 void CUISpinText::OnBtnUpClick(){	
