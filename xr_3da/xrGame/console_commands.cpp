@@ -36,6 +36,7 @@
 #include "ui/UIOptConCom.h"
 #include "zone_effector.h"
 #include "GameTask.h"
+#include "ai_object_location.h"
 
 //#define MASTER_GOLD;
 
@@ -163,6 +164,60 @@ public:
     virtual void Info (TInfo& I) {
         strcpy(I,"name [count]");
     }
+
+};
+
+extern CSE_Abstract* CALifeSimulator__spawn_item2(CALifeSimulator* self_, LPCSTR section, const Fvector& position,
+	u32 level_vertex_id, GameGraph::_GRAPH_ID game_vertex_id, ALife::_OBJECT_ID id_parent);
+
+class CCC_SpawnToInventory : public IConsole_Command
+{
+public:
+	CCC_SpawnToInventory(LPCSTR N) : IConsole_Command(N) {}
+
+	virtual void Execute(LPCSTR args) override
+	{
+		if (!g_pGameLevel)
+			return;
+
+		CActor* actor = smart_cast<CActor*>(Level().CurrentEntity());
+
+		if (!actor)
+			return;
+
+		char Name[128];
+		Name[0] = 0;
+		int count = 1;
+
+		int num = sscanf(args, "%s %d", Name, &count);
+
+		if (num < 1)
+		{
+			Msg("! Invalid arguments. Usage: g_spawn_to_inventory <section> [count]");
+			return;
+		}
+
+		if (!pSettings->section_exist(Name))
+		{
+			Msg("! Cannot spawn: section [%s] not found.", Name);
+			return;
+		}
+
+		game_sv_Single* tpGame = smart_cast<game_sv_Single*>(Level().Server->game);
+
+		if (tpGame)
+		{
+			for (int i = 0; i < count; ++i)
+			{
+				CALifeSimulator__spawn_item2(&tpGame->alife(), Name, actor->Position(), actor->ai_location().level_vertex_id(), actor->ai_location().game_vertex_id(), actor->ID());
+			}
+		}
+	}
+
+	virtual void Info(TInfo& I)
+	{
+		strcpy(I, "name [count]");
+	}
 };
 
 class CCC_TimeFactor : public IConsole_Command {
@@ -2128,6 +2183,7 @@ void CCC_RegisterCommands()
 	CMD3(CCC_Mask,				"g_always_run",			&psActorFlags,	AF_ALWAYSRUN);
 	CMD3(CCC_Mask,				"g_god",				&psActorFlags,	AF_GODMODE	);
 	CMD1(CCC_Spawn,				"g_spawn"				);
+	CMD1(CCC_SpawnToInventory,	"g_spawn_inv"			);
 	CMD1(CCC_GameDifficulty,	"g_game_difficulty"		);
 	CMD1(CCC_Restart,			"g_restart"				);
 	CMD1(CCC_RestartFast,		"g_restart_fast"		);
