@@ -28,6 +28,13 @@ xr_token							snd_model_token							[ ]={
 	{ 0,							0											}
 };
 extern xr_token*							vid_mode_token;
+
+xr_token							vid_quality_token[] = {
+	{ "renderer_r1",				0 },
+	{ "renderer_r2",				1 },
+	{ 0,							0 }
+};
+
 xr_token							vid_bpp_token							[ ]={
 	{ "16",							16											},
 	{ "32",							32											},
@@ -446,6 +453,34 @@ public:
 	virtual void	Save	(IWriter *F)	{};
 };
 #endif
+
+u32				renderer_value = 0;
+class CCC_r2 : public CCC_Token
+{
+	typedef CCC_Token inherited;
+public:
+	CCC_r2(LPCSTR N) : inherited(N, &renderer_value, vid_quality_token) { renderer_value = 0; };
+
+	virtual void	Execute(LPCSTR args)
+	{
+#ifdef DEDICATED_SERVER
+		inherited::Execute("renderer_r1");
+#else
+		inherited::Execute(args);
+#endif // DEDICATED_SERVER
+
+		psDeviceFlags.set(rsR2, (renderer_value > 0));
+	}
+
+	virtual void	Save(IWriter* F) {
+		if (!strstr(Core.Params, "-r2"))
+		{
+			inherited::Save(F);
+		}
+	}
+
+};
+
 //-----------------------------------------------------------------------
 ENGINE_API float	psHUD_FOV=0.5f;
 
@@ -561,6 +596,8 @@ void CCC_Register()
 	// Camera
 	CMD2(CCC_Float,		"cam_inert",			&psCamInert);
 	CMD2(CCC_Float,		"cam_slide_inert",		&psCamSlideInert);
+
+	CMD1(CCC_r2,		"renderer"					);
 
 	//psSoundRolloff			= pSettings->r_float	("sound","rolloff");		clamp(psSoundRolloff,			EPS_S,	2.f);
 	psSoundOcclusionScale	= pSettings->r_float	("sound","occlusion_scale");clamp(psSoundOcclusionScale,	0.1f,	.5f);

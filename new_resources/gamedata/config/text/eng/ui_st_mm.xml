@@ -144,6 +144,15 @@
     <string id="ui_mm_video">
         <text>Video</text>
     </string>
+    <string id="ui_mm_renderer">
+	<text>Render</text>
+    </string>
+    <string id="renderer_r1">
+	<text>Static lighting</text>
+    </string>
+    <string id="renderer_r2">
+	<text>Full dynamic lighting</text>
+    </string>
     <string id="ui_mm_voice_volume">
         <text>Voice volume</text>
     </string>
@@ -162,6 +171,36 @@
     <string id="ui_mm_difficulty">
 		<text>Difficulty</text>
     </string>
+
+	<string id="gd_master">
+		<text>master</text>
+	</string>
+	<string id="gd_novice">
+		<text>novice</text>
+	</string>
+	<string id="gd_stalker">
+		<text>stalker</text>
+	</string>
+	<string id="gd_veteran">
+		<text>veteran</text>
+	</string>
+
+	<string id="Default">
+		<text>medium</text>
+	</string>
+	<string id="Extreme">
+		<text>maximum</text>
+	</string>
+
+	<string id="High">
+		<text>high</text>
+	</string>
+	<string id="Low">
+		<text>low</text>
+	</string>
+	<string id="Minimum">
+		<text>minimum</text>
+	</string>
 
 	<string id="st_opening_stream">
 		<text>Opening stream</text>

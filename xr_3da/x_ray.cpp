@@ -344,6 +344,8 @@ void	__cdecl		intro_dshow_x	(void*)
 }
 */
 
+#include "xr_ioc_cmd.h"
+
 int APIENTRY WinMain_impl(HINSTANCE hInstance,
                      HINSTANCE hPrevInstance,
                      char *    lpCmdLine,
@@ -410,6 +412,18 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 		if (l_res != 0)
 			return 0;
 	};
+
+	if(strstr(Core.Params,"-r2"))
+	{
+		Console->Execute("renderer renderer_r2");
+	}
+	else
+	{
+		CCC_LoadCFG_custom*	pTmp = xr_new<CCC_LoadCFG_custom>("renderer ");
+		pTmp->Execute				(Console->ConfigFile);
+		xr_delete					(pTmp);
+	}
+
 	Engine.External.Initialize	( );
 //	CheckPrivilegySlowdown		( );
 	Console->Execute			("stat_memory");
