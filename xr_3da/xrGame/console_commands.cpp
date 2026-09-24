@@ -73,7 +73,9 @@ extern	int		x_m_z;
 extern	BOOL	net_cl_inputguaranteed	;
 extern	BOOL	net_sv_control_hit		;
 extern	int		g_dwInputUpdateDelta	;
+#ifdef DEBUG
 extern	BOOL	g_ShowAnimationInfo		;
+#endif // DEBUG
 extern	BOOL	g_bCalculatePing		;
 extern	BOOL	g_bBearerCantSprint		;
 extern	BOOL	g_bShildedBases			;
@@ -2431,8 +2433,9 @@ void CCC_RegisterCommands()
 
  
 //	CMD4(CCC_SvControlHit,	"net_sv_control_hit",	&net_sv_control_hit,	0, 1)	;
-
+#ifdef DEBUG
 	CMD4(CCC_Integer,		"dbg_show_ani_info",	&g_ShowAnimationInfo,	0, 1)	;
+#endif
 	CMD3(CCC_Mask,			"cl_dynamiccrosshair",	&psHUD_Flags,	HUD_CROSSHAIR_DYNAMIC);
 
 	CMD1(CCC_MainMenu,		"main_menu"				);

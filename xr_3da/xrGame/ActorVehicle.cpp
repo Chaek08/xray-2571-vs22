@@ -37,7 +37,7 @@ void CActor::attach_Vehicle(CHolderCustom* vehicle)
 	// temp play animation
 	CCar*	car			= smart_cast<CCar*>(m_holder);
 	u16 anim_type       = car->DriverAnimationType();
-	SActorVehicleAnims::SOneTypeCollection& anims=m_vehicle_anims->m_vehicles_type_collections[anim_type];
+	SVehicleAnimCollection& anims=m_vehicle_anims->m_vehicles_type_collections[anim_type];
 	V->PlayCycle(anims.idles[0],FALSE);
 
 	ResetCallbacks		();

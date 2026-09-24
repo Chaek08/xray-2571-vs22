@@ -1155,7 +1155,9 @@ void CActor::g_PerformDrop	( )
 }
 
 
-extern	BOOL	g_ShowAnimationInfo		;
+#ifdef DEBUG
+extern	BOOL	g_ShowAnimationInfo;
+#endif // DEBUG
 // HUD
 void CActor::OnHUDDraw	(CCustomHUD* /**hud/**/)
 {

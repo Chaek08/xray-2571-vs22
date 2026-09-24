@@ -12,7 +12,7 @@
 #define _FwdRStr		(mcFwd|mcRStrafe)
 #define _BackLStr		(mcBack|mcLStrafe)
 #define _BackRStr		(mcBack|mcRStrafe)
-	
+
 #define _AFwd			(mcAccel|mcFwd)
 #define _ABack			(mcAccel|mcBack)
 #define _ALStr			(mcAccel|mcLStrafe)
