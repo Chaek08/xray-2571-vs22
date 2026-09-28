@@ -55,7 +55,6 @@ CStats::~CStats()
 {
 	xr_delete		(pFont);
 }
-extern ENGINE_API BOOL bShowPauseString;
 
 void CStats::Show() 
 {

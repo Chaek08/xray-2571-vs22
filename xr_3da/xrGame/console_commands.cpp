@@ -945,19 +945,31 @@ public:
 class CCC_ALifeLoadFrom : public IConsole_Command {
 public:
 	CCC_ALifeLoadFrom(LPCSTR N) : IConsole_Command(N)  { bEmptyArgsHandled = true; };
-	virtual void Execute(LPCSTR args) {
-		string_path	S;
-		S[0]		= 0;
-		sscanf		(args ,"%s",S);
-		if (!xr_strlen(S)) {
-			Log("* Specify file name!");
+	virtual void Execute(LPCSTR args)
+	{
+		if (!ai().get_alife()) {
+			Log						("! ALife simulator has not been started yet");
 			return;
 		}
 
-		NET_Packet			net_packet;
-		net_packet.w_begin	(M_LOAD_GAME);
-		net_packet.w_stringZ(S);
-		Level().Send		(net_packet,net_flags(TRUE));
+		string256					saved_game;
+		saved_game[0]				= 0;
+		strcpy_s					(saved_game, args);
+		if (!xr_strlen(saved_game)) {
+			Log						("! Specify file name!");
+			return;
+		}
+
+		if(UI()->IsActive())
+			UI()->Activate(false);
+
+		if (Device.Paused())
+			Device.Pause			(FALSE, TRUE, TRUE, "CCC_ALifeLoadFrom");
+
+		NET_Packet					net_packet;
+		net_packet.w_begin			(M_LOAD_GAME);
+		net_packet.w_stringZ		(saved_game);
+		Level().Send				(net_packet,net_flags(TRUE));
 	}
 };
 

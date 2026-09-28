@@ -45,6 +45,9 @@ void CUISequenceVideoItem::Load(CUIXml* xml, int idx)
 	m_flags.set										(etiNeedPauseOn,	0==_stricmp(str, "on"));
 	m_flags.set										(etiNeedPauseOff,	0==_stricmp(str, "off"));
 	
+	LPCSTR str2				= xml->Read				("pause_sound",0,"ignore");
+	m_flags.set										(etiNeedPauseSound, 0==_stricmp(str2, "on"));
+
 	str						= xml->Read				("can_be_stopped",0,"on");
 	m_flags.set										(etiCanBeStopped,	0==_stricmp(str, "on"));
 
@@ -124,6 +127,9 @@ void CUISequenceVideoItem::Start()
 	if(m_flags.test(etiNeedPauseOff) && m_flags.test(etiStoredPauseState))
 		Device.Pause			(FALSE, TRUE, TRUE, "videoitem_start");
 
+	if(m_flags.test(etiNeedPauseSound))
+		Device.Pause			(TRUE, FALSE, TRUE, "videoitem_start");
+
 	m_flags.set					(etiPlaying,TRUE);
 	m_flags.set					(etiNeedStart,TRUE);
 
@@ -155,6 +161,9 @@ bool CUISequenceVideoItem::Stop	(bool bForce)
 
 	if(m_flags.test(etiNeedPauseOff) && m_flags.test(etiStoredPauseState))
 		Device.Pause			(TRUE, TRUE, TRUE, "videoitem_stop");
+
+	if(m_flags.test(etiNeedPauseSound))
+		Device.Pause			(FALSE, FALSE, TRUE, "videoitem_stop");
 
 	return true;
 }

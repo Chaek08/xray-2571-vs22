@@ -58,6 +58,9 @@ void CUISequenceSimpleItem::Load(CUIXml* xml, int idx)
 	m_flags.set										(etiNeedPauseOn, 0==_stricmp(str, "on"));
 	m_flags.set										(etiNeedPauseOff, 0==_stricmp(str, "off"));
 
+	LPCSTR str2				= xml->Read				("pause_sound",0,"ignore");
+	m_flags.set										(etiNeedPauseSound, 0==_stricmp(str2, "on"));
+
 	str						= xml->Read				("guard_key",0,NULL		);
 	m_continue_dik_guard	= -1;
 	if (str && !_stricmp(str,"any")){
@@ -150,6 +153,9 @@ void CUISequenceSimpleItem::Start()
 	if(m_flags.test(etiNeedPauseOff) && m_flags.test(etiStoredPauseState))
 		Device.Pause			(FALSE, TRUE, FALSE, "simpleitem_start");
 
+	if(m_flags.test(etiNeedPauseSound))
+		Device.Pause			(TRUE, FALSE, TRUE, "simpleitem_start");
+
 	GetUICursor()->SetPos		(m_desired_cursor_pos.x, m_desired_cursor_pos.y);
 	m_time_start				= float(Device.dwTimeContinual)/1000.0f;
 	m_owner->MainWnd()->AttachChild	(m_UIWindow);
@@ -202,6 +208,9 @@ bool CUISequenceSimpleItem::Stop			(bool bForce)
 
 	if(m_flags.test(etiNeedPauseOff) && m_flags.test(etiStoredPauseState))
 		Device.Pause			(TRUE, TRUE, FALSE, "simpleitem_stop");
+
+	if(m_flags.test(etiNeedPauseSound))
+		Device.Pause			(FALSE, FALSE, TRUE, "simpleitem_stop");
 
 	return true;
 }
