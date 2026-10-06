@@ -30,7 +30,6 @@
 #include "uixmlinit.h"
 #include "uiartefactpanel.h"
 #include "UIListBox.h" //#include "UIScrollView.h"
-#include "UIComboBox.h"
 #include "../game_base_space.h"
 
 #include "UITextureMaster.h"
@@ -1433,8 +1432,8 @@ bool CUIXmlInit::InitScrollView	(CUIXml& xml_doc, const char* path, int index, C
 bool CUIXmlInit::InitListBox(CUIXml& xml_doc, const char* path, int index, CUIListBox* pWnd){
 	InitScrollView(xml_doc, path, index, pWnd);
 
-	//bool b = (1==xml_doc.ReadAttribInt(path, index, "multiselect",0));
-	//pWnd->m_flags.set					(CUIScrollView::eMultiSelect, b);
+	bool b = (1==xml_doc.ReadAttribInt(path, index, "multiselect",0));
+	pWnd->m_flags.set					(CUIScrollView::eMultiSelect, b);
 
 	char _path[512];
 
@@ -1460,46 +1459,6 @@ bool CUIXmlInit::InitListBox(CUIXml& xml_doc, const char* path, int index, CUILi
 	else if (0 == xr_strcmp(al, "l"))
 		pWnd->SetTextAlignment(CGameFont::alLeft);
 
-
-	return true;
-}
-
-bool CUIXmlInit::InitComboBox(CUIXml& xml_doc, const char* path, int index, CUIComboBox* pWnd){
-	u32							color;
-	CGameFont*					pFont;
-
-	pWnd->SetListLength			(xml_doc.ReadAttribInt(path, index, "list_length", 4));
-
-	InitWindow					(xml_doc, path, index, pWnd);
-	InitOptionsItem				(xml_doc, path, index, pWnd);
-
-	bool b = (1==xml_doc.ReadAttribInt(path, index, "always_show_scroll",1));
-
-	pWnd->m_list.SetFixedScrollBar(b);
-
-	string512					_path;
-	strconcat					(sizeof(_path),_path, path, ":list_font");
-	InitFont					(xml_doc, _path, index, color, pFont);
-	pWnd->SetFont				(pFont);
-	pWnd->m_list.SetFont		(pFont);
-	pWnd->m_list.SetTextColor	(color);
-	strconcat					(sizeof(_path),_path, path, ":list_font_s");	
-	InitFont					(xml_doc, _path, index, color, pFont);
-	pWnd->m_list.SetTextColorS	(color);
-	
-	strconcat(sizeof(_path), _path, path, ":text_color:e");
-	if (xml_doc.NavigateToNode(_path, index))
-	{
-		color = GetARGB(xml_doc, _path, index);
-		pWnd->SetTextColor(color);
-	}
-
-	strconcat(sizeof(_path), _path, path, ":text_color:d");
-	if (xml_doc.NavigateToNode(_path, index))
-	{
-		color = GetARGB(xml_doc, _path, index);
-		pWnd->SetTextColorD(color);
-	}
 
 	return true;
 }

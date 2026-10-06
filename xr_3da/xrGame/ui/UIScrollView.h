@@ -48,7 +48,6 @@ public:
 	CUIWindow*		GetSelected			();
 	CUIWindow*		GetSelectedLast		();
 			void	ForceUpdate			();
-	CUIScrollBar*	ScrollBar			() {return m_VScrollBar;}
 };
 
 #define ADD_TEXT_TO_VIEW3(txt,st,view)		st = xr_new<CUIStatic>();						\

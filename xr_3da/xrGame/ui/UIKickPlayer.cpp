@@ -32,6 +32,7 @@ CUIKickPlayer::CUIKickPlayer(){
 	btn_cancel = xr_new<CUI3tButton>(); btn_cancel->SetAutoDelete(true);
 	AttachChild(btn_cancel);
 
+	selected_item = u32(-1);
 	mode = MODE_KICK;
 }
 
@@ -69,8 +70,7 @@ bool CUIKickPlayer::OnKeyboard(int dik, EUIMessages keyboard_action){
 void CUIKickPlayer::SendMessage(CUIWindow* pWnd, s16 msg, void* pData){
 	if (LIST_ITEM_SELECT == msg && pWnd == lst)
 	{		
-		CUIListBoxItem* itm = smart_cast<CUIListBoxItem*>(lst->GetSelected());
-		selected_item = itm->GetText();
+		selected_item = *static_cast<u32*>(pData);
 	}
 	else if (BUTTON_CLICKED == msg)
 	{
@@ -89,10 +89,10 @@ void CUIKickPlayer::OnBtnOk(){
 		string512 command;	
 		switch (mode){
 			case MODE_KICK:
-                sprintf(command, "cl_votestart kick #%u", item->GetText());
+                sprintf(command, "cl_votestart kick #%u", item->GetID());
 				break;
 			case MODE_BAN:
-				sprintf(command, "cl_votestart ban #%u", item->GetText());
+				sprintf(command, "cl_votestart ban #%u", item->GetID());
 				break;
 		}
 		Console->Execute(command);
@@ -134,8 +134,8 @@ void CUIKickPlayer::Update(){
 	for (u32 i = 0; i<items.size(); i++){
 		game_PlayerState* p = reinterpret_cast<game_PlayerState*>(items[i]);
 		CUIListBoxItem* item = lst->AddItem(p->name);
-		item->SetTAG(u32(i));
+		item->SetID(u32(i));
 	}
 
-    lst->SetSelectedText(selected_item.c_str());
+    lst->SetSelected(selected_item);
 }

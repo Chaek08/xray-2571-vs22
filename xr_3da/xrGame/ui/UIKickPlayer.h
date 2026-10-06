@@ -45,5 +45,5 @@ protected:
 
 	DEFINE_VECTOR	(LPVOID,ItemVec,ItemIt);
 	ItemVec			items;
-	shared_str		selected_item;
+	u32				selected_item;
 };
