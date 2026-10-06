@@ -9,6 +9,8 @@
 #include "UIXmlInit.h"
 #include "UIMapInfo.h"
 #include "../../xr_ioconsole.h"
+#include "UIListBoxItem.h"
+#include "../UIGameCustom.h"
 
 extern ENGINE_API string512  g_sLaunchOnExit;
 
@@ -172,15 +174,19 @@ GAME_TYPE CUIMapList::GetCurGameType(){
 }
 
 const char* CUIMapList::GetCommandLine(LPCSTR player_name){
-	char buf[16];
-	LPCSTR txt = m_pList2->GetFirstText();
-	if (NULL == txt)
-		return NULL;
-	if (0 == txt[0])
-		return NULL;
+	string16		buf;
+
+	CUIListBoxItem* txt = m_pList2->GetItemByIDX(0);
+	if (!txt)
+		return						NULL;
+
+	u32 _idx = (u32)(__int64)(txt->GetData());
+	R_ASSERT(_idx < m_Maps[GetCurGameType()].size());
+	const shared_str& _map_name = m_Maps[GetCurGameType()][_idx];
+
 	m_command.clear();
 	m_command = "start server(";
-	m_command += txt; //map_name
+	m_command += _map_name.c_str(); //map_name
 	m_command += "/";
 	m_command += GetCLGameModeName();
 	m_command += m_srv_params;
@@ -265,19 +271,36 @@ void CUIMapList::LoadMapList(){
 	std::sort(m_Maps[GAME_ARTEFACTHUNT].begin(),	m_Maps[GAME_ARTEFACTHUNT].end(),	MP_map_cmp);
 }
 
-void	CUIMapList::SaveMapList(){
-	FILE* MapRotFile = fopen(MAP_ROTATION_LIST, "w");
-	if (!MapRotFile)
-		return;
-	
-	LPCSTR txt = m_pList2->GetFirstText();
+void	CUIMapList::SaveMapList()
+{
+	string_path					temp;
+	FS.update_path				(temp,"$app_data_root$", MAP_ROTATION_LIST);
 
-	while(txt){
-		fprintf(MapRotFile, "sv_addmap %s\n", txt);
-		txt = m_pList2->GetNextText();
+	if(m_pList2->GetSize()<=1){
+		FS.file_delete(temp);
+		return;
 	}
 
-	fclose(MapRotFile);
+	IWriter*	pW = FS.w_open	(temp);
+	if (!pW){
+		Msg("! Cant create map rotation file [%s]", temp);
+		return;
+	}
+	
+	string_path					map_name;
+	for(u32 idx=0; idx<m_pList2->GetSize(); ++idx)
+	{
+		CUIListBoxItem* itm				= m_pList2->GetItemByIDX(idx);
+		u32 _idx						= (u32)(__int64)(itm->GetData());
+		R_ASSERT						(_idx < m_Maps[GetCurGameType()].size());
+		const shared_str& _map_name		= m_Maps[GetCurGameType()][_idx];
+
+		sprintf_s							(map_name, "sv_addmap %s", _map_name.c_str() );
+
+		pW->w_string					(map_name);
+	}
+
+	FS.w_close							(pW);
 }
 
 void	CUIMapList::ParseWeather(char** ps, char* e)
@@ -370,15 +393,12 @@ void CUIMapList::Update(){
 	CUIWindow::Update();
 }
 
-void CUIMapList::OnBtnRightClick(){
-	m_pList2->AddItem(m_pList1->GetSelectedText());
-	LPCSTR next = m_pList1->GetNextSelectedText();
-	while(next)
-	{
-		m_pList2->AddItem(next);
-		next = m_pList1->GetNextSelectedText();
-	}
-	m_pList1->DeselectAll();
+void CUIMapList::OnBtnRightClick()
+{
+	CUIListBoxItem* itm1			= m_pList1->GetSelectedItem();
+	if (!itm1) return;
+	CUIListBoxItem* itm2			= m_pList2->AddItem( itm1->GetText() );
+	itm2->SetData					(itm1->GetData());
 }
 
 void CUIMapList::OnBtnUpClick(){

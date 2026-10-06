@@ -5,20 +5,33 @@ class CUIListBoxItem : public CUILabel, public CUISelectable{
 public:
 	using CUILabel::SetTextColor;
 
-	CUIListBoxItem();
+						CUIListBoxItem();
+	virtual				~CUIListBoxItem();
 
-    virtual void	SetSelected(bool b);
+    virtual void		SetSelected(bool b);
 //	virtual void	Update();
-	virtual void	Draw();
-	virtual void	OnMouseDown(bool left_button = true);
-			void	SetTextColor(u32 color, u32 color_s);
-			void	InitDefault();
-			void	SetID(u32 id);
-			u32		GetID();
+	virtual void		Draw();
+	virtual void		OnMouseDown(bool left_button = true);
+	virtual void		OnFocusReceive();
+	virtual CGameFont*	GetFont();
+			void		SetTextColor(u32 color, u32 color_s);
+			void		InitDefault();
+			void		SetTAG(u32 value);
+			u32			GetTAG();
+
+			void		SetData(void* data);
+			void*		GetData();
+
+		CUIStatic*		AddField(LPCSTR txt, float len, LPCSTR key = "");
+		LPCSTR			GetField(LPCSTR key);
+
 protected:
-		u32	txt_color;
-		u32	txt_color_s;
-		u32	uid;
-static	u32	uid_counter;
+			float		FieldsLength();
+		xr_vector<CUIStatic*>	fields;
+		u32				txt_color;
+		u32				txt_color_s;
+		u32				tag;
+		void*			pData;
+//.static	u32	uid_counter;
 };
 
